@@ -1,12 +1,15 @@
-/* src/components/Header.css */
 html {
     font-size: 10px;
+    height: 100%;
 }
 
+/* font-size 조절시 하위 섹션 글자 커짐 */
 body {
-    font-size: 1.6rem;
+    font-size: 2.2rem;
     margin: 0;
     padding: 0;
+    background-color: #ffffff; /* 전체 배경색 설정 */
+    height: 100%;
 }
 
 * {
@@ -25,49 +28,37 @@ a {
     color: inherit;
 }
 
+
 #header {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
-    padding: 2rem;
+    padding: 1rem;
     position: relative;
-    width: 100%; /* 전체 너비 설정 */
+    width: 100%;
+    background-color: #ffffff;
+    z-index: 1000; /* 항상 위에 나타나도록 설정 */
 }
 
 #gnb {
     display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center;
     z-index: 99;
-    margin: 0 auto; /* 가운데 정렬 */
+    background-color: #ffffff; /* 메뉴 배경색 설정 */
+    width: 80%; /* 전체 화면 기준으로 중앙에 위치 */
 }
 
-.header-container {
+/* .header-container-right {
     z-index: 100;
-    margin-right: auto; /* 로고를 왼쪽으로 정렬합니다. */
     list-style-type: none;
-}
-
-#header > .logo img {
-    z-index: 100;
-    max-width: 50px; /* 로고 이미지의 최대 너비를 설정합니다. */
-    height: auto; /* 이미지의 높이를 자동으로 맞춥니다. */
-}
-
-.header-container-right {
-    z-index: 100;
-    margin-left: auto; /* 로고를 왼쪽으로 정렬합니다. */
-    list-style-type: none;
-}
-
-#header > .logo2 img {
-    z-index: 100;
-    max-width: 50px; /* 로고 이미지의 최대 너비를 설정합니다. */
-    height: auto; /* 이미지의 높이를 자동으로 맞춥니다. */
-}
+} */
 
 #gnb > .dept1 {
     position: relative;
     padding: 1rem 2rem;
     text-align: center;
+    margin: 0 1rem; /* 섹션 사이의 공간을 줄이기 위해 마진 조정 */
 }
 
 #gnb > .dept1 > a {
@@ -85,14 +76,14 @@ a {
 
 #gnb .inner_menu {
     position: absolute;
-    top: 10px;
+    top: 100%;
     left: 0;
-    right: 0;
-    transform: translateX(0);
     width: 100%;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding: 1rem 0;
+    background-color: transparent; /* 배경색 제거 */
     display: none;
+    z-index: 98; /* 드롭다운이 다른 요소 위에 나타나도록 설정 */
+    text-align: center; /* 하위 섹션 텍스트 중앙 정렬 */
 }
 
 #gnb .dept2 {
@@ -108,14 +99,15 @@ a {
     text-decoration: none;
 }
 
+/*  드롭다운 메뉴가 열릴 때 배경을 확장하여 하위 메뉴가 표시될 공간을 확보합니다. */
 .hd_bg {
     background: #ffffff;
     width: 100%;
     z-index: 1;
     position: absolute;
-    transition: top 0s ease, height 0.3s ease;
-    border-radius: 5px;
-
+    top: 80px;
+    height: 0;
+    transition: height 0.3s ease;
 }
 
 .overlay {
@@ -136,8 +128,7 @@ a {
 }
 
 .search-container {
-    position: absolute;
-    right: 20px;
+    position: relative;
     z-index: 100;
     transition: all 0.3s ease;
 }
@@ -150,7 +141,6 @@ a {
     padding: 2rem;
     background: #fff;
     z-index: 100;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .search-container.active .search-input input {
@@ -165,22 +155,15 @@ a {
 }
 
 .search-input input {
+    width: 300px; /* 입력창 너비 조정 */
     padding: 10px;
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: width 0.3s ease;
     flex-grow: 1;
+    font-size: 1.6rem; /* 글자 크기 조정 */
 }
-
-/* .search-input button {
-    padding: 10px;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-} */
 
 .search-input-icon {
     padding: 10px;
@@ -189,6 +172,11 @@ a {
 
 .search-results {
     padding: 20px;
+}
+
+.main-section {
+    font-size: 3.2rem; /* 원하는 글자 크기로 설정 */
+    font-weight: bold; /* 글자 굵게 설정 */
 }
 
 .cancel-button {

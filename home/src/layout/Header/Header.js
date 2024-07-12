@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import $ from 'jquery';
@@ -29,40 +30,6 @@ const Header = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
-
-  useEffect(() => {
-    const gnb = $('#gnb');
-    const hdBg = $('.hd_bg');
-
-    gnb.mouseenter(() => {
-      $('.inner_menu').fadeIn(1000);
-      const menuHeight = $('#header').outerHeight();
-      const inmeHeight = $('.inner_menu').outerHeight();
-      hdBg.css({
-        top: `${menuHeight}px`,
-        height: `${inmeHeight}px`,
-      });
-
-      hdBg.addClass('active').animate({
-        top: '50%',
-      }, 300);
-    });
-
-    gnb.mouseleave(() => {
-      $('.inner_menu').hide();
-      hdBg.css('height', '0');
-      hdBg.removeClass('active');
-    });
-
-    $('.dept1').mouseenter(function () {
-      $(this).children().addClass('active');
-      $(this).siblings().children().removeClass('active');
-    });
-
-    $('.dept1').mouseleave(function () {
-      $(this).children().removeClass('active');
-    });
   }, []);
 
   const handleInputClick = () => {
@@ -97,56 +64,69 @@ const Header = () => {
     setUserInput('');
   };
 
-  const onLogoClickHandler = () => {
-    navigate(MAIN_PATH());
+  const handleMouseEnter = (event) => {
+    const innerMenu = event.currentTarget.querySelector('.inner_menu');
+    innerMenu.style.display = 'block';
+    const hdBg = document.querySelector('.hd_bg');
+    if (hdBg) {
+      hdBg.style.height = `${innerMenu.scrollHeight}px`;
+    }
   };
 
+  const handleMouseLeave = (event) => {
+    const innerMenu = event.currentTarget.querySelector('.inner_menu');
+    innerMenu.style.display = 'none';
+    const hdBg = document.querySelector('.hd_bg');
+    if (hdBg) {
+      hdBg.style.height = '0';
+    }
+  };
   const handleCommunityClick = () => {
     navigate('/board');
     setUserInput('');
     setIsSearchActive(false);
     setShowPopularSearch(false);
   };
+
+  const onWhiskeyBoardClickHandler = () => {
+    navigate('/WhiskeyBoard');
+  };
+
+  const onNoticeClickHandler = () => {
+    navigate('/notice')
+  }
+
   return (
     <div id="header">
       <div className='header-container'>
-        <div className='header-left-box' onClick={onLogoClickHandler}>
+        <div className='header-left-box'>
           <div className='icon-box'>
-            <div className='icon whisky-black-icon'></div>
+            <div className='icon whisky-icon'></div>
           </div>
         </div>
       </div>
       <ul id="gnb">
-        <li className="dept1">
-          <a onClick={() => navigate('/filtersearch')}>맞춤 추천</a>
+        <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div className='main-section' onClick={onWhiskeyBoardClickHandler}>맞춤 추천</div>
           <ul className="inner_menu">
             <li className="dept2"><a onClick={() => navigate('/WhiskeyBoard')}>WhiskeyBoard</a></li>
           </ul>
         </li>
-        <li className="dept1">
-          <a onClick={handleCommunityClick}>커뮤니티</a>
+        <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div className='main-section' onClick={handleCommunityClick}>커뮤니티</div>
           <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate(BOARD_PATH())}>자유 게시판</a></li>
+            <li className="dept2"><a onClick={() => navigate('/board')}>자유 게시판</a></li>
             <li className="dept2"><a href="#">나눔 게시판</a></li>
             <li className="dept2"><a href="#">장터 게시판</a></li>
             <li className="dept2"><a href="#">정보 게시판</a></li>
           </ul>
         </li>
-        <li className="dept1">
-          <a href="#">위스키</a>
-          <ul className="inner_menu">
-            <li className="dept2"><a href="#">몰트 위스키</a></li>
-            <li className="dept2"><a href="#">블랜디드 위스키</a></li>
-            <li className="dept2"><a href="#">버번 위스키</a></li>
-            <li className="dept2"><a href="#">리큐르(수정해야함)</a></li>
-          </ul>
-        </li>
-        <li className="dept1">
-          <a href="#">공지사항</a>
+        <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div className='main-section' onClick={onNoticeClickHandler}>공지사항</div>
           <ul className="inner_menu">
             <li className="dept2"><a onClick={() => navigate('/whisky/events')}>행사정보</a></li>
-            <li className="dept2">중요 공지<a href="#"></a></li>
-            <li className="dept2">필독 공지<a href="#"></a></li>
+            <li className="dept2"><a href="#">중요 공지</a></li>
+            <li className="dept2"><a href="#">필독 공지</a></li>
           </ul>
         </li>
       </ul>
