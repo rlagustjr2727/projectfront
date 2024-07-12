@@ -1,0 +1,20 @@
+/* HomePage.css */
+.list-item {
+    text-decoration: none;
+    color: inherit;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .primary-text {
+    font-weight: bold;
+  }
+  
+  .secondary-text {
+    font-size: 1.2rem; /* 글씨 크기 조정 */
+  }
+  
+  .category-text {
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,40 @@
+/* src/components/BoardDetail.css */
+.board-detail-container {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.board-detail-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.comments-container {
+  margin-top: 32px;
+  padding: 16px;
+}
+
+.comment {
+  margin-bottom: 16px;
+}
+
+.comment-form {
+  margin-top: 16px;
+}
+
+.comment-form .MuiTextField-root {
+  margin-bottom: 8px;
+}
+
+.comment-form .MuiButton-root {
+  display: block;
+  margin-left: auto;
+}
+
+.loading-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}

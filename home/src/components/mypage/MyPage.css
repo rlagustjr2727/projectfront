@@ -1,0 +1,12 @@
+.MyPage {
+    display: flex;
+    justify-content: center; /* 중앙 정렬을 위한 flex 설정 */
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 800px; /* 중앙에 위치하게 하기 위해 최대 너비 설정 */
+    margin: 0 auto; /* 중앙에 위치하게 하기 위해 margin 설정 */
+    text-align: center; /* 중앙 정렬 */
+}

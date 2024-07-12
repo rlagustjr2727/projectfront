@@ -1,0 +1,221 @@
+/* src/App.css */
+.main-content {
+  padding: 20px;
+}
+
+.search-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #ccc;
+}
+
+.search-input {
+  display: flex;
+  gap: 10px;
+}
+
+.detail-list-container {
+  display: flex;
+  gap: 20px; /* 각 목록 사이의 간격 */
+}
+
+.detail-list {
+  flex: 1; /* 동일한 너비로 설정 */
+}
+
+.list-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  cursor: pointer;
+  padding: 5px 0;
+  transition: background-color 0.3s;
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}
+
+.black-button {
+  border-radius: 46px;
+  width: 95px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 1);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: pointer;
+}
+
+.black-button:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.disable-button {
+  border-radius: 46px;
+  width: 95px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.4);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: not-allowed;
+}
+
+.black-large-full-button {
+  border-radius: 46px;
+
+  width: 100%;
+  height: 48px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 1);
+  
+  color: rgba(255, 255, 255, 1);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: pointer;
+}
+
+.black-large-full-button:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.white-button {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 46px;
+  width: 93px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 1);
+
+  color: rgba(0, 0, 0, 0.5);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: pointer;
+}
+
+.white-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.icon-box {
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button {
+  border-radius: 50% 50%;
+
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+}
+
+.eye-light-off-icon {
+  background-image: url(assets/image/eye-light-off.png);
+}
+
+.eye-light-on-icon {
+  background-image: url(assets/image/eye-light-on.png);
+}
+
+.expand-right-light-icon {
+  background-image: url(assets/image/expand-right-light.png);
+}
+
+.whisky-icon {
+  background-image: url(assets/image/whisky-icon.png);
+}
+
+.notion-icon {
+  background-image: url(assets/image/notion-icon.png);
+}
+
+.git-icon {
+  background-image: url(assets/image/git-icon.png);
+}
+
+.whisky-color-icon {
+  background-image: url(assets/image/whisky-color-icon.png);
+}
+
+.whisky-black-icon {
+  background-image: url(assets/image/whisky-black-icon.png);
+}
+
+.search-light-icon {
+  background-image: url(assets/image/search-light.png);
+}
+
+.check-round-fill-icon {
+  background-image: url(assets/image/check-round-fill.png);
+}
+
+.check-ring-light-icon {
+  background-image: url(assets/image/check-ring-light.png);
+}
+
+.edit-icon {
+  background-image: url(assets/image/edit-light.png);
+}

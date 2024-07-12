@@ -1,0 +1,19 @@
+.input-button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 50px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .input-button:hover {
+    background-color: #7b7b7b;
+    color: white;
+  }
+  
+  .input-button.selected {
+    background-color: #7b7b7b;
+    color: white;
+  }
+  

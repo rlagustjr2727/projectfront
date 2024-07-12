@@ -1,0 +1,206 @@
+/* src/components/Header.css */
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 1.6rem;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul li,
+ol li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    width: 100%; /* 전체 너비 설정 */
+}
+
+#gnb {
+    display: flex;
+    z-index: 99;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+.header-container {
+    z-index: 100;
+    margin-right: auto; /* 로고를 왼쪽으로 정렬합니다. */
+    list-style-type: none;
+}
+
+#header > .logo img {
+    z-index: 100;
+    max-width: 50px; /* 로고 이미지의 최대 너비를 설정합니다. */
+    height: auto; /* 이미지의 높이를 자동으로 맞춥니다. */
+}
+
+.header-container-right {
+    z-index: 100;
+    margin-left: auto; /* 로고를 왼쪽으로 정렬합니다. */
+    list-style-type: none;
+}
+
+#header > .logo2 img {
+    z-index: 100;
+    max-width: 50px; /* 로고 이미지의 최대 너비를 설정합니다. */
+    height: auto; /* 이미지의 높이를 자동으로 맞춥니다. */
+}
+
+#gnb > .dept1 {
+    position: relative;
+    padding: 1rem 2rem;
+    text-align: center;
+}
+
+#gnb > .dept1 > a {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+#gnb > .dept1 > a.active {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgb(0, 0, 0);
+    text-underline-offset: 5px;
+}
+
+#gnb .inner_menu {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    transform: translateX(0);
+    width: 100%;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: none;
+}
+
+#gnb .dept2 {
+    padding: 1rem 0;
+    color: #000000;
+}
+
+#gnb .dept2 > a:hover,
+#gnb .dept2 > a:active,
+#gnb .dept2 > a:focus {
+    font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+}
+
+.hd_bg {
+    background: #ffffff;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    transition: top 0s ease, height 0.3s ease;
+    border-radius: 5px;
+
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.search-container {
+    position: absolute;
+    right: 20px;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.search-container.active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: #fff;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-container.active .search-input input {
+    width: 90%;
+}
+
+.search-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.search-input input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    flex-grow: 1;
+}
+
+/* .search-input button {
+    padding: 10px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+} */
+
+.search-input-icon {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-results {
+    padding: 20px;
+}
+
+.cancel-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.detail-list-container h4 {
+    margin-bottom: 10px;
+}

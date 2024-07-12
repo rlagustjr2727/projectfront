@@ -1,0 +1,48 @@
+.loginHeader {
+    display: flex;
+    justify-content: space-between; /* 오른쪽 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    padding: 10px 20px; /* 패딩 추가 */
+    background-color: #ffffff; /* 배경색 */
+}
+
+.loginHeader p{
+    color:#ffffff;
+}
+
+.main-title {
+    color: #ffffff; /* 흰색 글자 색상 */
+    margin: 0; /* 마진 제거 */
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+}
+
+.right-section-login {
+    color: #24262b;
+    margin: 0 5px; /* 간격 설정 */
+}
+
+.right-section-login:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-position : under;
+}
+
+.right-section p {
+    color: #24262b; /* 흰색 글자 색상 */
+    margin: 0 5px; /* 간격 설정 */
+}
+
+.right-section a {
+    color: #24262b; /* 링크 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.right-section a:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-position : under;
+}

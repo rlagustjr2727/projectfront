@@ -1,0 +1,202 @@
+.card {
+  --card-width: 20em;
+  --text-color: hsl(0, 0%, 0%);
+  --text-color-L2: hsl(0, 0%, 33%);
+  --transition: all 0.2s cubic-bezier(0.13, 0.78, 0.3, 0.99);
+  background: hsl(0, 0%, 100%);
+  font-size: 12px;
+  line-height: 2;
+  border-radius: 1em;
+  padding-bottom: 0.5em;
+  z-index: 20;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease-in;
+  position: relative; /* 상대 위치 지정 */
+}
+
+.detial {
+  width: var(--card-width);
+  padding: 0 1em;
+  color: var(--text-color);
+  transition: all 0.2s ease-in;
+
+  z-index: 1;
+}
+.name {
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5em 0;
+}
+
+.content {
+  color: var(--text-color);
+  width: var(--card-width);
+  position: absolute;
+  transform: rotate3D(0.4, 1, 0.4, 0deg) scale(0.4);
+  padding: 2em;
+  opacity: 0;
+  height: 20em;
+  overflow: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+.content::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #7f7f7f; /* 스크롤바의 색상 */
+  border-radius: 10px; /* 스크롤바의 모서리 둥글기 */
+}
+
+.thumb {
+  width: var(--card-width);
+  height: 20em;
+  overflow: hidden;
+  transition: var(--transition);
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.thumb img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card:hover {
+  background-color: hsl(0, 0%, 84%);
+  box-shadow: 0px 20px 40px hsl(40, 60%, 0%, 0.4);
+}
+.card:hover .detial {
+  padding: 1em 2em;
+}
+
+.card:hover .thumb {
+  opacity: 0.2;
+  filter: blur(20px);
+  transform: scale(1.5);
+}
+.card:hover .content {
+  transform: none;
+  opacity: 1;
+  transition: var(--transition);
+}
+
+.infomation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.propertion {
+  font-size: 0.8em;
+  color: var(--text-color-L2);
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3em;
+  padding: 0 0.5em;
+  border-radius: 1em;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  position: relative; /* 상대 위치 지정 */
+}
+
+.action:hover {
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.6),
+    inset 0.5px 1px 2px rgba(255, 255, 255, 0.1);
+  background: hsla(0, 0%, 50%, 0.1);
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  color: var(--text-color);
+  padding: 0.5em;
+  border-radius: 0.5em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  white-space: normal; /* 내용이 줄바꿈되도록 변경 */
+  top: -7em; /* 툴팁의 위치를 위로 이동 */
+  left: -14.5em; /* 툴팁의 위치를 왼쪽으로 이동 */
+  width: 15em; /* 툴팁의 고정 가로 길이 */
+  height: 7.5em; /* 툴팁의 고정 세로 길이 */
+  opacity: 0;
+  transition: var(--transition);
+  overflow-y: auto; /* 내용이 길어질 경우 스크롤 추가 */
+}
+
+.tooltip::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+.tooltip::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #7f7f7f; /* 스크롤바의 색상 */
+  border-radius: 10px; /* 스크롤바의 모서리 둥글기 */
+}
+
+.action:hover .tooltip {
+  opacity: 1;
+}
+
+
+
+.burger {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+  position: relative; /* 추가: 상대 위치 설정 */
+}
+
+.menu {
+  position: absolute; /* 추가: 절대 위치 설정 */
+  top: 100%; /* 추가: 햄버거 아이콘 아래로 위치 조정 */
+  right: 0;
+  border-radius: 10px;
+  padding: 8px;
+  z-index: 10;
+  background-color: #e5e5e5;
+  border: 1px solid #ccc;
+  left: 0px;
+  display: none; /* 초기에 숨겨짐 */
+}
+
+.burger:hover .menu {
+  display: block; /* 햄버거 아이콘에 마우스를 올리면 메뉴가 표시됨 */
+  flex-direction: column;
+}
+
+.delete-button,
+.update-button {
+  position: relative;
+  background-color: #e5e5e5;
+  color: #000000;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  left: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover,
+.update-button:hover {
+  background-color: #7b7b7b;
+  color: #ffffff;
+}

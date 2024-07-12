@@ -1,0 +1,8 @@
+.LoginForm {
+    text-align: center;
+}
+
+.LoginForm form {
+    display: inline-block;
+    text-align: left;
+}

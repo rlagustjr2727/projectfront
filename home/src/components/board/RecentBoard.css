@@ -1,0 +1,23 @@
+.recent-boards {
+    margin-top: 20px;
+  }
+  
+  .recent-boards ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .recent-boards li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .recent-boards li:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .recent-boards h2 {
+    margin-bottom: 10px;
+  }
+  

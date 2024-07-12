@@ -1,0 +1,13 @@
+
+
+
+/* style/Search-input.css */
+
+.searchInput {
+    height: 40px;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid black;
+    width: 50%;
+    box-sizing: border-box;
+}

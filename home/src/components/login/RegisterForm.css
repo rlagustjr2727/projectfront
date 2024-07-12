@@ -1,0 +1,8 @@
+.RegisterForm {
+    text-align: center;
+}
+
+.RegisterForm form {
+    display: inline-block;
+    text-align: left;
+}

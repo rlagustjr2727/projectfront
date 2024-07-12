@@ -1,0 +1,67 @@
+/* Carousel.css */
+
+.carousel {
+    position: relative;
+    width: 100%;
+    margin: auto;
+  }
+  
+  .slide-container {
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .slide {
+    display: none;
+    min-width: 100%; /* 슬라이드가 컨테이너 전체 너비를 차지하도록 설정 */
+    justify-content: center;
+    align-items: center;
+    height: 500px; /* 조정 가능한 슬라이드 높이 */
+  }
+  
+  .slide img {
+    width: 100%;
+  }
+  
+  .slide.active {
+    display: flex;
+  }
+  
+  .prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  }
+
+  .dots {
+    text-align: center;
+    margin-top: -30px;
+  }
+  
+  .dot {
+    display: inline-block;
+    height: 2px;
+    width: 30px; /* 직육면체의 너비 */
+    border-radius: 1px; /* 직육면체 모서리 둥글기 */
+    background-color: #5d5d5d;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background-color: #ffffff;
+  }
