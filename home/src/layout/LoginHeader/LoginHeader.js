@@ -26,7 +26,7 @@ const LoginHeader = ({ isLoggedIn, setIsLoggedIn }) => {
                     <>
                         <div className='right-section-login'><Link to="/login"><span>로그인</span></Link></div>
                         <p>|</p>
-                        <p><Link to="/register">회원가입</Link></p>
+                        <p><Link to="/registerForm">회원가입</Link></p>
                     </>
                 )}
             </div>

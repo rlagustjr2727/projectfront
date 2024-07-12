@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Carousel from './components/Carousel/Carousel';
 // import SearchResultPage from './components/Header/SearchResultPage';
 // import SearchPage from './components/Header/SearchPage';
@@ -24,29 +24,28 @@ import BoardUpdate from './components/board/BoardUpdate';
 import WhiskeyBoard from './components/WhiskeyBoard/WhiskeyBoard';
 import HomePage from './components/board/HomePage';
 import SearchResultPage from './layout/Header/SearchResultPage';
+import RegisterSuccess from './components/login/RegisterSuccess'; // 회원가입 성공 페이지 추가
+import RegisterFail from './components/login/RegisterFail'; // 회원가입 실패 페이지 추가
 
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  
 
   return (
     <BrowserRouter>
       <Container isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
         <Routes>
           <Route path='/login' element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path='/register' element={<RegisterForm />} />
+          <Route path='/registerForm' element={<RegisterForm />} />
           <Route path='/board' element={<BoardList />} />
           <Route path='/board/:category' element={<BoardList />} />
           <Route path='/board/write' element={<BoardCreate />} />
-          <Route path='/loginsucess' element={<LoginSuccess />} />
-          <Route path='/loginfail' element={<LoginFail />} />
+          <Route path='/loginSuccess' element={<LoginSuccess />} />
+          <Route path='/loginFail' element={<LoginFail />} />
+          <Route path='/registerSuccess' element={<RegisterSuccess />} />
+          <Route path='/registerFail' element={<RegisterFail />} />
           <Route path={AUTH_PATH()} element={<Authentication />} />
           <Route path={USER_PATH()} element={<User />} />
           <Route path='/whisky/events' element={<WhiskyEvents />} />

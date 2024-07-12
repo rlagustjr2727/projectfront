@@ -21,8 +21,14 @@ axios.interceptors.response.use(response => {
   return Promise.reject(error);
 });
 
-const getRecentBoards = () => {
-  return axios.get(`${API_BASE_URL}/recent`);
+export const getRecentBoards = async () => {
+  try {
+      const response = await axios.get(`${API_BASE_URL}/api/board/recent`);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching items:', error);
+      throw error;
+  }
 };
 
 const getBoards = (page, size) => {

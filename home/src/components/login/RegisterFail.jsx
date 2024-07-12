@@ -6,7 +6,7 @@ function RegisterFail() {
     const navigate = useNavigate();
 
     const handleClose = () => {
-        navigate('/registerForm');
+        navigate('/registerForm'); // 회원가입 페이지로 이동
     };
 
     return (
