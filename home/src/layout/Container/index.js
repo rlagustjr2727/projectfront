@@ -9,15 +9,15 @@ const Container = ({ children, isLoggedIn, setIsLoggedIn }) => {
   const location = useLocation();
 
   return (
-    <>
+    <div id="container-box">
       <LoginHeader isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Header />
-      {location.pathname === '/' && <Carousel />}
       <div className="main-content">
+      {location.pathname === '/' && <Carousel />}
         {children}
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

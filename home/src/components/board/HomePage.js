@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
 import { Container, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, Box, CircularProgress } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
+import { getRecentBoards } from '../../api/BoardService';
 import './HomePage.css'; // CSS 파일을 import
 
 const HomePage = () => {
@@ -12,7 +13,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        const data = await getRecentBoards();
         const response = await BoardService.getRecentBoards();
+        setItems(data);
         setItems(response.data);
         setLoading(false);
       } catch (error) {

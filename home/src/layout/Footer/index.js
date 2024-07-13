@@ -21,16 +21,16 @@ export default function Footer() {
             <div className='footer-top'>
                 <div className='footer-logo-box'>
                     <div className='icon-box'>
-                        <div className='icon whisky-icon'></div>
+                        <div className='icon whisky-logo-2'></div>
                     </div>
                     <div className='footer-logo-text'>{'酒酒총회'}</div>
                 </div>
                 <div className='footer-link-box'>
-                    <div className='footer-email-link'>{'senseclose@gmail.com'}</div>
-                    <div className='icon-button' onClick={onNotionIconButtonClickHandler}>
+                    <div className='footer-email-link'>{'코리아 IT 아카데미'}</div>
+                    <div className='icon-button-notion' onClick={onNotionIconButtonClickHandler}>
                         <div className='icon notion-icon'></div>
                     </div>
-                    <div className='icon-button' onClick={onGitIconButtonClickHandler}>
+                    <div className='icon-button-git' onClick={onGitIconButtonClickHandler}>
                         <div className='icon git-icon'></div>
                     </div>
                 </div>

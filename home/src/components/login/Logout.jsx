@@ -1,24 +1,27 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Logout({ onLogout }) {
+function Logout() {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        axios.post('/logout')
+    const handleLogout = () => {
+        axios.post('/api/users/logout', {}, { withCredentials: true })
             .then(response => {
-                onLogout();
-                alert('로그아웃 되었습니다.');
-                navigate('/');
+                alert('로그아웃 성공');
+                navigate('/login'); // 로그아웃 후 로그인 페이지로 이동
             })
             .catch(error => {
-                console.error('로그아웃 실패:', error);
-                navigate('/');
+                alert('로그아웃 실패: ' + (error.response?.data?.message || error.message));
             });
-    }, [navigate, onLogout]);
+    };
 
-    return null;
+    return (
+        <div>
+            <h2>로그아웃</h2>
+            <button onClick={handleLogout}>로그아웃</button>
+        </div>
+    );
 }
 
 export default Logout;

@@ -1,19 +1,34 @@
 .loginHeader {
     display: flex;
-    justify-content: space-between; /* 오른쪽 정렬 */
-    align-items: center; /* 세로 가운데 정렬 */
-    padding: 10px 20px; /* 패딩 추가 */
-    background-color: #ffffff; /* 배경색 */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 1.1em;
+    height: 120px;
 }
 
-.loginHeader p{
-    color:#ffffff;
+.login-header-container {
+    width: 1200px;
+
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
 }
 
-.main-title {
-    color: #ffffff; /* 흰색 글자 색상 */
-    margin: 0; /* 마진 제거 */
+.header-left-box {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 .right-section {
     display: flex;
@@ -21,28 +36,21 @@
 }
 
 .right-section-login {
-    color: #24262b;
-    margin: 0 5px; /* 간격 설정 */
+    margin: 0 5px;
+}
+
+.right-section p {
+    color: #000000;
+    margin: 0 5px;
+}
+
+.right-section a {
+    color: #000000;
+    text-decoration: none;
 }
 
 .right-section-login:hover {
     font-weight: bold;
     text-decoration: underline;
-    text-underline-position : under;
-}
-
-.right-section p {
-    color: #24262b; /* 흰색 글자 색상 */
-    margin: 0 5px; /* 간격 설정 */
-}
-
-.right-section a {
-    color: #24262b; /* 링크 색상 */
-    text-decoration: none; /* 밑줄 제거 */
-}
-
-.right-section a:hover {
-    font-weight: bold;
-    text-decoration: underline;
-    text-underline-position : under;
+    text-underline-position: under;
 }

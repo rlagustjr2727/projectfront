@@ -6,7 +6,7 @@ const Nav = ({ query, handleInputChange, openModal }) => {
     <nav>
       <div className="nav-container">
         <input
-          className="search-input"
+          className="wboard-search-input"
           type="text"
           onChange={handleInputChange}
           value={query}

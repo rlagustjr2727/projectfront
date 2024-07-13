@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Carousel.css';
+import Modal from '../Modal/Modal';
 
 const Carousel = () => {
   const images = [
-    'images/wlop1.jpg',
-    'images/wlop2.jpg',
-    'images/wlop3.jpg',
+    'images/ontake.png',
+    'images/busan_whiskey.png',
+    'images/johnnie.png'
     // 필요한 만큼 추가 이미지 경로를 넣어주세요
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoSliding, setIsAutoSliding] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -71,6 +73,14 @@ const Carousel = () => {
     setCurrentIndex(index);
   };
 
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="carousel">
       <button className="prev" onClick={handlePrevClick}>&#10094;</button>
@@ -80,6 +90,7 @@ const Carousel = () => {
           <div
             key={index}
             className={index === currentIndex ? 'slide active' : 'slide'}
+            onClick={handleImageClick}
           >
             <img src={image} alt={`Slide ${index}`} />
           </div>
@@ -94,6 +105,7 @@ const Carousel = () => {
           ></span>
         ))}
       </div>
+      {isModalOpen && <Modal image={images[currentIndex]} onClose={closeModal} />}
     </div>
   );
 };
