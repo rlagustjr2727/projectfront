@@ -1,33 +1,28 @@
-//server.js
 const express = require('express');
 const cors = require('cors');
-// const mysql = require('mysql2');
 const oracledb = require('oracledb');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000' // 프론트엔드가 실행되는 도메인
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-//db연결
-const pool = mysql.createPool({
-  host: '220.86.29.33',
-  user: 'jieun',
-  password: 'jieun1234',
-  database: 'custom',
-  port: 33006,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+// 오라클 DB 연결 설정
+const dbConfig = {
+  user: 'soct1',
+  password: 'tiger',
+  connectString: 'localhost:1521/xe'
+};
 
-// 이미지 파일을 저장할때 위치 
+// 이미지 파일을 저장할 위치
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const destDir = path.join(__dirname, '..', 'assets', 'whiskey');
+    const destDir = path.join(__dirname, 'uploads');
     if (!fs.existsSync(destDir)) {
       fs.mkdirSync(destDir, { recursive: true });
     }
@@ -40,17 +35,28 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// 불러오는 기능
-app.get('/api/custom', async (req, res) => {
+// GET 요청 처리
+app.get('/api/wboard', async (req, res) => {
+  let connection;
+
   try {
-    const [rows] = await pool.promise().query('SELECT * FROM custom');
-    res.json(rows);
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute('SELECT * FROM wboard');
+    res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+      }
+    }
   }
 });
 
-// POST upload image
+// POST 요청 - 이미지 업로드
 app.post('/api/upload', upload.single('file'), (req, res) => {
   if (req.file) {
     res.json({ fileName: req.file.filename });
@@ -59,35 +65,51 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   }
 });
 
-// POST add new product
-app.post('/api/addProduct', async (req, res) => {
-  const { whiskey_img, whiskey_name, whiskey_info, whiskey_type, whiskey_origin, whiskey_alcohol, whiskey_tip, whiskey_age, whiskey_alcohol_type } = req.body;
+// POST 요청 - 새로운 제품 추가
+app.post('/api/wboard/addProduct', upload.single('file'), async (req, res) => {
+  const { wboard_name, wboard_info, wboard_type, wboard_origin, wboard_abv, wboard_tip, wboard_yo, wboard_abv_type } = req.body;
+  const wboard_img = req.file ? `/uploads/${req.file.filename}` : null;
+  let connection;
+
   try {
-    const query = 'INSERT INTO custom (whiskey_img, whiskey_name, whiskey_info, whiskey_type, whiskey_origin, whiskey_alcohol, whiskey_tip, whiskey_age, whiskey_alcohol_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    await pool.promise().query(query, [whiskey_img, whiskey_name, whiskey_info, whiskey_type, whiskey_origin, whiskey_alcohol, whiskey_tip, whiskey_age, whiskey_alcohol_type]);
+    connection = await oracledb.getConnection(dbConfig);
+    const query = `
+      INSERT INTO wboard (wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin, wboard_abv, wboard_tip, wboard_yo, wboard_abv_type) 
+      VALUES (:wboard_img, :wboard_name, :wboard_info, :wboard_type, :wboard_origin, :wboard_abv, :wboard_tip, :wboard_yo, :wboard_abv_type)
+    `;
+    await connection.execute(query, [wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin, wboard_abv, wboard_tip, wboard_yo, wboard_abv_type], { autoCommit: true });
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+      }
+    }
   }
 });
 
-
-// DELETE 요청을 처리할 엔드포인트
-app.delete("/api/deleteProduct/:whiskey_name", async (req, res) => {
-  const { whiskey_name } = req.params;
-  const { imageName } = req.body; // 클라이언트에서 전달된 imageName
+// DELETE 요청 - 제품 삭제
+app.delete("/api/wboard/deleteProduct/:wboardname", async (req, res) => {
+  const { wboardname } = req.params;
+  const { imageName } = req.body;
+  let connection;
 
   try {
-    // 데이터베이스에서 제품 삭제 로직 (예시)
-    const query = 'DELETE FROM custom WHERE whiskey_name = ?';
-    const [result] = await pool.promise().query(query, [whiskey_name]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: `${whiskey_name} 제품을 찾을 수 없습니다` });
+    connection = await oracledb.getConnection(dbConfig);
+    const query = 'DELETE FROM wboard WHERE wboard_name = :wboardname';
+    const result = await connection.execute(query, [wboardname], { autoCommit: true });
+
+    if (result.rowsAffected === 0) {
+      return res.status(404).json({ error: `${wboardname} 제품을 찾을 수 없습니다` });
     }
-    
+
     // 이미지 파일 삭제 로직
     if (imageName) {
-      const imagePathToDelete = path.join(__dirname, '..', 'assets', 'whiskey', imageName);
+      const imagePathToDelete = path.join(__dirname, 'uploads', imageName);
       if (fs.existsSync(imagePathToDelete)) {
         fs.unlinkSync(imagePathToDelete);
         console.log(`이미지 파일 ${imagePathToDelete} 삭제 완료`);
@@ -96,54 +118,72 @@ app.delete("/api/deleteProduct/:whiskey_name", async (req, res) => {
       }
     }
 
-    // 성공적으로 삭제되었음을 응답
-    res.json({ success: true, message: `${whiskey_name} 제품 및 이미지가 성공적으로 삭제되었습니다` });
+    res.json({ success: true, message: `${wboardname} 제품 및 이미지가 성공적으로 삭제되었습니다` });
   } catch (error) {
     console.error('제품 삭제 오류:', error);
     res.status(500).json({ error: '내부 서버 오류' });
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+      }
+    }
   }
 });
 
-// 수정 기능
-app.put('/api/updateProduct/:whiskey_name', async (req, res) => {
-  const { whiskey_name } = req.params;
-  const updatedProduct = req.body;
+// PUT 요청 - 제품 수정
+app.put('/api/wboard/updateProduct/:wboardname', upload.single('file'), async (req, res) => {
+  const { wboardname } = req.params;
+  const updatedProduct = JSON.parse(req.body.wboard);
+  const wboard_img = req.file ? `/uploads/${req.file.filename}` : updatedProduct.wboard_img;
+  let connection;
 
   try {
+    connection = await oracledb.getConnection(dbConfig);
     const query = `
-      UPDATE custom 
+      UPDATE wboard 
       SET 
-        whiskey_img = ?,
-        whiskey_name = ?,
-        whiskey_info = ?,
-        whiskey_type = ?,
-        whiskey_origin = ?,
-        whiskey_alcohol = ?,
-        whiskey_tip = ?,
-        whiskey_age = ?,
-        whiskey_alcohol_type = ?
-      WHERE whiskey_name = ?
+        wboard_img = :wboard_img,
+        wboard_name = :wboard_name,
+        wboard_info = :wboard_info,
+        wboard_type = :wboard_type,
+        wboard_origin = :wboard_origin,
+        wboard_abv = :wboard_abv,
+        wboard_tip = :wboard_tip,
+        wboard_yo = :wboard_yo,
+        wboard_abv_type = :wboard_abv_type
+      WHERE wboard_name = :wboardname
     `;
-    const { whiskey_img, whiskey_name, whiskey_info, whiskey_type, whiskey_origin, whiskey_alcohol, whiskey_tip, whiskey_age, whiskey_alcohol_type } = updatedProduct;
-    const [result] = await pool.promise().query(query, [whiskey_img, whiskey_name, whiskey_info, whiskey_type, whiskey_origin, whiskey_alcohol, whiskey_tip, whiskey_age, whiskey_alcohol_type, whiskey_name]);
+    const { wboard_name, wboard_info, wboard_type, wboard_origin, wboard_abv, wboard_tip, wboard_yo, wboard_abv_type } = updatedProduct;
+    const result = await connection.execute(query, [wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin, wboard_abv, wboard_tip, wboard_yo, wboard_abv_type, wboardname], { autoCommit: true });
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: `${whiskey_name} 제품을 찾을 수 없습니다` });
+    if (result.rowsAffected === 0) {
+      return res.status(404).json({ error: `${wboardname} 제품을 찾을 수 없습니다` });
     }
 
-    res.json({ success: true, message: `${whiskey_name} 제품이 성공적으로 업데이트되었습니다` });
+    res.json({ success: true, message: `${wboardname} 제품이 성공적으로 업데이트되었습니다` });
   } catch (error) {
     console.error('제품 업데이트 오류:', error);
     res.status(500).json({ error: '내부 서버 오류' });
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+      }
+    }
   }
 });
 
 // 이미지 삭제 엔드포인트 - 수정시 기존에 있던 이미지 파일 삭제하는 기능
-app.delete('/api/deleteImage/:imageName', (req, res) => {
+app.delete('/api/wboard/deleteImage/:imageName', (req, res) => {
   const imageName = req.params.imageName;
 
   // 이미지 파일 경로
-  const imagePath = path.join(__dirname, '..', 'assets', 'whiskey', imageName);
+  const imagePath = path.join(__dirname, 'uploads', imageName);
 
   // 파일 삭제
   fs.unlink(imagePath, (err) => {

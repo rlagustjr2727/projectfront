@@ -6,7 +6,7 @@ const WhiskeyOrigin = ({ handleChange }) => {
 
   const onCategoryChange = (value) => {
     setSelectedOrigin(value);
-    handleChange("whiskey_origin", value);
+    handleChange("wboard_origin", value);
   };
 
   return (
@@ -18,7 +18,7 @@ const WhiskeyOrigin = ({ handleChange }) => {
           handleChange={() => onCategoryChange(origin)} 
           value={origin} 
           title={origin === "" ? "All" : origin} 
-          name="whiskey_origin" 
+          name="wboard_origin" 
           isSelected={selectedOrigin === origin} 
         />
       ))}

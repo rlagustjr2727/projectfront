@@ -1,5 +1,6 @@
 .card {
-  --card-width: 20em;
+  --card-width: 25em;
+  --card-height: 35em;
   --text-color: hsl(0, 0%, 0%);
   --text-color-L2: hsl(0, 0%, 33%);
   --transition: all 0.2s cubic-bezier(0.13, 0.78, 0.3, 0.99);

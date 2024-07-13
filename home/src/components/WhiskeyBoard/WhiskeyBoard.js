@@ -7,52 +7,49 @@ import Sidebar from "./Sidebar/Sidebar";
 import Card from "./components/Card";
 import Pagination from "./components/Pagination";
 import "./WhiskeyBoard.css";
-import images from "./utils/loadImages";
 
-Modal.setAppElement('#root'); // 모달 사용을 위한 기본 설정
+Modal.setAppElement('#root');
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState({
-    whiskey_type: "",
-    whiskey_origin: "",
-    whiskey_alcohol_type: "",
-    whiskey_age: "",
+    wboard_type: "",
+    wboard_origin: "",
+    wboard_abv_type: "",
+    wboard_yo: "",
   });
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false); // 모달 상태 추가
-  const [editModalIsOpen, setEditModalIsOpen] = useState(false); // 수정 모달 상태 추가
-  const [file, setFile] = useState(null); // 파일 상태 추가
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const [file, setFile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // 새로운 상태 추가
   const [newProduct, setNewProduct] = useState({
-    whiskey_img: "",
-    whiskey_name: "",
-    whiskey_info: "",
-    whiskey_type: "",
-    whiskey_origin: "",
-    whiskey_alcohol: "",
-    whiskey_tip: "",
-    whiskey_age: "",
-    whiskey_alcohol_type: "",
+    wboard_img: "",
+    wboard_name: "",
+    wboard_info: "",
+    wboard_type: "",
+    wboard_origin: "",
+    wboard_abv: "",
+    wboard_tip: "",
+    wboard_yo: "",
+    wboard_abv_type: "",
   });
 
-  // 수정 상태 추가
   const [editProduct, setEditProduct] = useState({
-    whiskey_img: "",
-    whiskey_name: "",
-    whiskey_info: "",
-    whiskey_type: "",
-    whiskey_origin: "",
-    whiskey_alcohol: "",
-    whiskey_tip: "",
-    whiskey_age: "",
-    whiskey_alcohol_type: "",
+    wboard_img: "",
+    wboard_name: "",
+    wboard_info: "",
+    wboard_type: "",
+    wboard_origin: "",
+    wboard_abv: "",
+    wboard_tip: "",
+    wboard_yo: "",
+    wboard_abv_type: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,9 +57,31 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/custom");
+        const params = new URLSearchParams();
+
+        if (query) {
+          params.append('query', query);
+        }
+
+        if (selectedCategory.wboard_type) {
+          params.append('wboard_type', selectedCategory.wboard_type);
+        }
+
+        if (selectedCategory.wboard_origin) {
+          params.append('wboard_origin', selectedCategory.wboard_origin);
+        }
+
+        if (selectedCategory.wboard_abv_type) {
+          params.append('wboard_abv_type', selectedCategory.wboard_abv_type);
+        }
+
+        if (selectedCategory.wboard_yo) {
+          params.append('wboard_yo', selectedCategory.wboard_yo);
+        }
+
+        const response = await fetch(`http://localhost:8080/api/wboard/filter?${params.toString()}`);
         const data = await response.json();
-        console.log(data); // 데이터 확인을 위해 로그 추가
+        console.log(data);
         setProducts(data);
         setFilteredItems(data);
         setLoading(false);
@@ -74,22 +93,16 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [query, selectedCategory]);
 
   useEffect(() => {
-    // 카테고리 선택이 변경될 때마다 첫 페이지로 이동
     setCurrentPage(1);
-  }, [selectedCategory]); // 여기에 selectedCategory 추가
+  }, [selectedCategory]);
 
   const handleInputChange = (event) => {
     const queryValue = event.target.value;
     setQuery(queryValue);
     setCurrentPage(1);
-
-    const filtered = products.filter((product) =>
-      product.whiskey_name.toLowerCase().includes(queryValue.toLowerCase())
-    );
-    setFilteredItems(filtered);
   };
 
   const handleCategoryChange = (category, value) => {
@@ -120,113 +133,95 @@ function App() {
     setFile(file);
     setNewProduct((prevProduct) => ({
       ...prevProduct,
-      whiskey_img: file.name,
+      wboard_img: file.name,
     }));
   };
 
   const handleEditDrop = (acceptedFiles) => {
-  const file = acceptedFiles[0];
-  setFile(file);
-  setEditProduct((prevProduct) => ({
-    ...prevProduct,
-    whiskey_img: file.name, // Update whiskey_img in editProduct state
-  }));
-};
-
+    const file = acceptedFiles[0];
+    setFile(file);
+    setEditProduct((prevProduct) => ({
+      ...prevProduct,
+      wboard_img: file.name,
+    }));
+  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted"); // 콘솔 로그 추가
+    console.log("Form submitted");
 
-    // 중복 이름 검사
-    if (products.some((product) => product.whiskey_name === newProduct.whiskey_name)) {
+    if (products.some((product) => product.wboard_name === newProduct.wboard_name)) {
       setErrorMessage("같은 이름의 위스키가 이미 존재합니다.");
       alert("같은 이름의 위스키가 이미 존재합니다.");
       return;
     }
-    let uploadedFileName = '';
+
+    const formData = new FormData();
+    formData.append('wboard', new Blob([JSON.stringify(newProduct)], { type: 'application/json' }));
 
     if (file) {
-      const formData = new FormData();
       formData.append('file', file);
-
-      try {        
-        const response = await fetch("http://localhost:8080/api/upload", { // ----------------
-          method: 'POST',
-          body: formData,
-        });
-        if (!response.ok) throw new Error("File upload failed");
-        const data = await response.json();
-        uploadedFileName = data.fileName;
-        console.log("File uploaded successfully:", uploadedFileName); // 콘솔 로그 추가
-      } catch (error) {
-        console.error("Error uploading file:", error);  // ----------------
-        return;
-      }
     }
 
-    const productToAdd = { ...newProduct, whiskey_img: uploadedFileName };
-    console.log("Adding product:", productToAdd); // 콘솔 로그 추가
-    
     try {
-      const response = await fetch("http://localhost:8080/api/addProduct", {
+      const response = await fetch("http://localhost:8080/api/wboard/addProduct", {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productToAdd),
+        body: formData,
       });
+
       if (!response.ok) throw new Error("Product addition failed");
 
       const newProductFromServer = await response.json();
-      console.log("Product added successfully:", newProductFromServer); // 콘솔 로그 추가
+      console.log("Product added successfully:", newProductFromServer);
 
       setProducts([...products, newProductFromServer]);
       setFilteredItems([...products, newProductFromServer]);
       setNewProduct({
-        whiskey_img: "",
-        whiskey_name: "",
-        whiskey_info: "",
-        whiskey_type: "",
-        whiskey_origin: "",
-        whiskey_alcohol: "",
-        whiskey_tip: "",
-        whiskey_age: "",
-        whiskey_alcohol_type: "",
+        wboard_img: "",
+        wboard_name: "",
+        wboard_info: "",
+        wboard_type: "",
+        wboard_origin: "",
+        wboard_abv: "",
+        wboard_tip: "",
+        wboard_yo: "",
+        wboard_abv_type: "",
       });
-      setModalIsOpen(false); // 모달 닫기
-      setErrorMessage(""); // 에러 메시지 초기화
-      // 페이지 새로고침
+      setModalIsOpen(false);
+      setErrorMessage("");
       window.location.reload();
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
 
-  // 삭제 기능
-  const handleDelete = async (whiskeyName, imagePath) => {
+  const handleDelete = async (productName, imageName) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/deleteProduct/${encodeURIComponent(whiskeyName)}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ imageName: imagePath }), // imageName을 전달
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        console.log(data.message); // 삭제 성공 메시지 출력
-        alert(data.message);
-        // 페이지 새로고침
-        window.location.reload();
-      } else {
-        throw new Error(data.error || "제품 삭제 실패");
+      const encodedProductName = encodeURIComponent(productName);
+      const response = await fetch(`http://localhost:8080/api/wboard/deleteProduct/${encodedProductName}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ imageName })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete product');
       }
+
+      const result = await response.json();
+      console.log(result.message);
+
+      // 삭제된 제품을 상태에서 제거하여 화면에 반영
+      setProducts(prevProducts => prevProducts.filter(product => product.wboard_name !== productName));
+      setFilteredItems(prevFilteredItems => prevFilteredItems.filter(product => product.wboard_name !== productName));
+
+      // 알림 표시
+      alert('제품이 성공적으로 삭제되었습니다.');
     } catch (error) {
-      console.error("제품 삭제 오류:", error);
+      console.error('제품 삭제 오류:', error);
+      alert('제품 삭제에 실패했습니다.');
     }
   };
 
@@ -235,193 +230,140 @@ function App() {
     setEditModalIsOpen(true);
   };
 
-
-
   const handleUpdate = async (event) => {
     event.preventDefault();
   
     try {
-      if (!editProduct.whiskey_name) {
-        throw new Error("Whiskey name is required for update");
-      }
-  
-      let uploadedFileName = editProduct.whiskey_img; // 기존 파일명 유지
-      const formData = new FormData();
-  
-      if (file) {
-        formData.append('file', file);
-  
-        // 파일 업로드 요청
-        const uploadResponse = await fetch("http://localhost:8080/api/upload", {
-          method: 'POST',
-          body: formData,
-        });
-  
-        if (!uploadResponse.ok) {
-          throw new Error("File upload failed");
+        if (!editProduct.wboard_name) {
+            throw new Error("wboard name is required for update");
         }
   
-        const uploadData = await uploadResponse.json();
-        uploadedFileName = uploadData.fileName;
-        console.log("File uploaded successfully:", uploadedFileName);
-      }
+        let uploadedFileName = editProduct.wboard_img;
+        const formData = new FormData();
   
-      // 새로운 product 정보 생성
-      const updatedProduct = {
-        ...editProduct,
-        whiskey_img: uploadedFileName,
-      };
+        if (file) {
+            formData.append('file', file);
   
-      // 서버로 업데이트 요청
-      const updateResponse = await fetch(
-        `http://localhost:8080/api/updateProduct/${encodeURIComponent(editProduct.whiskey_name)}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedProduct),
+            const uploadResponse = await fetch("http://localhost:8080/api/upload", {
+                method: 'POST',
+                body: formData,
+            });
+  
+            if (!uploadResponse.ok) {
+                throw new Error("File upload failed");
+            }
+  
+            const uploadData = await uploadResponse.json();
+            uploadedFileName = uploadData.fileName; // 이미 경로가 포함되어 있음
+            console.log("File uploaded successfully:", uploadedFileName);
         }
-      );
   
-      if (!updateResponse.ok) {
-        throw new Error("Failed to update product");
-      }
+        const updatedProduct = {
+            ...editProduct,
+            wboard_img: uploadedFileName,
+        };
   
-      const updatedProductFromServer = await updateResponse.json();
-      console.log("Product updated successfully:", updatedProductFromServer);
-  
-      // 기존 이미지 파일 삭제 처리
-      if (editProduct.whiskey_img !== updatedProduct.whiskey_img) {
-        const deleteResponse = await fetch(
-          `http://localhost:8080/api/deleteImage/${encodeURIComponent(editProduct.whiskey_img)}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}),
-          }
+        const updateResponse = await fetch(
+            `http://localhost:8080/api/wboard/updateProduct/${encodeURIComponent(editProduct.wboard_name)}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedProduct),
+            }
         );
   
-        if (!deleteResponse.ok) {
-          console.error("Failed to delete old image:", editProduct.whiskey_img);
-        } else {
-          console.log("Old image deleted successfully:", editProduct.whiskey_img);
+        if (!updateResponse.ok) {
+            throw new Error("Failed to update product");
         }
-      }
   
-      // 상태 업데이트
-      const updatedProducts = products.map((product) =>
-        product.whiskey_name === updatedProductFromServer.whiskey_name ? updatedProductFromServer : product
-      );
-      setProducts(updatedProducts);
-      setFilteredItems(updatedProducts);
-      setEditProduct({
-        whiskey_img: "",
-        whiskey_name: "",
-        whiskey_info: "",
-        whiskey_type: "",
-        whiskey_origin: "",
-        whiskey_alcohol: "",
-        whiskey_tip: "",
-        whiskey_age: "",
-        whiskey_alcohol_type: "",
-      });
+        const updatedProductFromServer = await updateResponse.json();
+        console.log("Product updated successfully:", updatedProductFromServer);
   
-      // 모달 닫기
-      setEditModalIsOpen(false);
+        if (editProduct.wboard_img !== updatedProduct.wboard_img) {
+            const deleteResponse = await fetch(
+                `http://localhost:8080/api/wboard/deleteImage/${encodeURIComponent(editProduct.wboard_img)}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({}),
+                }
+            );
   
-      // 성공 메시지 표시
-      alert("업데이트 성공!");
+            if (!deleteResponse.ok) {
+                console.error("Failed to delete old image:", editProduct.wboard_img);
+            } else {
+                console.log("Old image deleted successfully:", editProduct.wboard_img);
+            }
+        }
+  
+        const updatedProducts = products.map((product) =>
+            product.wboard_name === updatedProductFromServer.wboard_name ? updatedProductFromServer : product
+        );
+        setProducts(updatedProducts);
+        setFilteredItems(updatedProducts);
+        setEditProduct({
+            wboard_img: "",
+            wboard_name: "",
+            wboard_info: "",
+            wboard_type: "",
+            wboard_origin: "",
+            wboard_abv: "",
+            wboard_tip: "",
+            wboard_yo: "",
+            wboard_abv_type: "",
+        });
+  
+        setEditModalIsOpen(false);
+        alert("업데이트 성공!");
     } catch (error) {
-      console.error("Error updating product:", error);
-      alert("Failed to update product. Please try again.");
+        console.error("Error updating product:", error);
+        alert("Failed to update product. Please try again.");
     }
-  };
-  
-  
-  
-  
+};
 
-  
-  
-  
   
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  function filteredData(products, selectedCategory, query, currentPage, itemsPerPage) {
-    let filteredProducts = products;
-
-    if (query) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.whiskey_name.toLowerCase().includes(query.toLowerCase())
-      );
-    }
-
-    if (selectedCategory.whiskey_type) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.whiskey_type === selectedCategory.whiskey_type
-      );
-    }
-
-    if (selectedCategory.whiskey_origin) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.whiskey_origin === selectedCategory.whiskey_origin
-      );
-    }
-
-    if (selectedCategory.whiskey_alcohol_type) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.whiskey_alcohol_type === selectedCategory.whiskey_alcohol_type
-      );
-    }
-
-    if (selectedCategory.whiskey_age) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.whiskey_age === selectedCategory.whiskey_age
-      );
-    }
-
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
-
-    return currentItems.map(({ whiskey_img, whiskey_name, whiskey_info, whiskey_type, whiskey_origin, whiskey_alcohol, whiskey_tip }) => (
-      <Card
-        key={Math.random()}
-        whiskey_img={images[whiskey_img]} // 이미지 경로 설정
-        whiskey_name={whiskey_name}
-        whiskey_info={whiskey_info}
-        whiskey_type={whiskey_type}
-        whiskey_origin={whiskey_origin}
-        whiskey_alcohol={whiskey_alcohol}
-        whiskey_tip={whiskey_tip}
-        onDelete={() => handleDelete(whiskey_name, whiskey_img)}
-        onUpdate={() => handleEdit({
-          whiskey_img,
-          whiskey_name,
-          whiskey_info,
-          whiskey_type,
-          whiskey_origin,
-          whiskey_alcohol,
-          whiskey_tip,
-        })}
-      />
-    ));
-  }
-
-  const result = filteredData(products, selectedCategory, query, currentPage, itemsPerPage);
+  const result = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin, wboard_abv, wboard_tip, wboard_yo, wboard_abv_type }) => (
+    <Card
+      key={Math.random()}
+      wboard_img={wboard_img}
+      wboard_name={wboard_name}
+      wboard_info={wboard_info}
+      wboard_type={wboard_type}
+      wboard_origin={wboard_origin}
+      wboard_abv={wboard_abv}
+      wboard_tip={wboard_tip}
+      wboard_yo={wboard_yo}
+      wboard_abv_type={wboard_abv_type}
+      onDelete={() => handleDelete(wboard_name, wboard_img)}
+      onUpdate={() => handleEdit({
+        wboard_img,
+        wboard_name,
+        wboard_info,
+        wboard_tip,
+        wboard_type,
+        wboard_origin,
+        wboard_abv,
+        wboard_yo,
+        wboard_abv_type
+      })}
+    />
+  ));
 
   return (
     <>
       <Navigation
         query={query}
         handleInputChange={handleInputChange}
-        openModal={() => setModalIsOpen(true)} // 모달 열기 핸들러 전달
+        openModal={() => setModalIsOpen(true)}
       />
       <Sidebar handleChange={handleCategoryChange} />
       {loading ? (
@@ -441,37 +383,37 @@ function App() {
       )}
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)} // 모달 닫기 핸들러
+        onRequestClose={() => setModalIsOpen(false)}
         contentLabel="Add Product"
         style={{
           overlay: {
-            zIndex: 1000, // 모달 백그라운드의 z-index 설정
+            zIndex: 1000,
           },
           content: {
-            zIndex: 1001, // 모달 콘텐츠의 z-index 설정
+            zIndex: 1001,
           },
         }}
       >
         <form onSubmit={handleFormSubmit}>
           <input
             type="text"
-            name="whiskey_name"
-            value={newProduct.whiskey_name}
+            name="wboard_name"
+            value={newProduct.wboard_name}
             onChange={handleNewProductChange}
             placeholder="위스키 이름"
-            required 
+            required
           />
           <input
             type="text"
-            name="whiskey_info"
-            value={newProduct.whiskey_info}
+            name="wboard_info"
+            value={newProduct.wboard_info}
             onChange={handleNewProductChange}
             placeholder="위스키 정보"
             required
           />
           <select
-            name="whiskey_type"
-            value={newProduct.whiskey_type}
+            name="wboard_type"
+            value={newProduct.wboard_type}
             onChange={handleNewProductChange}
           >
             <option value="블랜디드 몰트 위스키">블랜디드 몰트 위스키</option>
@@ -491,8 +433,8 @@ function App() {
             <option value="럼">럼</option>
           </select>
           <select
-            name="whiskey_origin"
-            value={newProduct.whiskey_origin}
+            name="wboard_origin"
+            value={newProduct.wboard_origin}
             onChange={handleNewProductChange}
           >
             <option value="네덜란드">네덜란드</option>
@@ -511,15 +453,15 @@ function App() {
           </select>
           <input
             type="text"
-            name="whiskey_alcohol"
-            value={newProduct.whiskey_alcohol}
+            name="wboard_abv"
+            value={newProduct.wboard_abv}
             onChange={handleNewProductChange}
             placeholder="위스키 도수"
             required
           />
           <select
-            name="whiskey_alcohol_type"
-            value={newProduct.whiskey_alcohol_type}
+            name="wboard_abv_type"
+            value={newProduct.wboard_abv_type}
             onChange={handleNewProductChange}
           >
             <option value="E">60% 이상</option>
@@ -530,15 +472,15 @@ function App() {
           </select>
           <input
             type="text"
-            name="whiskey_age"
-            value={newProduct.whiskey_age}
+            name="wboard_yo"
+            value={newProduct.wboard_yo}
             onChange={handleNewProductChange}
             placeholder="위스키 년도"
           />
           <input
             type="text"
-            name="whiskey_tip"
-            value={newProduct.whiskey_tip}
+            name="wboard_tip"
+            value={newProduct.wboard_tip}
             onChange={handleNewProductChange}
             placeholder="위스키 팁"
             required
@@ -546,8 +488,8 @@ function App() {
           <div>
             <input
               type="text"
-              name="whiskey_img"
-              value={newProduct.whiskey_img}
+              name="wboard_img"
+              value={newProduct.wboard_img}
               onChange={handleNewProductChange}
               placeholder="위스키 사진"
               required
@@ -563,30 +505,29 @@ function App() {
       </Modal>
       <Modal
         isOpen={editModalIsOpen}
-        onRequestClose={() => setEditModalIsOpen(false)} // 모달 닫기 핸들러
+        onRequestClose={() => setEditModalIsOpen(false)}
         contentLabel="Edit Product"
         style={{
           overlay: {
-            zIndex: 1000, // 모달 백그라운드의 z-index 설정
+            zIndex: 1000,
           },
           content: {
-            zIndex: 1001, // 모달 콘텐츠의 z-index 설정
+            zIndex: 1001,
           },
         }}
       >
         <form onSubmit={handleUpdate}>
-          
           <input
             type="text"
-            name="whiskey_info"
-            value={editProduct.whiskey_info}
+            name="wboard_info"
+            value={editProduct.wboard_info}
             onChange={handleEditProductChange}
             placeholder="위스키 정보"
             required
           />
           <select
-            name="whiskey_type"
-            value={editProduct.whiskey_type}
+            name="wboard_type"
+            value={editProduct.wboard_type}
             onChange={handleEditProductChange}
           >
             <option value="블랜디드 몰트 위스키">블랜디드 몰트 위스키</option>
@@ -606,8 +547,8 @@ function App() {
             <option value="럼">럼</option>
           </select>
           <select
-            name="whiskey_origin"
-            value={editProduct.whiskey_origin}
+            name="wboard_origin"
+            value={editProduct.wboard_origin}
             onChange={handleEditProductChange}
           >
             <option value="네덜란드">네덜란드</option>
@@ -626,15 +567,15 @@ function App() {
           </select>
           <input
             type="text"
-            name="whiskey_alcohol"
-            value={editProduct.whiskey_alcohol}
+            name="wboard_abv"
+            value={editProduct.wboard_abv}
             onChange={handleEditProductChange}
             placeholder="위스키 도수"
             required
           />
           <select
-            name="whiskey_alcohol_type"
-            value={editProduct.whiskey_alcohol_type}
+            name="wboard_abv_type"
+            value={editProduct.wboard_abv_type}
             onChange={handleEditProductChange}
           >
             <option value="E">60% 이상</option>
@@ -645,15 +586,15 @@ function App() {
           </select>
           <input
             type="text"
-            name="whiskey_age"
-            value={editProduct.whiskey_age}
+            name="wboard_yo"
+            value={editProduct.wboard_yo}
             onChange={handleEditProductChange}
             placeholder="위스키 년도"
           />
           <input
             type="text"
-            name="whiskey_tip"
-            value={editProduct.whiskey_tip}
+            name="wboard_tip"
+            value={editProduct.wboard_tip}
             onChange={handleEditProductChange}
             placeholder="위스키 팁"
             required
@@ -661,13 +602,13 @@ function App() {
           <div>
             <input
               type="text"
-              name="whiskey_img"
-              value={editProduct.whiskey_img}
+              name="wboard_img"
+              value={editProduct.wboard_img}
               onChange={handleEditProductChange}
               placeholder="위스키 사진"
               readOnly
             />
-            <FileDropzone onDrop={handleDrop} />
+            <FileDropzone onDrop={handleEditDrop} />
           </div>
           <div className="button">
             <button type="submit">Update Product</button>

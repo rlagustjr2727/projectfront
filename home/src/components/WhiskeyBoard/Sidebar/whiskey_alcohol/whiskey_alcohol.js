@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Input from '../../components/Input';
 
 const WhiskeyAlcohol = ({ handleChange }) => {
-  const [selectedAlcoholType, setSelectedAlcoholType] = useState('');
+  const [selectedAbvType, setSelectedAbvType] = useState('');
 
   const onCategoryChange = (value) => {
-    setSelectedAlcoholType(value);
-    handleChange('whiskey_alcohol_type', value);
+    setSelectedAbvType(value);
+    handleChange('wboard_abv_type', value);
   };
 
   return (
@@ -25,8 +25,8 @@ const WhiskeyAlcohol = ({ handleChange }) => {
             type === "B" ? "30% ~ 40%" : 
             "30% 미만"
           } 
-          name="whiskey_alcohol_type" 
-          isSelected={selectedAlcoholType === type} 
+          name="wboard_abv_type" 
+          isSelected={selectedAbvType === type} 
         />
       ))}
     </div>

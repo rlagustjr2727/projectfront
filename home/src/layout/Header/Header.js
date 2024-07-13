@@ -120,7 +120,7 @@ const Header = () => {
         <li className="dept1">
           <a onClick={() => navigate('/filtersearch')}>맞춤 추천</a>
           <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate('/WhiskeyBoard')}>WhiskeyBoard</a></li>
+            <li className="dept2"><a onClick={() => navigate('/wboard')}>WhiskeyBoard</a></li>
           </ul>
         </li>
         <li className="dept1">

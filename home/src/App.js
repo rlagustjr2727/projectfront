@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Carousel from './components/Carousel/Carousel';
 // import SearchResultPage from './components/Header/SearchResultPage';
 // import SearchPage from './components/Header/SearchPage';
 import './App.css';
 import Container from './layout/Container';
-//import {MAIN_PATH, AUTH_PATH, SEARCH_PATH, USER_PATH, BOARD_PATH} from './constant'
 import Authentication from './views/Authentication';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import User from './views/User';
@@ -19,11 +17,12 @@ import BoardCreate from './components/board/BoardCreate';
 import WhiskyEvents from './components/WhiskyEvent/WhiskyEvents';
 import MyPage from './components/mypage/MyPage';
 import {MAIN_PATH, AUTH_PATH, USER_PATH} from './constant'
-import ProtectedRoute from './stores/ProtectRoute';
 import BoardUpdate from './components/board/BoardUpdate';
 import WhiskeyBoard from './components/WhiskeyBoard/WhiskeyBoard';
 import HomePage from './components/board/HomePage';
 import SearchResultPage from './layout/Header/SearchResultPage';
+import WboardCreate from './components/WhiskeyBoard/WboardCreate';
+import WboardList from './components/WhiskeyBoard/WboardList';
 
 
 const App = () => {
@@ -56,7 +55,8 @@ const App = () => {
           <Route path='/board/:category' element={<BoardList />} />
           <Route path="/board/detail/:seq" element={<BoardDetail />} />
           <Route path='/board/update/:seq' element={<BoardUpdate />} />
-          <Route path='/WhiskeyBoard' element={<WhiskeyBoard />} />
+          <Route path='/Wboard' element={<WhiskeyBoard/>} /> {/* 추가 */}
+          <Route path='/wboard/create' element={<WboardCreate />} /> {/* 추가 */}
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:keyword" element={<SearchResultPage />} />
         </Routes>

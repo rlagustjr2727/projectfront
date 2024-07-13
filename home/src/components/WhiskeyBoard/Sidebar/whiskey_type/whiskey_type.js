@@ -1,3 +1,8 @@
+
+
+// 카테고리 기능을 wboard_of_type 으로 바꿔야함 여기 파일
+
+
 import React, { useState } from 'react';
 import Input from "../../components/Input";
 
@@ -6,7 +11,7 @@ const WhiskeyType = ({ handleChange }) => {
 
   const onCategoryChange = (value) => {
     setSelectedType(value);
-    handleChange("whiskey_type", value);
+    handleChange("wboard_type", value);
   };
 
   return (
@@ -18,7 +23,7 @@ const WhiskeyType = ({ handleChange }) => {
           handleChange={() => onCategoryChange(type)} 
           value={type} 
           title={type === "" ? "All" : type} 
-          name="whiskey_type" 
+          name="wboard_type" 
           isSelected={selectedType === type} 
         />
       ))}

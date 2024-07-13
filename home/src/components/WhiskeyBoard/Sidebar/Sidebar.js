@@ -18,13 +18,13 @@ const Sidebar = ({ handleChange }) => {
         <WhiskeyType handleChange={handleChange} onButtonClick={() => handleButtonClick('type')} focused={focusedButton === 'type'} />
       </div>
       <div className="sidebar-section">
-        <WhiskeyAlcohol handleChange={handleChange} onButtonClick={() => handleButtonClick('alcohol')} focused={focusedButton === 'alcohol'} />
+        <WhiskeyAlcohol handleChange={handleChange} onButtonClick={() => handleButtonClick('abv')} focused={focusedButton === 'abv'} />
       </div>
       <div className="sidebar-section">
         <WhiskeyOrigin handleChange={handleChange} onButtonClick={() => handleButtonClick('origin')} focused={focusedButton === 'origin'} />
       </div>
       <div className="sidebar-section">
-        <WhiskeyAge handleChange={handleChange} onButtonClick={() => handleButtonClick('age')} focused={focusedButton === 'age'} />
+        <WhiskeyAge handleChange={handleChange} onButtonClick={() => handleButtonClick('yo')} focused={focusedButton === 'yo'} />
       </div>
     </section>
   );
