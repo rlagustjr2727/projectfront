@@ -2,7 +2,7 @@ import React from 'react';
 
 const SearchInput = ({ value, onChange, onClick, onFocus, placeholder }) => {
     return (
-        <div className="search-input">
+        <div className="main-search-input">
             <input
                 type="text"
                 value={value}

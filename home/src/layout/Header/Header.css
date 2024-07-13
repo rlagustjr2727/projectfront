@@ -147,14 +147,14 @@ a {
     width: 90%;
 }
 
-.search-input {
+.main-search-input {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
 
-.search-input input {
+.main-search-input input {
     width: 300px; /* 입력창 너비 조정 */
     padding: 10px;
     margin-right: 10px;
@@ -165,7 +165,16 @@ a {
     font-size: 1.6rem; /* 글자 크기 조정 */
 }
 
-.search-input-icon {
+.header-icon-box {
+    width: 280px;
+    height: 100px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.main-search-input-icon {
     padding: 10px;
     cursor: pointer;
 }

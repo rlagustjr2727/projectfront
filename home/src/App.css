@@ -261,3 +261,11 @@ li:hover {
 .whisky-logo-3 {
   background-image: url(assets/image/whisky-logo-3.png);
 }
+
+.expand-right-icon {
+  background-image: url(assets/image/expand-right.png);
+}
+
+.expand-left-icon {
+  background-image: url(assets/image/expand-left.png);
+}

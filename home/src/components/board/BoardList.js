@@ -1,13 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
-import Pagination from '@mui/material/Pagination';
-import {
-  Container, Table, TableBody, TableCell, TableHead, TableRow, CircularProgress,
-  Box, Paper, TableContainer, TextField, Button, Grid, List, ListItem, ListItemText, Typography,
-  FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions
-} from '@mui/material';
-import { Image } from '@mui/icons-material';
 import LoginForm from '../login/LoginForm';
 import './BoardList.css';
 
@@ -19,6 +12,7 @@ const BoardList = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [keyword, setKeyword] = useState('');
   const [searchOption, setSearchOption] = useState('title');
+  const [sortOption, setSortOption] = useState('recent'); // 정렬 옵션 추가
   const [selectedCategory, setSelectedCategory] = useState(category || '전체 게시판');
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
   const [showLoginDialog, setShowLoginDialog] = useState(false);
@@ -28,7 +22,7 @@ const BoardList = () => {
 
   const fetchBoards = useCallback(() => {
     setLoading(true);
-    BoardService.getBoards(page - 1, pageSize).then((response) => {
+    BoardService.getBoards(page - 1, pageSize, sortOption).then((response) => { // 정렬 옵션 추가
       setBoards(response.data.content);
       setTotalPages(response.data.totalPages);
       setLoading(false);
@@ -36,11 +30,11 @@ const BoardList = () => {
       console.error('게시글 데이터를 불러오는 중 에러 발생!', error);
       setLoading(false);
     });
-  }, [page]);
+  }, [page, sortOption]);
 
   const fetchBoardsByCategory = useCallback((category) => {
     setLoading(true);
-    BoardService.getBoardsByCategory(category, page - 1, pageSize).then((response) => {
+    BoardService.getBoardsByCategory(category, page - 1, pageSize, sortOption).then((response) => { // 정렬 옵션 추가
       setBoards(response.data.content);
       setTotalPages(response.data.totalPages);
       setLoading(false);
@@ -48,7 +42,7 @@ const BoardList = () => {
       console.error('카테고리별 게시글 데이터를 불러오는 중 에러 발생!', error);
       setLoading(false);
     });
-  }, [page]);
+  }, [page, sortOption]);
 
   const handleSearch = useCallback(() => {
     setLoading(true);
@@ -84,8 +78,8 @@ const BoardList = () => {
     navigate(`/board/${category}`);
   };
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
   };
 
   const handleCreate = () => {
@@ -96,6 +90,22 @@ const BoardList = () => {
       return;
     }
     navigate('/board/write');
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          className={`pagination-button ${i === page ? 'active' : ''}`}
+          onClick={() => handlePageChange(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return pageNumbers;
   };
 
   const handleLoginSuccess = () => {
@@ -132,146 +142,114 @@ const BoardList = () => {
     }
   }, [location]);
 
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+    setPage(1);
+  };
+
   return (
-    <Box display="flex" className="board-list-container">
-      <Box className="board-list">
-        <Paper>
-          <Typography variant="h6" style={{ padding: '14px' }}>게시판 목록</Typography>
-          <List>
+    <div className="board-list-container">
+      <div className="board-list">
+        <div className="category-container">
+          <div className="categoty-main-title">게시판 목록</div>
+          <ul>
             {['전체 게시판', '자유 게시판', '나눔 게시판', '장터 게시판', '정보 게시판'].map((text) => (
-              <ListItem button key={text} onClick={() => handleCategorySelect(text)}>
-                <ListItemText primary={text} />
-              </ListItem>
+              <li key={text} onClick={() => handleCategorySelect(text)} className="category-item">
+                {text}
+              </li>
             ))}
-          </List>
-        </Paper>
-      </Box>
-      <Container className="board-content" maxWidth={false} disableGutters>
-        <Grid container spacing={10}>
-          <Grid item xs={12}>
-            <Box mt={2}>
-              <Typography variant="h5">{selectedCategory}</Typography>
-            </Box>
-            {loading ? (
-              <Box className="loading-box">
-                <CircularProgress />
-              </Box>
-            ) : (
-              <>
-                <TableContainer component={Paper} className="table-container">
-                  <Table className="board-table">
-                    <TableHead className="board-table-header">
-                      <TableRow>
-                        {selectedCategory === '전체 게시판' ? (
-                          <TableCell style={{ width: '20%', fontSize: '18px' }}></TableCell>
-                        ) : (
-                          <TableCell style={{ fontSize: '18px' }}>번호</TableCell>
-                        )}
-                        <TableCell style={{ fontSize: '18px' }}>제목</TableCell>
-                        <TableCell style={{ fontSize: '18px' }}>작성자</TableCell>
-                        <TableCell style={{ fontSize: '18px' }}>작성일</TableCell>
-                        <TableCell style={{ fontSize: '18px' }}>조회수</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {boards.map((board, index) => (
-                        <TableRow key={board.boardSeq}>
-                          {selectedCategory === '전체 게시판' ? (
-                            <TableCell>
-                              <Link to="#" onClick={() => handleCategorySelect(board.boardCategory)} className="category-link">
-                                {board.boardCategory}
-                              </Link>
-                            </TableCell>
-                          ) : (
-                            <TableCell>{(page - 1) * pageSize + index + 1}</TableCell>
-                          )}
-                          <TableCell>
-                            <Link to={`/board/detail/${board.boardSeq}`} className="board-link">
-                              <Box className="board-title-container">
-                                [{getCategoryAbbreviation(board.boardCategory)}] {board.boardTitle}
-                                {board.boardImage && <Image className="icon image-icon" />}
-                                {board.commentCount > 0 && (
-                                  <span className="comment-count">
-                                    ({board.commentCount})
-                                  </span>
-                                )}
-                              </Box>
-                            </Link>
-                          </TableCell>
-                          <TableCell>{board.boardAuthor}</TableCell>
-                          <TableCell>{new Date(board.boardDate).toLocaleDateString()}</TableCell>
-                          <TableCell>{board.boardViews}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <Box className="pagination-create-container" display="flex" justifyContent="space-between" alignItems="center">
-                  <Box className="pagination-container">
-                    <Pagination
-                      count={totalPages}
-                      page={page}
-                      onChange={handlePageChange}
-                      color="primary"
-                    />
-                  </Box>
-                  <Box className="create-button-container">
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={handleCreate}
-                      className="create-button"
-                      style={{ marginLeft: '10px' }}
-                    >
-                      게시글 작성
-                    </Button>
-                  </Box>
-                </Box>
-                <Box className="search-box" mt={2}>
-                  <FormControl variant="outlined" style={{ minWidth: '150px', marginRight: '8px' }}>
-                    <InputLabel>검색 옵션</InputLabel>
-                    <Select
-                      value={searchOption}
-                      onChange={(e) => setSearchOption(e.target.value)}
-                      label="검색 옵션"
-                    >
-                      <MenuItem value="title">제목</MenuItem>
-                      <MenuItem value="title+content">제목+내용</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    label="검색어"
-                    variant="outlined"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onKeyDown={onSearchWordKeyDownHandler}
-                    fullWidth
-                    style={{ fontSize: '16px' }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSearch}
-                    style={{ marginLeft: '8px', fontSize: '13px' }}
-                  >
-                    검색
-                  </Button>
-                </Box>
-              </>
-            )}
-          </Grid>
-        </Grid>
-      </Container>
-      <Dialog open={showLoginDialog} onClose={() => setShowLoginDialog(false)}>
-        <DialogTitle>로그인</DialogTitle>
-        <DialogContent>
-          <LoginForm onLogin={handleLoginSuccess} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowLoginDialog(false)} color="primary">닫기</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+          </ul>
+        </div>
+      </div>
+      <div className="board-main-content">
+        <h2 className="board-title">{selectedCategory}</h2>
+        <div className="search-sort-container">
+          <div className="sort-container">
+            <select value={sortOption} onChange={handleSortChange} className="sort-option">
+              <option value="recent">최신 등록순</option>
+              <option value="views">조회수 많은순</option>
+            </select>
+          </div>
+          <div className="search-container">
+            <div className="search-options">
+              <select value={searchOption} onChange={(e) => setSearchOption(e.target.value)} className="search-option">
+                <option value="title">제목</option>
+                <option value="title+content">제목+내용</option>
+              </select>
+              <input
+                type="text"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onKeyDown={onSearchWordKeyDownHandler}
+                className="board-search-input"
+                placeholder="검색어를 입력하세요"
+              />
+              <button onClick={handleSearch} className="search-button">검색</button>
+            </div>
+          </div>
+        </div>
+        <div className="table-header">
+          <div className={`table-header-item ${selectedCategory === '전체 게시판' ? '' : 'table-cell-small'}`}>{selectedCategory === '전체 게시판' ? '' : '번호'}</div>
+          <div className="table-header-item table-cell-large">제목</div>
+          <div className="table-header-item table-cell-medium">작성자</div>
+          <div className="table-header-item table-cell-medium">작성일</div>
+          <div className="table-header-item table-cell-small">조회수</div>
+        </div>
+        {loading ? (
+          <div className="loading-box">
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <div className="table-container">
+            {boards.map((board, index) => (
+              <div key={board.boardSeq} className="table-row">
+                {selectedCategory !== '전체 게시판' && (
+                  <div className="table-cell table-cell-small">{(page - 1) * pageSize + index + 1}</div>
+                )}
+                <div className="table-cell table-cell-large">
+                  <Link to={`/board/detail/${board.boardSeq}`} className="board-link">
+                    <div className="board-title-container">
+                      [{getCategoryAbbreviation(board.boardCategory)}] {board.boardTitle}
+                      {board.boardImage && <img src={board.boardImage} alt="board" className="icon image-icon" />}
+                      {board.commentCount > 0 && (
+                        <span className="comment-count">
+                          ({board.commentCount})
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                </div>
+                <div className="table-cell table-cell-medium">{board.boardAuthor}</div>
+                <div className="table-cell table-cell-medium">{new Date(board.boardDate).toLocaleDateString()}</div>
+                <div className="table-cell table-cell-small">{board.boardViews}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="pagination-create-container">
+          <div className="pagination-container">
+            <button onClick={() => handlePageChange(page - 1)} disabled={page === 1} className="picon expand-left-icon" />
+            {/* <span className="pagination-info">{page} / {totalPages}</span> */}
+            {renderPageNumbers()}
+            <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} className="picon expand-right-icon" />
+          </div>
+          <div className="create-button-container">
+            <button onClick={handleCreate} className="create-button">
+              게시글 작성
+            </button>
+          </div>
+        </div>
+      </div>
+      {showLoginDialog && (
+        <div className="login-dialog">
+          <div className="login-dialog-content">
+            <h2>로그인</h2>
+            <LoginForm onLogin={handleLoginSuccess} />
+            <button onClick={() => setShowLoginDialog(false)} className="close-button">닫기</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
-import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import DetailList from './DetailList';
 import { BOARD_PATH, MAIN_PATH } from '../../constant';
@@ -100,7 +99,7 @@ const Header = () => {
     <div id="header">
       <div className='header-container'>
         <div className='header-left-box'>
-          <div className='icon-box'>
+          <div className='header-icon-box'>
             <div className='icon whisky-icon'></div>
           </div>
         </div>
@@ -134,7 +133,7 @@ const Header = () => {
       <div className='header-container-right'></div>
 
       <div className={`search-container ${isSearchActive ? 'active' : ''}`} ref={searchRef}>
-        <div className="search-input">
+        <div className="main-search-input">
           <input
             type="text"
             value={userInput}
