@@ -76,11 +76,7 @@ const BoardDetail = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/api/auth/user', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const response = await axios.get('/api/auth/me'); // 세션 기반으로 사용자 정보를 가져옴
         console.log('User data:', response.data);
         setUser(response.data);
       } catch (error) {
@@ -89,11 +85,7 @@ const BoardDetail = () => {
       }
     };
 
-    if (localStorage.getItem('token')) {
-      fetchUser();
-    } else {
-      setUser(null);
-    }
+    fetchUser(); // 세션 사용이므로 토큰 체크 없이 바로 요청
   }, []);
 
   const handleLogout = () => {
@@ -270,7 +262,7 @@ const BoardDetail = () => {
         </Typography>
         <Typography variant="h4" gutterBottom>{board.boardTitle}</Typography>
         {board.boardImage && (
-          <img src={`http://localhost:8080/${board.boardImage}`} alt={board.boardTitle} className="board-detail-image" />
+          <img src={`http://localhost:8080${board.boardImage}`} alt={board.boardTitle} className="board-detail-image" />
         )}
         <Typography variant="body1" gutterBottom>{board.boardContent}</Typography>
         <Typography variant="body2" color="textSecondary">{`Author: ${board.boardAuthor} | Date: ${new Date(board.boardDate).toLocaleDateString()} | Views: ${board.boardViews}`}</Typography>

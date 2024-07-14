@@ -17,7 +17,7 @@ const WhiskeyAge = ({ handleChange }) => {
                     key={yo} 
                     handleChange={() => onCategoryChange(yo)} 
                     value={yo} 
-                    title={yo === "" ? "All" : `${yo}YO`} 
+                    title={yo === "" ? "All" : `${yo}Yo`} 
                     name="wboard_yo" 
                     isSelected={selectedAge === yo} 
                 />

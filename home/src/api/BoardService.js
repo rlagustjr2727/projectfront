@@ -2,32 +2,15 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/board';
 
-axios.interceptors.request.use(request => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    request.headers.Authorization = `Bearer ${token}`;
-  }
-  console.log('Starting Request', request);
-  return request;
-});
-
-axios.interceptors.response.use(response => {
-  console.log('Response:', response);
-  return response;
-}, error => {
-  if (error.response && error.response.status === 401) {
-    console.error('Unauthorized');
-  }
-  return Promise.reject(error);
-});
+// 인터셉터 제거, 세션 기반으로 설정
 
 export const getRecentBoards = async () => {
   try {
-      const response = await axios.get(`${API_BASE_URL}/api/board/recent`);
-      return response.data;
+    const response = await axios.get(`${API_BASE_URL}/recent`);
+    return response.data || []; // 데이터가 없으면 빈 배열을 반환
   } catch (error) {
-      console.error('Error fetching items:', error);
-      throw error;
+    console.error('Error fetching items:', error);
+    return []; // 에러가 발생하면 빈 배열을 반환
   }
 };
 

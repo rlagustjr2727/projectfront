@@ -6,7 +6,7 @@ function Logout() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        axios.post('/api/users/logout', {}, { withCredentials: true })
+        axios.post('/api/auth/logout', {}, { withCredentials: true })
             .then(response => {
                 alert('로그아웃 성공');
                 navigate('/login'); // 로그아웃 후 로그인 페이지로 이동

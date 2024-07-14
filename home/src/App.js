@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from './components/Carousel/Carousel';
 // import SearchResultPage from './components/Header/SearchResultPage';
 // import SearchPage from './components/Header/SearchPage';
@@ -29,14 +29,13 @@ import RegisterFail from './components/login/RegisterFail'; // 회원가입 실�
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  
 
   return (
     <BrowserRouter>
       <Container isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
         <Routes>
           <Route path='/login' element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path='/registerForm' element={<RegisterForm />} />
+          <Route path='/register' element={<RegisterForm />} />
           <Route path='/board' element={<BoardList />} />
           <Route path='/board/:category' element={<BoardList />} />
           <Route path='/board/write' element={<BoardCreate />} />
@@ -48,22 +47,15 @@ const App = () => {
           <Route path={USER_PATH()} element={<User />} />
           <Route path='/whisky/events' element={<WhiskyEvents />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path='/board/write' element={<BoardCreate />} />
-          <Route path='/board' element={<BoardList />} />
-          <Route path='/board/:category' element={<BoardList />} />
           <Route path="/board/detail/:seq" element={<BoardDetail />} />
           <Route path='/board/update/:seq' element={<BoardUpdate />} />
-          <Route path='/Wboard' element={<WhiskeyBoard/>} /> {/* 추가 */}
-          <Route path='/wboard/create' element={<WboardCreate />} /> {/* 추가 */}
+          <Route path='/Wboard' element={<WhiskeyBoard />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:keyword" element={<SearchResultPage />} />
         </Routes>
       </Container>
     </BrowserRouter>
-
-
-
   );
-}
+};
 
 export default App;

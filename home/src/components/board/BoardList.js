@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
-import LoginForm from '../login/LoginForm';
+import UserService from '../../api/UserService';
 import './BoardList.css';
+import LoginForm from '../login/LoginForm';
 
 const BoardList = () => {
   const { category } = useParams();
@@ -12,9 +13,9 @@ const BoardList = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [keyword, setKeyword] = useState('');
   const [searchOption, setSearchOption] = useState('title');
-  const [sortOption, setSortOption] = useState('recent'); // 정렬 옵션 추가
+  const [sortOption, setSortOption] = useState('recent');
   const [selectedCategory, setSelectedCategory] = useState(category || '전체 게시판');
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const pageSize = 5;
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const BoardList = () => {
 
   const fetchBoards = useCallback(() => {
     setLoading(true);
-    BoardService.getBoards(page - 1, pageSize, sortOption).then((response) => { // 정렬 옵션 추가
+    BoardService.getBoards(page - 1, pageSize, sortOption).then((response) => {
       setBoards(response.data.content);
       setTotalPages(response.data.totalPages);
       setLoading(false);
@@ -34,7 +35,7 @@ const BoardList = () => {
 
   const fetchBoardsByCategory = useCallback((category) => {
     setLoading(true);
-    BoardService.getBoardsByCategory(category, page - 1, pageSize, sortOption).then((response) => { // 정렬 옵션 추가
+    BoardService.getBoardsByCategory(category, page - 1, pageSize, sortOption).then((response) => {
       setBoards(response.data.content);
       setTotalPages(response.data.totalPages);
       setLoading(false);
@@ -82,14 +83,17 @@ const BoardList = () => {
     setPage(newPage);
   };
 
-  const handleCreate = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+  const handleCreate = async () => {
+    try {
+      const response = await UserService.getCurrentUser();
+      console.log('User data:', response.data);
+      setIsLoggedIn(true);
+      navigate('/board/write');
+    } catch (error) {
+      console.error('Error fetching user data', error);
       alert('로그인이 필요합니다.');
       setShowLoginDialog(true);
-      return;
     }
-    navigate('/board/write');
   };
 
   const renderPageNumbers = () => {
@@ -229,7 +233,6 @@ const BoardList = () => {
         <div className="pagination-create-container">
           <div className="pagination-container">
             <button onClick={() => handlePageChange(page - 1)} disabled={page === 1} className="picon expand-left-icon" />
-            {/* <span className="pagination-info">{page} / {totalPages}</span> */}
             {renderPageNumbers()}
             <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} className="picon expand-right-icon" />
           </div>
