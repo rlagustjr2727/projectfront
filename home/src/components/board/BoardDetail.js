@@ -76,17 +76,8 @@ const BoardDetail = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios.get('http://localhost:8080/api/me', { withCredentials: true });
         console.log('Fetched user:', response.data);
-=======
-<<<<<<< HEAD
-        const response = await axios.get('/api/auth/user');
-=======
-        const response = await axios.get('/api/auth/me'); // 세션 기반으로 사용자 정보를 가져옴
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
-        console.log('User data:', response.data);
->>>>>>> origin/main
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data', error);
@@ -94,7 +85,6 @@ const BoardDetail = () => {
       }
     };
 
-<<<<<<< HEAD
     fetchUser();
   }, []);
 
@@ -107,24 +97,6 @@ const BoardDetail = () => {
       })
       .catch(error => {
         console.error('Error during logout', error);
-=======
-<<<<<<< HEAD
-    fetchUser();
-=======
-    fetchUser(); // 세션 사용이므로 토큰 체크 없이 바로 요청
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
-  }, []);
-
-  const handleLogout = () => {
-    axios.post('/api/logout')
-      .then(() => {
-        setUser(null);
-        alert('로그아웃 되었습니다.');
-        navigate('/login'); // 로그아웃 후 로그인 페이지로 리다이렉트
-      })
-      .catch(error => {
-        console.error('Error logging out!', error);
->>>>>>> origin/main
       });
   };
 

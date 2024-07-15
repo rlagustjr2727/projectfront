@@ -3,9 +3,6 @@ import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
 import UserService from '../../api/UserService';
 import './BoardList.css';
-<<<<<<< HEAD
-import axios from 'axios';
-=======
 import LoginForm from '../login/LoginForm';
 import boardImageIcon from '../../assets/image/boardImage.jpg'; // 이미지 아이콘 경로 설정
 
@@ -24,21 +21,6 @@ const BoardList = () => {
   const pageSize = 5;
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get('/api/me'); // 현재 사용자 정보 가져오기
-        console.log('User data:', response.data);
-        setIsLoggedIn(true);
-      } catch (error) {
-        console.error('Error fetching user data', error);
-        setIsLoggedIn(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   const fetchBoards = useCallback(() => {
     setLoading(true);
@@ -102,10 +84,6 @@ const BoardList = () => {
     setPage(newPage);
   };
 
-<<<<<<< HEAD
-  const handleCreate = () => {
-    if (!isLoggedIn) {
-=======
   const handleCreate = async () => {
     try {
       const response = await UserService.getCurrentUser();
@@ -114,7 +92,6 @@ const BoardList = () => {
       navigate('/board/write');
     } catch (error) {
       console.error('Error fetching user data', error);
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
       alert('로그인이 필요합니다.');
       setShowLoginDialog(true);
     }

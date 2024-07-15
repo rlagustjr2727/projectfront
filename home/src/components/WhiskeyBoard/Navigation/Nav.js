@@ -4,15 +4,17 @@ import "./Nav.css";
 const Nav = ({ query, handleInputChange, openModal }) => {
   return (
     <nav>
-      <div className="nav-container">
+      <div className="wboard-nav-container">
         <input
           className="wboard-search-input"
           type="text"
           onChange={handleInputChange}
           value={query}
-          placeholder="Enter your search."
+          placeholder="검색어를 입력하세요."
         />
-        <button className='write' onClick={openModal}>글쓰기</button>
+        <div className="wboard-write" onClick={openModal}>
+          <div className="icon edit-light-icon" />
+        </div>
       </div>
     </nav>
   );

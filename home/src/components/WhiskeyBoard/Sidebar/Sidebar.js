@@ -13,17 +13,17 @@ const Sidebar = ({ handleChange }) => {
   };
 
   return (
-    <section className="sidebar">
-      <div className="sidebar-section">
+    <section className="wboard-sidebar">
+      <div className="wboard-sidebar-section">
         <WhiskeyType handleChange={handleChange} onButtonClick={() => handleButtonClick('type')} focused={focusedButton === 'type'} />
       </div>
-      <div className="sidebar-section">
+      <div className="wboard-sidebar-section">
         <WhiskeyAlcohol handleChange={handleChange} onButtonClick={() => handleButtonClick('abv')} focused={focusedButton === 'abv'} />
       </div>
-      <div className="sidebar-section">
+      <div className="wboard-sidebar-section">
         <WhiskeyOrigin handleChange={handleChange} onButtonClick={() => handleButtonClick('origin')} focused={focusedButton === 'origin'} />
       </div>
-      <div className="sidebar-section">
+      <div className="wboard-sidebar-section">
         <WhiskeyAge handleChange={handleChange} onButtonClick={() => handleButtonClick('yo')} focused={focusedButton === 'yo'} />
       </div>
     </section>

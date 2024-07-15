@@ -1,44 +1,46 @@
 .card {
-  --card-width: 25em;
-  --card-height: 35em;
+  --card-width: 30em;
+  --card-height: 40em; /* 카드 높이를 키움 */
   --text-color: hsl(0, 0%, 0%);
   --text-color-L2: hsl(0, 0%, 33%);
   --transition: all 0.2s cubic-bezier(0.13, 0.78, 0.3, 0.99);
   background: hsl(0, 0%, 100%);
-  font-size: 12px;
+  font-size: 14px; /* 기본 폰트 크기를 키움 */
   line-height: 2;
   border-radius: 1em;
-  padding-bottom: 0.5em;
+  padding-bottom: 1em; /* 패딩을 키움 */
   z-index: 20;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: all 0.2s ease-in;
-  position: relative; /* 상대 위치 지정 */
+  position: relative;
+  height: var(--card-height);
 }
 
-.detial {
+.card-details {
   width: var(--card-width);
   padding: 0 1em;
   color: var(--text-color);
   transition: all 0.2s ease-in;
-
   z-index: 1;
 }
-.name {
-  font-size: 1.5em;
+
+.card-name {
+  font-size: 2em; /* 이름 폰트 크기를 키움 */
   font-weight: bold;
-  line-height: 20px;
+  line-height: 24px;
 }
 
-.title {
+.card-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0.5em 0;
 }
 
-.content {
+.card-content {
+  font-size: 1.5em;
   color: var(--text-color);
   width: var(--card-width);
   position: absolute;
@@ -47,63 +49,70 @@
   opacity: 0;
   height: 20em;
   overflow: auto;
+  z-index: 30; /* z-index를 높임 */
 }
 
-.content::-webkit-scrollbar {
-  width: 10px; /* 스크롤바의 너비 */
+.card-content::-webkit-scrollbar {
+  width: 10px;
 }
 
-.content::-webkit-scrollbar-thumb {
-  height: 30%; /* 스크롤바의 길이 */
-  background: #7f7f7f; /* 스크롤바의 색상 */
-  border-radius: 10px; /* 스크롤바의 모서리 둥글기 */
+.card-content::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: #7f7f7f;
+  border-radius: 10px;
 }
 
-.thumb {
+.card-thumbnail {
   width: var(--card-width);
-  height: 20em;
+  height: 30em; /* 이미지 섹션 높이를 키움 */
   overflow: hidden;
   transition: var(--transition);
-  z-index: 0;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.thumb img {
-  height: 100%;
-  object-fit: cover;
+
+.card-thumbnail img {
+  width: 100%; /* 이미지의 너비를 100%로 설정 */
+  height: 100%; /* 높이를 자동으로 조정 */
+  object-fit: contain;
 }
 
 .card:hover {
   background-color: hsl(0, 0%, 84%);
   box-shadow: 0px 20px 40px hsl(40, 60%, 0%, 0.4);
 }
-.card:hover .detial {
+
+.card:hover .card-details {
   padding: 1em 2em;
 }
 
-.card:hover .thumb {
+.card:hover .card-thumbnail {
   opacity: 0.2;
   filter: blur(20px);
   transform: scale(1.5);
 }
-.card:hover .content {
+
+.card:hover .card-content {
   transform: none;
   opacity: 1;
   transition: var(--transition);
 }
 
-.infomation {
+.card-info {
+  font-size: 1.3em;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.propertion {
-  font-size: 0.8em;
+
+.card-proportion {
+  font-size: 1.2em; /* 추가 정보 폰트 크기를 키움 */
   color: var(--text-color-L2);
 }
 
-.action {
+.card-tooltip {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -112,10 +121,10 @@
   border-radius: 1em;
   border: 1px solid transparent;
   transition: var(--transition);
-  position: relative; /* 상대 위치 지정 */
+  position: relative;
 }
 
-.action:hover {
+.card-tooltip:hover {
   box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.6),
     inset 0.5px 1px 2px rgba(255, 255, 255, 0.1);
   background: hsla(0, 0%, 50%, 0.1);
@@ -125,61 +134,67 @@
   position: absolute;
   background-color: rgb(255, 255, 255);
   color: var(--text-color);
-  padding: 0.5em;
+  padding: 1.5em; /* 툴팁 패딩을 키움 */
   border-radius: 0.5em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  white-space: normal; /* 내용이 줄바꿈되도록 변경 */
-  top: -7em; /* 툴팁의 위치를 위로 이동 */
-  left: -14.5em; /* 툴팁의 위치를 왼쪽으로 이동 */
-  width: 15em; /* 툴팁의 고정 가로 길이 */
-  height: 7.5em; /* 툴팁의 고정 세로 길이 */
+  white-space: normal;
+  top: -6em; /* 툴팁 위치 조정 */
+  left: -14em; /* 툴팁 위치 조정 */
+  width: 25em; /* 툴팁의 고정 가로 길이를 키움 */
+  height: 12em; /* 툴팁의 고정 세로 길이를 키움 */
+  font-size: 1.3em; /* 툴팁 글씨 크기를 키움 */
   opacity: 0;
   transition: var(--transition);
-  overflow-y: auto; /* 내용이 길어질 경우 스크롤 추가 */
+  overflow-y: auto;
 }
 
-.tooltip::-webkit-scrollbar {
-  width: 10px; /* 스크롤바의 너비 */
-}
-
-.tooltip::-webkit-scrollbar-thumb {
-  height: 30%; /* 스크롤바의 길이 */
-  background: #7f7f7f; /* 스크롤바의 색상 */
-  border-radius: 10px; /* 스크롤바의 모서리 둥글기 */
-}
-
-.action:hover .tooltip {
+.card-tooltip:hover .tooltip {
   opacity: 1;
 }
 
+.tooltip::-webkit-scrollbar {
+  width: 10px;
+}
 
+.tooltip::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: #7f7f7f;
+  border-radius: 10px;
+}
 
-.burger {
+.card-tooltip:hover .tooltip {
+  opacity: 1;
+}
+
+.card-menu {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-bottom: 5px;
   cursor: pointer;
-  position: relative; /* 추가: 상대 위치 설정 */
+  position: relative;
+  top: 5px; /* 상단 여백 설정 */
+  right: 180px; /* 오른쪽 여백 설정 */
+  z-index: 3; /* z-index를 높임 */
 }
 
-.menu {
-  position: absolute; /* 추가: 절대 위치 설정 */
-  top: 100%; /* 추가: 햄버거 아이콘 아래로 위치 조정 */
+.card-actions {
+  position: absolute;
+  top: 30px;
   right: 0;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   padding: 8px;
-  z-index: 10;
-  background-color: #e5e5e5;
-  border: 1px solid #ccc;
+  z-index: 4;
   left: 0px;
-  display: none; /* 초기에 숨겨짐 */
+  display: none;
+  flex-direction: row; /* 가로 정렬 */
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  gap: 10px; /* 버튼 간격 추가 */
 }
 
-.burger:hover .menu {
-  display: block; /* 햄버거 아이콘에 마우스를 올리면 메뉴가 표시됨 */
-  flex-direction: column;
+.card-menu:hover .card-actions {
+  display: flex;
 }
 
 .delete-button,
@@ -189,7 +204,7 @@
   color: #000000;
   border: none;
   padding: 8px 12px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   border-radius: 5px;
   cursor: pointer;
   left: 30px;
@@ -200,4 +215,22 @@
 .update-button:hover {
   background-color: #7b7b7b;
   color: #ffffff;
+}
+
+.icon.more-icon {
+  width: 30px;
+  height: 30px;
+  background-image: url("../../../assets/image/more.png"); /* 이미지 파일 경로 */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.card-description {
+  position: relative; /* 위치 설정을 상대값으로 변경 */
+  z-index: 1; /* z-index를 낮춰 card-menu가 더 앞에 표시되도록 설정 */
+  font-size: 0.8em; /* card-description 폰트 크기를 줄임 */
+  max-height: 18em; /* 최대 높이 설정 */
+  max-width: 19em;
 }

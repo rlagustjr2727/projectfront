@@ -1,19 +1,19 @@
-.input-button {
-    padding: 10px 20px;
-    margin: 5px;
-    border: none;
-    border-radius: 50px;
-    background-color: #f0f0f0;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .input-button:hover {
-    background-color: #7b7b7b;
-    color: white;
-  }
-  
-  .input-button.selected {
-    background-color: #7b7b7b;
-    color: white;
-  }
-  
+.category-input-button {
+  padding: 16px 30px; /* 패딩을 키워서 버튼 크기를 키움 */
+  margin: 10px; /* 마진을 키워서 버튼 사이의 간격을 넓힘 */
+  border: none;
+  border-radius: 50px;
+  background-color: #f0f0f0;
+  font-size: 20px; /* 폰트 크기를 키움 */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-input-button:hover {
+  background-color: #7b7b7b;
+  color: white;
+}
+
+.category-input-button.selected {
+  background-color: #7b7b7b;
+  color: white;
+}

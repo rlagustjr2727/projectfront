@@ -1,4 +1,4 @@
-.sidebar {
+.wboard-sidebar {
   width: 100%;
   height: auto;
   border-bottom: 2px solid #e5e5e5;
@@ -7,9 +7,12 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 10px 0;
+  background-color: #f8f8f8; /* 흰색 배경 추가 */
+  border-radius: 15px; /* 모서리를 둥글게 만듦 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
 }
 
-.sidebar-section {
+.wboard-sidebar-section {
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
@@ -17,7 +20,7 @@
   margin-left: 5%;
 }
 
-.sidebar-button-container {
+.wboard-sidebar-button-container {
   padding: 10px 20px;
   margin: 5px;
   border: none;
@@ -26,8 +29,8 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.sidebar-button-container:hover,
-.sidebar-button-container.focused {
+.wboard-sidebar-button-container:hover,
+.wboard-sidebar-button-container.focused {
   background-color: #7b7b7b;
   color: white;
 }

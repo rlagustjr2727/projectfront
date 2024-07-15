@@ -1,30 +1,34 @@
-nav {
+.wboard-nav-container {
   display: flex;
   border-bottom: 2px solid #f3f3f3;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
-  padding: 20px;
+  padding: 20px; /* 패딩을 키움 */
   margin-left: 2rem;
 }
 
-input {
-  padding: 12px 20px;
+.wboard-search-input-container {
+  position: relative;
+  width: 25rem; /* 너비를 키움 */
+}
+
+.wboard-search-input {
   border: none;
   background: #f7f6f6;
   outline: none;
-  margin-right: 20px;
+  margin-right: 10px;
   border-radius: 5px;
   position: relative;
-  width: 14rem;
+  width: 25rem; /* 너비를 키움 */
+  height: 40px; /* 높이를 추가하여 입력 필드 크기를 키움 */
+  font-size: 0.8em; /* 글씨 크기를 키움 */
+  padding-left: 10px; /* placeholder 텍스트를 왼쪽에서 띄움 */
 }
 
-.write{
-  width: 60px;
-  height: 28px;
-  border-radius: 5px;
-}
-
-.write:hover {
-  background-color: #7b7b7b;
-  color: white;
+.wboard-write {
+  width: 40px; /* 아이콘 버튼 크기 조정 */
+  height: 40px; /* 아이콘 버튼 크기 조정 */
+  border: none;
+  background: none; /* 배경 제거 */
+  cursor: pointer;
 }

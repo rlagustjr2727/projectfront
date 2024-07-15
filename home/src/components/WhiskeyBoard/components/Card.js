@@ -18,6 +18,9 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
     onDelete(wboard_name, wboard_img);
   };
 
+
+  
+
   const handleUpdate = () => {
     onUpdate({
       wboard_name,
@@ -39,15 +42,8 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
       </div>
       <div className="card-content">
         <div className="card-menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <svg xmlns="http://www.w3.org/2000/svg"
-           width="25" 
-           height="25" 
-           fill="currentColor" 
-           className="bi bi-list" 
-           viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-          </svg>
-          { showTip && wboard_name &&(
+          <div className="icon more-icon"></div>
+          { showTip && wboard_name && (
             <div className="card-actions">
               <button className="delete-button" onClick={handleDelete}>삭제</button>
               <button className="update-button" onClick={handleUpdate}>수정</button>
@@ -62,11 +58,11 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
           <div className="card-tooltip" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="35"
+              height="35"
               fill="currentColor"
               className="bi bi-chat-right-text"
-              viewBox="0 0 16 16"
+              viewBox="0 0 20 20"
               style={{ cursor: 'pointer' }}
             >
               <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
