@@ -279,3 +279,9 @@
 .close-button:hover {
   background-color: #b4c8bb;
 }
+
+/* board-icon 추가 7-14 8:36 */
+.board-icon {
+  width: 20px;
+  height: 20px;
+}

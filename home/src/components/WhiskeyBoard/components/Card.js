@@ -34,11 +34,11 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
 
   return (
     <div className="card">
-      <div className="thumb">
+      <div className="card-thumbnail">
         <img src={`http://localhost:8080/uploads/${wboard_img}`} alt={wboard_name} />
       </div>
-      <div className="content">
-        <div className="burger" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className="card-content">
+        <div className="card-menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <svg xmlns="http://www.w3.org/2000/svg"
            width="25" 
            height="25" 
@@ -48,18 +48,18 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
             <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
           </svg>
           { showTip && wboard_name &&(
-            <div className="menu">
+            <div className="card-actions">
               <button className="delete-button" onClick={handleDelete}>삭제</button>
               <button className="update-button" onClick={handleUpdate}>수정</button>
             </div>
           )}
         </div>
-        <p className="some">{wboard_info}</p>
+        <p className="card-description">{wboard_info}</p>
       </div>
-      <div className="detial">
-        <div className="title">
-          <p className="name">{wboard_name}</p>
-          <div className="action" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className="card-details">
+        <div className="card-title">
+          <p className="card-name">{wboard_name}</p>
+          <div className="card-tooltip" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -75,10 +75,10 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
             {showTip && wboard_tip && <p className="tooltip">{wboard_tip}</p>}
           </div>
         </div>
-        <div className="infomation">
-          <p className="propertion">{wboard_type}</p>
-          <p className="propertion">{wboard_origin}</p>
-          <p className="propertion">{wboard_abv}</p>
+        <div className="card-info">
+          <p className="card-proportion">{wboard_type}</p>
+          <p className="card-proportion">{wboard_origin}</p>
+          <p className="card-proportion">{wboard_abv}</p>
         </div>
       </div>
     </div>

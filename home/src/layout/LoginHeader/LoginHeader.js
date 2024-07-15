@@ -16,7 +16,7 @@ const LoginHeader = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const onLogoutClickHandler = async () => {
         try {
-            await axios.post('/api/logout', {}, { withCredentials: true }); // 세션 로그아웃 요청
+            await axios.post('http://localhost:8080/api/logout', {}, { withCredentials: true }); // 세션 로그아웃 요청
             setIsLoggedIn(false); // 상태 업데이트
             navigate('/'); // 로그아웃 후 홈으로 이동
         } catch (error) {
@@ -28,6 +28,7 @@ const LoginHeader = ({ isLoggedIn, setIsLoggedIn }) => {
     const onLogoClickHandler = () => {
         navigate(MAIN_PATH());
     };
+
     const handleInputClick = () => {
         setShowPopularSearch(true);
         setIsSearchActive(true);

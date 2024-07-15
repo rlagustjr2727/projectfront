@@ -4,6 +4,7 @@ import BoardService from '../../api/BoardService';
 import UserService from '../../api/UserService';
 import './BoardList.css';
 import LoginForm from '../login/LoginForm';
+import boardImageIcon from '../../assets/image/boardImage.jpg'; // 이미지 아이콘 경로 설정
 
 const BoardList = () => {
   const { category } = useParams();
@@ -214,7 +215,9 @@ const BoardList = () => {
                   <Link to={`/board/detail/${board.boardSeq}`} className="board-link">
                     <div className="board-title-container">
                       [{getCategoryAbbreviation(board.boardCategory)}] {board.boardTitle}
-                      {board.boardImage && <img src={board.boardImage} alt="board" className="icon image-icon" />}
+                      {board.boardImage && (
+                        <img src={boardImageIcon} alt="board" className="icon board-icon" /> // 이미지가 있을 때 아이콘 표시
+                      )}
                       {board.commentCount > 0 && (
                         <span className="comment-count">
                           ({board.commentCount})

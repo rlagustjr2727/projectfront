@@ -25,7 +25,7 @@ const BoardCreate = () => {
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data', error);
-        navigate('/login'); // 로그인되지 않은 상태라면 로그인 페이지로 리다이렉트
+        navigate('/login');
       }
     };
 
@@ -40,7 +40,7 @@ const BoardCreate = () => {
     setImage(e.target.files[0]);
   };
 
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
 
     if (!user) {
@@ -51,17 +51,16 @@ const BoardCreate = () => {
 
     const boardData = {
       ...board,
-      boardAuthor: user.nickname || 'Anonymous',
+      boardAuthor: user.userNickName || 'Anonymous',
       profileImageUrl: user.userProfileImage || null,
     };
 
-    BoardService.createBoard(boardData, image)
-      .then(() => {
-        navigate('/board', { state: { newBoard: true } });
-      })
-      .catch(error => {
-        console.error('Error creating the board!', error);
-      });
+    try {
+      await BoardService.createBoard(boardData, image);
+      navigate('/board', { state: { newBoard: true } });
+    } catch (error) {
+      console.error('Error creating the board!', error);
+    }
   };
 
   return (

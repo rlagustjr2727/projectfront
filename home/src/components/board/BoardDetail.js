@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import BoardService from '../../api/BoardService';
 import CommentService from '../../api/CommentService';
-import { Container, Paper, Typography, Button, Box, CircularProgress, TextField, IconButton, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Typography, Button, Box, CircularProgress, TextField, IconButton, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -12,7 +12,7 @@ import './BoardDetail.css';
 import DEFAULT_PROFILE_IMAGE from '../../assets/image/default-profile-image.png';
 
 const BoardDetail = () => {
-  const { seq } = useParams(); // useParams 훅 사용
+  const { seq } = useParams();
   const [board, setBoard] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -76,8 +76,8 @@ const BoardDetail = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/api/auth/me'); // 세션 기반으로 사용자 정보를 가져옴
-        console.log('User data:', response.data);
+        const response = await axios.get('http://localhost:8080/api/me', { withCredentials: true });
+        console.log('Fetched user:', response.data);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data', error);
@@ -85,14 +85,19 @@ const BoardDetail = () => {
       }
     };
 
-    fetchUser(); // 세션 사용이므로 토큰 체크 없이 바로 요청
+    fetchUser();
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    alert('로그아웃 되었습니다.');
-    window.location.reload();
+    axios.post('http://localhost:8080/api/logout', {}, { withCredentials: true })
+      .then(() => {
+        setUser(null);
+        alert('로그아웃 되었습니다.');
+        navigate('/login');
+      })
+      .catch(error => {
+        console.error('Error during logout', error);
+      });
   };
 
   const handleDeleteBoard = () => {
@@ -112,13 +117,19 @@ const BoardDetail = () => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
+    if (!user) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
+
     if (!seq) {
       console.error('Board ID is not provided!');
       return;
     }
 
-    const commentAuthor = user?.nickname || 'Anonymous';
-    const commentAuthorImage = user?.userProfileImage || DEFAULT_PROFILE_IMAGE;
+    const commentAuthor = user.userNickName;
+    const commentAuthorImage = user.userProfileImage || DEFAULT_PROFILE_IMAGE;
 
     const comment = {
       commentContent: newComment,
@@ -126,7 +137,8 @@ const BoardDetail = () => {
       commentAuthorImage,
       board: { boardSeq: seq },
     };
-    CommentService.createComment(comment)
+
+    CommentService.createComment(comment, { withCredentials: true })
       .then(response => {
         setComments([...comments, response.data]);
         setNewComment("");
@@ -148,7 +160,7 @@ const BoardDetail = () => {
       return;
     }
 
-    CommentService.updateComment(editingCommentId, { commentContent: editingCommentContent })
+    CommentService.updateComment(editingCommentId, { commentContent: editingCommentContent }, { withCredentials: true })
       .then(response => {
         setComments(comments.map(comment => comment.commentSeq === editingCommentId ? response.data : comment));
         setEditingCommentId(null);
@@ -165,7 +177,7 @@ const BoardDetail = () => {
       return;
     }
 
-    CommentService.deleteComment(id)
+    CommentService.deleteComment(id, { withCredentials: true })
       .then(() => {
         setComments(comments.filter(comment => comment.commentSeq !== id));
       })
@@ -175,13 +187,14 @@ const BoardDetail = () => {
   };
 
   const handleLikeClick = () => {
-    if (!seq) {
-      console.error('Board ID is not provided!');
+    if (!user) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
       return;
     }
 
     if (liked) {
-      BoardService.unlikeBoard(seq)
+      BoardService.unlikeBoard(seq, { withCredentials: true })
         .then(() => {
           setLiked(false);
           setLikes(likes - 1);
@@ -190,7 +203,7 @@ const BoardDetail = () => {
           console.error('좋아요 취소 중 에러 발생!', error);
         });
     } else {
-      BoardService.likeBoard(seq)
+      BoardService.likeBoard(seq, { withCredentials: true })
         .then(() => {
           setLiked(true);
           setLikes(likes + 1);
@@ -223,46 +236,50 @@ const BoardDetail = () => {
     setEditedBoard({ ...editedBoard, boardImage: e.target.files[0] });
   };
 
-  const handleEditSubmit = (e) => {
+const handleEditSubmit = (e) => {
     e.preventDefault();
-  
-    // editedBoard 객체 확인
-    console.log('Edited Board:', editedBoard);
-  
-    BoardService.updateBoard(seq, {
-      boardTitle: editedBoard.boardTitle,
-      boardContent: editedBoard.boardContent,
-      boardCategory: editedBoard.boardCategory
-    }, editedBoard.boardImage)
-      .then(() => {
-        fetchBoard();
-        closeEditDialog();
-      })
-      .catch(error => {
-        console.error('Error updating board!', error);
-      });
-  };
+
+    const formData = new FormData();
+    formData.append('board', new Blob([JSON.stringify({
+        boardTitle: editedBoard.boardTitle,
+        boardContent: editedBoard.boardContent,
+        boardCategory: editedBoard.boardCategory
+    })], { type: 'application/json' }));
+    if (editedBoard.boardImage, { withCredentials: true }) {
+        formData.append('image', editedBoard.boardImage);
+    }
+
+    BoardService.updateBoard(seq, formData)
+        .then(() => {
+            fetchBoard();
+            closeEditDialog();
+        })
+        .catch(error => {
+            console.error('Error updating board!', error);
+        });
+};
+
 
   if (loading) {
-    return <Box className="loading-box"><CircularProgress /></Box>;
+    return <div className="loading-box"><CircularProgress /></div>;
   }
 
   if (!board) {
-    return <Box className="loading-box"><Typography>게시글을 불러오지 못했습니다.</Typography></Box>;
+    return <div className="loading-box"><Typography>게시글을 불러오지 못했습니다.</Typography></div>;
   }
 
-  const currentUserNickname = user?.nickname;
+  const currentUserNickname = user?.userNickName;
 
   return (
-    <Container>
-      <Paper className="board-detail-container">
+    <div className="container">
+      <div className="board-detail-container">
         <Typography variant="h6" color="textSecondary">
           <Avatar alt={board.boardAuthor} src={board.boardProfileImage || DEFAULT_PROFILE_IMAGE} style={{ marginRight: '8px' }} />
           {board.boardCategory}
         </Typography>
         <Typography variant="h4" gutterBottom>{board.boardTitle}</Typography>
         {board.boardImage && (
-          <img src={`http://localhost:8080${board.boardImage}`} alt={board.boardTitle} className="board-detail-image" />
+          <img src={`http://localhost:8080/${board.boardImage}`} alt={board.boardTitle} className="board-detail-image" />
         )}
         <Typography variant="body1" gutterBottom>{board.boardContent}</Typography>
         <Typography variant="body2" color="textSecondary">{`Author: ${board.boardAuthor} | Date: ${new Date(board.boardDate).toLocaleDateString()} | Views: ${board.boardViews}`}</Typography>
@@ -278,9 +295,9 @@ const BoardDetail = () => {
             </>
           )}
         </Box>
-      </Paper>
+      </div>
 
-      <Paper className="comments-container">
+      <div className="comments-container">
         <Typography variant="h5" gutterBottom>댓글</Typography>
         {comments.map(comment => (
           <Box key={comment.commentSeq} className="comment" display="flex" alignItems="center">
@@ -314,7 +331,7 @@ const BoardDetail = () => {
           />
           <Button type="submit" variant="contained" color="primary">Submit</Button>
         </form>
-      </Paper>
+      </div>
       <Box display="flex" justifyContent="flex-start" mt={2}>
         <Button variant="contained" color="primary" component={Link} to="/board" state={{ category: location.state?.category }} style={{ marginRight: '10px' }}>
           글 목록
@@ -378,7 +395,7 @@ const BoardDetail = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </Container>
+    </div>
   );
 };
 
