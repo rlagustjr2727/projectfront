@@ -54,32 +54,37 @@ function App() {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const params = new URLSearchParams();
-
+  
         if (query) {
           params.append('query', query);
         }
-
-        if (selectedCategory.wboard_type) {
-          params.append('wboard_type', selectedCategory.wboard_type);
+  
+        if (Array.isArray(selectedCategory.wboard_of_type) && selectedCategory.wboard_of_type.length > 0) {
+          params.append('wboard_of_type', JSON.stringify(selectedCategory.wboard_of_type));
         }
-
+  
         if (selectedCategory.wboard_origin) {
           params.append('wboard_origin', selectedCategory.wboard_origin);
         }
-
+  
         if (selectedCategory.wboard_abv_type) {
           params.append('wboard_abv_type', selectedCategory.wboard_abv_type);
         }
-
+  
         if (selectedCategory.wboard_yo) {
           params.append('wboard_yo', selectedCategory.wboard_yo);
         }
-
+  
         const response = await fetch(`http://localhost:8080/api/wboard/filter?${params.toString()}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
         const data = await response.json();
         console.log(data);
         setProducts(data);
@@ -91,9 +96,14 @@ function App() {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [query, selectedCategory]);
+  
+  
+  
+
+  
 
   useEffect(() => {
     setCurrentPage(1);

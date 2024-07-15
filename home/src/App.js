@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from './components/Carousel/Carousel';
 // import SearchResultPage from './components/Header/SearchResultPage';
 // import SearchPage from './components/Header/SearchPage';
@@ -43,16 +43,13 @@ const App = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/board/detail/:seq" element={<BoardDetail />} />
           <Route path='/board/update/:seq' element={<BoardUpdate />} />
-          <Route path='/Wboard' element={<WhiskeyBoard/>} /> {/* 추가 */}
+          <Route path='/Wboard' element={<WhiskeyBoard />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:keyword" element={<SearchResultPage />} />
         </Routes>
       </Container>
     </BrowserRouter>
-
-
-
   );
-}
+};
 
 export default App;

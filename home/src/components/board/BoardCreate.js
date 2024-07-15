@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import UserService from '../../api/UserService';
 import BoardService from '../../api/BoardService';
 import {
   Container, TextField, Button, MenuItem, Select, InputLabel, FormControl, Box, Typography, Paper
@@ -15,18 +15,26 @@ const BoardCreate = () => {
     boardContent: '',
   });
   const [image, setImage] = useState(null);
-  const [user, setUser] = useState(null); // 로그인한 사용자 정보
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+<<<<<<< HEAD
         const response = await axios.get('/api/me', { withCredentials: true }); // 세션 정보를 포함하여 현재 사용자 정보 가져오기
         console.log('User data:', response.data);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data', error);
         navigate('/login'); // 유저 정보를 가져오지 못하면 로그인 페이지로 리디렉션
+=======
+        const response = await UserService.getCurrentUser();
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user data', error);
+        navigate('/login'); // 로그인되지 않은 상태라면 로그인 페이지로 리다이렉트
+>>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
       }
     };
 
@@ -52,13 +60,18 @@ const BoardCreate = () => {
 
     const boardData = {
       ...board,
+<<<<<<< HEAD
       boardAuthor: user?.userNickName || 'Anonymous', // 로그인한 사용자의 닉네임 사용
       profileImageUrl: user?.userProfileImage || null, // 로그인한 사용자의 프로필 이미지 사용
+=======
+      boardAuthor: user.nickname || 'Anonymous',
+      profileImageUrl: user.userProfileImage || null,
+>>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
     };
 
     BoardService.createBoard(boardData, image)
       .then(() => {
-        navigate('/board', { state: { newBoard: true } }); // 게시판 목록으로 리다이렉트
+        navigate('/board', { state: { newBoard: true } });
       })
       .catch(error => {
         console.error('Error creating the board!', error);
