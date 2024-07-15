@@ -9,6 +9,7 @@ const register = (user) => {
 const login = async (userId, userPassword) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, { userId, userPassword }, { withCredentials: true });
+>>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
     return response.data;
   } catch (error) {
     console.error('Login failed:', error);
