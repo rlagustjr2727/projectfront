@@ -1,39 +1,40 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar'; // Sidebar 컴포넌트 import
+import './MyPage.css';
+import Sidebar from './Sidebar';
 import EditProfile from './EditProfile';
 import MyBoards from './MyBoards';
 import MyComments from './MyComments';
 import LikedBoards from './LikedBoards';
-import UserInfo from './UserInfo'; // UserInfo 컴포넌트 import
-import './MyPage.css';
-import './Sidebar.css';
+import UserInfo from './UserInfo';
 
 const MyPage = () => {
-    const [selectedSection, setSelectedSection] = useState(null);
+  const [currentPage, setCurrentPage] = useState('userinfo'); // 기본값을 'userinfo'로 설정
 
-    const renderSection = () => {
-        switch (selectedSection) {
-            case 'editProfile':
-                return <EditProfile />;
-            case 'myBoards':
-                return <MyBoards />;
-            case 'myComments':
-                return <MyComments />;
-            case 'likedBoards':
-                return <LikedBoards />;
-            default:
-                return <UserInfo />;
-        }
-    };
+  const renderContent = () => {
+    switch (currentPage) {
+      case 'userinfo':
+        return <UserInfo />;
+      case 'editprofile':
+        return <EditProfile />;
+      case 'myboards':
+        return <MyBoards />;
+      case 'mycomments':
+        return <MyComments />;
+      case 'likedboards':
+        return <LikedBoards />;
+      default:
+        return <UserInfo />; // 기본값을 'userinfo'로 설정
+    }
+  };
 
-    return (
-        <div className="MyPage">
-            <Sidebar onSelect={setSelectedSection} />
-            <div className="content">
-                {renderSection()}
-            </div>
-        </div>
-    );
+  return (
+    <div className="my-page-container">
+      <Sidebar setCurrentPage={setCurrentPage} />
+      <div className="my-page-content">
+        {renderContent()}
+      </div>
+    </div>
+  );
 };
 
 export default MyPage;

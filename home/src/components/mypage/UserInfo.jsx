@@ -1,51 +1,70 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './UserInfo.css';
 
 const UserInfo = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [user, setUser] = useState({
+    userProfileImage: '/images/userProfileImage.png',
+    userNickName: '',
+    userEmail: '',
+    userPhoneNum: '',
+  });
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            const token = localStorage.getItem('token'); // 또는 다른 방법으로 토큰을 가져옴
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            };
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get('/api/me', { withCredentials: true });
+        setUser(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
 
-            try {
-                const response = await axios.get('/api/auth/userinfo', config);
-                setUser(response.data);
-            } catch (error) {
-                console.error('유저 정보를 가져오는데 실패했습니다.', error);
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    fetchUserInfo();
+  }, []);
 
-        fetchUserData();
-    }, []);
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('image', file);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error fetching user data: {error.message}</p>;
+      try {
+        const response = await axios.post('/api/users/update-profile-image', formData, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setUser(response.data); // 업데이트된 유저 정보 반영
+      } catch (error) {
+        console.error('Failed to update profile image:', error);
+      }
+    }
+  };
 
-    return (
-        <div className="user-info">
-            {user && (
-                <>
-                    <img className="profile-image" src={user.userProfileImage || 'default-profile.png'} alt="Profile" />
-                    <p>아이디: {user.userId}</p>
-                    <p>닉네임: {user.userNickName}</p>
-                    <p>전화번호: {user.userPhoneNum}</p>
-                    <p>이메일: {user.userEmail}</p>
-                </>
-            )}
-        </div>
-    );
+  return (
+    <div className="user-info-container">
+      <label htmlFor="profile-image-upload">
+        <img
+          src={user.userProfileImage || '/images/userProfileImage.png'}
+          alt="User Profile"
+          className="user-profile-image"
+        />
+      </label>
+      <input
+        type="file"
+        id="profile-image-upload"
+        style={{ display: 'none' }}
+        onChange={handleImageChange}
+      />
+      <div className="user-info-details">
+        <h2>{user.userNickName}</h2>
+        <p>Email: {user.userEmail}</p>
+        <p>Phone: {user.userPhoneNum}</p>
+      </div>
+    </div>
+  );
 };
 
 export default UserInfo;

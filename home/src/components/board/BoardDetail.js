@@ -76,11 +76,7 @@ const BoardDetail = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/api/auth/user', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const response = await axios.get('/api/auth/user');
         console.log('User data:', response.data);
         setUser(response.data);
       } catch (error) {
@@ -89,18 +85,19 @@ const BoardDetail = () => {
       }
     };
 
-    if (localStorage.getItem('token')) {
-      fetchUser();
-    } else {
-      setUser(null);
-    }
+    fetchUser();
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    alert('로그아웃 되었습니다.');
-    window.location.reload();
+    axios.post('/api/logout')
+      .then(() => {
+        setUser(null);
+        alert('로그아웃 되었습니다.');
+        navigate('/login'); // 로그아웃 후 로그인 페이지로 리다이렉트
+      })
+      .catch(error => {
+        console.error('Error logging out!', error);
+      });
   };
 
   const handleDeleteBoard = () => {

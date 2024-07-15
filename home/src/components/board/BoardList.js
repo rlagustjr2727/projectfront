@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
 import LoginForm from '../login/LoginForm';
 import './BoardList.css';
+import axios from 'axios';
 
 const BoardList = () => {
   const { category } = useParams();
@@ -14,11 +15,26 @@ const BoardList = () => {
   const [searchOption, setSearchOption] = useState('title');
   const [sortOption, setSortOption] = useState('recent'); // 정렬 옵션 추가
   const [selectedCategory, setSelectedCategory] = useState(category || '전체 게시판');
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const pageSize = 5;
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get('/api/me'); // 현재 사용자 정보 가져오기
+        console.log('User data:', response.data);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error('Error fetching user data', error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const fetchBoards = useCallback(() => {
     setLoading(true);
@@ -83,8 +99,7 @@ const BoardList = () => {
   };
 
   const handleCreate = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    if (!isLoggedIn) {
       alert('로그인이 필요합니다.');
       setShowLoginDialog(true);
       return;

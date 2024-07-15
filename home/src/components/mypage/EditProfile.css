@@ -1,95 +1,60 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
-    padding: 0;
-}
+/* EditProfile.css */
 
-.header {
-    background-color: #4caf50;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-.main-container {
+.edit-profile-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     height: 100vh;
-}
-
-.content-container {
-    flex: 1;
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-top: -18px;
+  }
+  
+  .edit-profile-title {
+    font-size: 2.5rem; /* h1 크기 */
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .edit-profile-form {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
-}
-
-.edit-profile-container {
-    background-color: #fff;
+    max-width: 400px;
+    background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.edit-profile-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.edit-profile-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.edit-profile-field {
-    margin-bottom: 15px;
-}
-
-.edit-profile-field label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-    text-align: left;
-}
-
-.edit-profile-field input {
-    width: 100%;
+  }
+  
+  .edit-profile-form label {
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .edit-profile-form input {
     padding: 10px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 15px; /* 모서리 둥글게 설정 */
-    background-color: #f9f9f9;
-}
-
-.edit-profile-field input[readonly] {
-    background-color: #e9ecef;
-}
-
-.edit-profile-buttons {
-    display: flex;
-    justify-content: center; /* 수정 버튼 중앙 정렬 */
-}
-
-.edit-profile-button {
-    padding: 10px 20px;
+    border-radius: 8px; /* 둥근 모서리 */
+  }
+  
+  .edit-profile-form input[type="password"] {
+    margin-top: -10px; /* 비밀번호 필드는 앞의 필드와 겹치지 않도록 간격 조절 */
+  }
+  
+  .edit-profile-form button {
+    padding: 10px;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100px;
-    transition: background-color 0.3s;
-}
-
-.save-button {
-    background-color: #007bff;
+    border-radius: 8px; /* 둥근 모서리 */
+    background-color: #4CAF50;
     color: white;
-}
-
-.save-button:hover {
-    background-color: #0056b3;
-}
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .edit-profile-form button:hover {
+    background-color: #45a049;
+  }
+  

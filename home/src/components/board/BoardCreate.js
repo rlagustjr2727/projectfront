@@ -17,27 +17,21 @@ const BoardCreate = () => {
   const [image, setImage] = useState(null);
   const [user, setUser] = useState(null); // 로그인한 사용자 정보
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem('token');
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/api/auth/user', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const response = await axios.get('/api/me', { withCredentials: true }); // 세션 정보를 포함하여 현재 사용자 정보 가져오기
         console.log('User data:', response.data);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data', error);
+        navigate('/login'); // 유저 정보를 가져오지 못하면 로그인 페이지로 리디렉션
       }
     };
 
-    if (isLoggedIn) {
-      fetchUser();
-    }
-  }, [isLoggedIn]);
+    fetchUser();
+  }, [navigate]);
 
   const handleChange = (e) => {
     setBoard({ ...board, [e.target.name]: e.target.value });
@@ -50,7 +44,7 @@ const BoardCreate = () => {
   const handleCreate = (e) => {
     e.preventDefault();
 
-    if (!isLoggedIn) {
+    if (!user) {
       alert('로그인이 필요합니다.');
       navigate('/login');
       return;
@@ -58,7 +52,7 @@ const BoardCreate = () => {
 
     const boardData = {
       ...board,
-      boardAuthor: user?.nickname || 'Anonymous', // 로그인한 사용자의 닉네임 사용
+      boardAuthor: user?.userNickName || 'Anonymous', // 로그인한 사용자의 닉네임 사용
       profileImageUrl: user?.userProfileImage || null, // 로그인한 사용자의 프로필 이미지 사용
     };
 
