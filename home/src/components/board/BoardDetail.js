@@ -8,16 +8,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CommentIcon from '@mui/icons-material/Comment';
 import './BoardDetail.css';
 import DEFAULT_PROFILE_IMAGE from '../../assets/image/default-profile-image.png';
 
 const BoardDetail = () => {
+  const { category } = useParams();
   const { seq } = useParams();
+  const [page, setPage] = useState(1);
   const [board, setBoard] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(category || '전체 게시판');
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editedBoard, setEditedBoard] = useState({
     boardTitle: '',
@@ -228,6 +232,12 @@ const BoardDetail = () => {
     setIsEditDialogOpen(false);
   };
 
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setPage(1);
+    navigate(`/board/${category}`);
+  };
+
   const handleEditChange = (e) => {
     setEditedBoard({ ...editedBoard, [e.target.name]: e.target.value });
   };
@@ -236,7 +246,7 @@ const BoardDetail = () => {
     setEditedBoard({ ...editedBoard, boardImage: e.target.files[0] });
   };
 
-const handleEditSubmit = (e) => {
+  const handleEditSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -257,87 +267,115 @@ const handleEditSubmit = (e) => {
         .catch(error => {
             console.error('Error updating board!', error);
         });
-};
-
+  };
 
   if (loading) {
-    return <div className="loading-box"><CircularProgress /></div>;
+    return <div className="detail-loading-box"><CircularProgress /></div>;
   }
 
   if (!board) {
-    return <div className="loading-box"><Typography>게시글을 불러오지 못했습니다.</Typography></div>;
+    return <div className="detail-loading-box"><Typography>게시글을 불러오지 못했습니다.</Typography></div>;
   }
 
   const currentUserNickname = user?.userNickName;
 
   return (
-    <div className="container">
-      <div className="board-detail-container">
-        <Typography variant="h6" color="textSecondary">
-          <Avatar alt={board.boardAuthor} src={board.boardProfileImage || DEFAULT_PROFILE_IMAGE} style={{ marginRight: '8px' }} />
-          {board.boardCategory}
-        </Typography>
-        <Typography variant="h4" gutterBottom>{board.boardTitle}</Typography>
-        {board.boardImage && (
-          <img src={`http://localhost:8080/${board.boardImage}`} alt={board.boardTitle} className="board-detail-image" />
-        )}
-        <Typography variant="body1" gutterBottom>{board.boardContent}</Typography>
-        <Typography variant="body2" color="textSecondary">{`Author: ${board.boardAuthor} | Date: ${new Date(board.boardDate).toLocaleDateString()} | Views: ${board.boardViews}`}</Typography>
-        <Box display="flex" alignItems="center">
-          <IconButton onClick={handleLikeClick} aria-label="like">
-            {liked ? <FavoriteIcon color="primary" /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <Typography variant="body2" color="textSecondary" style={{ marginLeft: '8px' }}>{likes}</Typography>
-          {board.boardAuthor === currentUserNickname && (
-            <>
-              <Button onClick={openEditDialog} startIcon={<EditIcon />}>수정</Button>
-              <Button onClick={handleDeleteBoard} startIcon={<DeleteIcon />} color="secondary">삭제</Button>
-            </>
-          )}
-        </Box>
-      </div>
-
-      <div className="comments-container">
-        <Typography variant="h5" gutterBottom>댓글</Typography>
-        {comments.map(comment => (
-          <Box key={comment.commentSeq} className="comment" display="flex" alignItems="center">
-            <Avatar alt={comment.commentAuthor} src={comment.commentProfileImage || DEFAULT_PROFILE_IMAGE} />
-            <Box ml={2} flexGrow={1}>
-              <Typography variant="body2" color="textSecondary">{comment.commentAuthor}</Typography>
-              <Typography variant="body1">{comment.commentContent}</Typography>
-              <Typography variant="body2" color="textSecondary">{new Date(comment.commentDate).toLocaleString()}</Typography>
-              {comment.commentAuthor === currentUserNickname && (
+    <div>
+      <div className="detail-container">
+        <div className="detail-board-list">
+          <div className="detail-category-container">
+            <div className="detail-categoty-main-title">게시판 목록</div>
+            <ul>
+              {['전체 게시판', '자유 게시판', '나눔 게시판', '장터 게시판', '정보 게시판'].map((text) => (
+                <li key={text} onClick={() => handleCategorySelect(text)} className="detail-category-item">
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="detail-content">
+          <div className="detail-board-detail-container">
+          <div className="detail-header">
+            <div className="detail-header-left">
+              <Typography variant="h6" color="textSecondary" style={{ fontSize: '0.8em', color: '#778c86', fontWeight: '600', marginBottom: '5px' }}>{board.boardCategory}</Typography>
+              <Typography variant="h4" gutterBottom style={{ fontSize: '2em', fontWeight: '600' }}>{board.boardTitle}</Typography>
+            </div>
+            <div className="detail-header-right">
+              <CommentIcon />
+              <Typography>{comments.length}</Typography>
+            </div>
+          </div>
+          <div className="detail-author">
+            <Avatar alt={board.boardAuthor} src={board.boardProfileImage || DEFAULT_PROFILE_IMAGE} className="detail-author-avatar" />
+            <div className="detail-author-info">
+              <Typography className="detail-author-name" style={{ fontSize: '0.8em', fontWeight: '500' }}>{board.boardAuthor}</Typography>
+              <Typography className="detail-author-date">{`Date: ${new Date(board.boardDate).toLocaleDateString()} | Views: ${board.boardViews}`}</Typography>
+            </div>
+          </div>
+            {board.boardImage && (
+              <img src={`http://localhost:8080/${board.boardImage}`} alt={board.boardTitle} className="detail-board-detail-image" />
+            )}
+            <Typography className="detail-body" style={{ fontSize: '1.0em'}}>{board.boardContent}</Typography>
+            <Box display="flex" alignItems="center">
+              <IconButton onClick={handleLikeClick} aria-label="like">
+                {liked ? <FavoriteIcon color="primary" /> : <FavoriteBorderIcon />}
+              </IconButton> 
+              <Typography variant="body2" color="textSecondary" style={{ marginLeft: '8px', fontSize: '0.7em' }}>{likes}</Typography>
+              {board.boardAuthor === currentUserNickname && (
                 <>
-                  <IconButton onClick={() => handleEditComment(comment)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDeleteComment(comment.commentSeq)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <Button onClick={openEditDialog} startIcon={<EditIcon />}>수정</Button>
+                  <Button onClick={handleDeleteBoard} startIcon={<DeleteIcon />} color="secondary">삭제</Button>
                 </>
               )}
             </Box>
-          </Box>
-        ))}
-        <form onSubmit={handleCommentSubmit} className="comment-form">
-          <TextField
-            label="New Comment"
-            variant="outlined"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            fullWidth
-            multiline
-            rows={4}
-          />
-          <Button type="submit" variant="contained" color="primary">Submit</Button>
-        </form>
+          </div>
+  
+          <div className="detail-comments-container">
+            <Typography variant="h5" gutterBottom style={{ fontSize: '0.75em' }}>댓글</Typography>
+            {comments.map(comment => (
+              <Box key={comment.commentSeq} className="detail-comment" display="flex" alignItems="center">
+                <Avatar alt={comment.commentAuthor} src={comment.commentProfileImage || DEFAULT_PROFILE_IMAGE} />
+                <Box ml={2} flexGrow={1}>
+                  <Typography variant="body2" color="textSecondary" style={{ fontSize: '0.45em' }}>{comment.commentAuthor}</Typography>
+                  <Typography variant="body1" style={{ fontSize: '0.6em' }}>{comment.commentContent}</Typography>
+                  <Typography variant="body2" color="textSecondary" style={{ fontSize: '0.35em' }}>{new Date(comment.commentDate).toLocaleString()}</Typography>
+                  {comment.commentAuthor === currentUserNickname && (
+                    <>
+                      <IconButton onClick={() => handleEditComment(comment)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDeleteComment(comment.commentSeq)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
+                  )}
+                </Box>
+              </Box>
+            ))}
+            <form onSubmit={handleCommentSubmit} className="detail-comment-form">
+              <TextField
+                label="댓글 작성"
+                variant="outlined"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                fullWidth
+                multiline
+                rows={4}
+                style={{ fontSize: '1.0em' }}
+              />
+              <Button type="submit" variant="contained" color="primary" style={{fontSize: '0.35em'}}>댓글 등록</Button>
+            </form>
+          </div>
+        </div>
       </div>
-      <Box display="flex" justifyContent="flex-start" mt={2}>
+  
+      <Box className="detail-actions-container" display="flex" justifyContent="flex-end" mt={2}>
         <Button variant="contained" color="primary" component={Link} to="/board" state={{ category: location.state?.category }} style={{ marginRight: '10px' }}>
           글 목록
         </Button>
-      </Box>
-
+      </Box>              
+  
       <Dialog open={isEditDialogOpen} onClose={closeEditDialog}>
         <DialogTitle>게시글 수정</DialogTitle>
         <DialogContent>
@@ -350,6 +388,7 @@ const handleEditSubmit = (e) => {
                 onChange={handleEditChange}
                 fullWidth
                 required
+                style={{ fontSize: '0.8em' }}
               />
             </Box>
             <Box my={2}>
@@ -362,11 +401,12 @@ const handleEditSubmit = (e) => {
                 required
                 multiline
                 rows={4}
+                style={{ fontSize: '0.6em' }}
               />
             </Box>
             <Box my={2}>
               <FormControl fullWidth>
-                <InputLabel>카테고리</InputLabel>
+                <InputLabel style={{ fontSize: '1.2em' }}>카테고리</InputLabel>
                 <Select
                   label="카테고리"
                   name="boardCategory"
@@ -386,6 +426,7 @@ const handleEditSubmit = (e) => {
                 type="file"
                 name="boardImage"
                 onChange={handleEditImageChange}
+                style={{ fontSize: '0.6em' }}
               />
             </Box>
             <DialogActions>

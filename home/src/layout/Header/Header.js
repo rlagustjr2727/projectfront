@@ -106,26 +106,19 @@ const Header = () => {
       </div>
       <ul id="gnb">
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <div className='main-section' onClick={onWhiskeyBoardClickHandler}>맞춤 추천</div>
+          <div className='main-section' onClick={() => navigate('/wboard')}>맞춤 추천</div>
           <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate('/wboard')}>WhiskeyBoard</a></li>
           </ul>
         </li>
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className='main-section' onClick={handleCommunityClick}>커뮤니티</div>
           <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate('/board')}>자유 게시판</a></li>
-            <li className="dept2"><a href="#">나눔 게시판</a></li>
-            <li className="dept2"><a href="#">장터 게시판</a></li>
-            <li className="dept2"><a href="#">정보 게시판</a></li>
           </ul>
         </li>
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className='main-section' onClick={onNoticeClickHandler}>공지사항</div>
           <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate('/whisky/events')}>행사정보</a></li>
-            <li className="dept2"><a href="#">중요 공지</a></li>
-            <li className="dept2"><a href="#">필독 공지</a></li>
+            <li className="dept2"><a onClick={() => navigate('/whisky/events')}>행사 뉴스</a></li>
           </ul>
         </li>
       </ul>

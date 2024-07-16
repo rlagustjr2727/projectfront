@@ -1,0 +1,28 @@
+.likeboards-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.likeboards-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+}
+
+.likeboards-card-header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.likeboards-card-body {
+  padding: 20px;
+}
+
+.likeboards-card-body p {
+  margin: 5px 0;
+}

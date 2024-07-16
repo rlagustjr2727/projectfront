@@ -21,10 +21,25 @@ const updateUser = (user) => {
   return axios.put(`${API_BASE_URL}/updateUser`, user, { withCredentials: true });
 };
 
+const getBoardsByAuthor = () => {
+  return axios.get(`${API_BASE_URL}/boards`, { withCredentials: true });
+};
+
+const getCommentsByAuthor = () => {
+  return axios.get(`${API_BASE_URL}/comments`, { withCredentials: true });
+};
+
+const getLikedBoards = () => {
+  return axios.get(`${API_BASE_URL}/liked-boards`, { withCredentials: true });
+};
+
 const MyPageService = {
   getUserInfo,
   updateUserProfileImage,
   updateUser,
+  getBoardsByAuthor,
+  getCommentsByAuthor,
+  getLikedBoards,
 };
 
 export default MyPageService;

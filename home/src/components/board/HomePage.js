@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, Box, CircularProgress } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
-<<<<<<< HEAD
-=======
 import BoardService from '../../api/BoardService';
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
 import './HomePage.css'; // CSS 파일을 import
 
 const HomePage = () => {
@@ -15,13 +12,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-<<<<<<< HEAD
-        const data = await BoardService.getRecentBoards();
-        setItems(data);
-=======
         const response = await BoardService.getRecentBoards();
         setItems(response.data);
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
         setLoading(false);
       } catch (error) {
         console.error('Error fetching items:', error);
@@ -40,18 +32,12 @@ const HomePage = () => {
     );
   }
 
-<<<<<<< HEAD
-  // items가 배열인지 확인
-  if (!Array.isArray(items)) {
-    return <div>Error: items is not an array</div>;
-=======
   if (!items || items.length === 0) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <Typography variant="h5">No recent boards available.</Typography>
       </Box>
     );
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
   }
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // useNavigate 훅 사용
-import './EditProfile.css';
+// import './EditProfile.css';
 
 const EditProfile = () => {
   const [user, setUser] = useState({

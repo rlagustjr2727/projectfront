@@ -1,24 +1,43 @@
-// LikedBoards.jsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import MyPageService from '../../api/MyPageService';
+import './LikedBoards.css';
 
-const LikedBoards = ({ userId }) => {
-  const [boards, setBoards] = useState([]);
+const LikedBoards = () => {
+  const [likedBoards, setLikedBoards] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/liked-boards/${userId}`)
-      .then(response => setBoards(response.data))
-      .catch(error => console.error('Error fetching liked boards:', error));
-  }, [userId]);
+    const fetchLikedBoards = async () => {
+      try {
+        const response = await MyPageService.getLikedBoards();
+        setLikedBoards(response.data);
+      } catch (error) {
+        console.error('Error fetching liked boards:', error);
+      }
+    };
+
+    fetchLikedBoards();
+  }, []);
 
   return (
-    <div className="liked-boards">
-      <h2>내가 좋아요한 게시글</h2>
-      <ul>
-        {boards.map(board => (
-          <li key={board.id}>{board.title}</li>
-        ))}
-      </ul>
+    <div>
+      <h2>Liked Boards</h2>
+      {likedBoards.length > 0 ? (
+        <div className="likeboards-card-container">
+          {likedBoards.map((board) => (
+            <div key={board.boardSeq} className="card">
+              <div className="likeboards-card-header">Liked Board</div>
+              <div className="likeboards-card-body">
+                <p><strong>Author:</strong> {board.boardAuthor}</p>
+                <p><strong>Title:</strong> {board.boardTitle}</p>
+                <p><strong>Category:</strong> {board.boardCategory}</p>
+                <p><strong>Date:</strong> {new Date(board.boardDate).toLocaleDateString()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No liked boards found.</p>
+      )}
     </div>
   );
 };

@@ -1,0 +1,156 @@
+.notice-container {
+    display: flex; 
+    background-color: #f8f8f8;
+    padding: 20px;
+  }
+  
+  .notice-board-list {
+    width: 18%;
+    margin: 13px 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    height: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .notice-content {
+    flex-grow: 1;
+    padding: 16px;
+  }
+  
+  .notice-categoty-main-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 10px;
+  }
+  
+  .notice-category-item {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+  
+  .notice-board-detail-container {
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .notice-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .notice-header-left {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .notice-header-right {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+  }
+  
+  .notice-header-right .MuiSvgIcon-root {
+    margin-left: 4px;
+  }
+  
+  .notice-header-right .MuiTypography-root {
+    margin-left: 8px;
+  }
+  
+  .notice-category {
+    font-size: 1em;
+    color: #777;
+  }
+  
+  .notice-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .notice-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 16px;
+  }
+  
+  .notice-author-avatar {
+    margin-right: 8px;
+  }
+  
+  .notice-author-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .notice-author-name {
+    font-size: 1em;
+    font-weight: bold;
+  }
+  
+  .notice-author-date {
+    font-size: 0.8em;
+    color: #777;
+  }
+  
+  .notice-body {
+    padding: 16px 0;
+  }
+  
+  .notice-comments-container {
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .notice-comment {
+    margin-bottom: 16px;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .notice-comment-form {
+    margin-top: 16px;
+  }
+  
+  .notice-comment-form .MuiTextField-root {
+    margin-bottom: 16px; /* 댓글 작성 창과 등록 버튼 사이의 간격 */
+    font-size: 1.2em;
+  }
+  
+  .notice-comment-form .MuiButton-root {
+    display: block;
+    margin-left: auto;
+    font-size: 0.8em; /* 댓글 등록 버튼의 폰트 크기 */
+    padding: 6px 12px; /* 댓글 등록 버튼의 크기 조절 */
+  }
+  
+  .notice-actions-container .MuiButton-root {
+    background-color: #778c86; /* 기본 배경 색상 */
+    color: #fff; /* 기본 글자 색상 */
+  }
+  
+  .notice-actions-container .MuiButton-root:hover {
+    background-color: #b4c8bb; /* 호버 시 배경 색상 */
+  }
+  
+  .notice-board-detail-image {
+    width: 300px; /* 원하는 절대 너비 */
+    height: 300px; /* 원하는 절대 높이 */
+    object-fit: cover; /* 이미지가 크기 내에서 커버되도록 설정 */
+    margin-bottom: 16px;
+  }
+  

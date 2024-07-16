@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserService from '../../api/UserService';
 import BoardService from '../../api/BoardService';
 import {
@@ -17,6 +17,7 @@ const BoardCreate = () => {
   const [image, setImage] = useState(null);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,12 +26,12 @@ const BoardCreate = () => {
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data', error);
-        navigate('/login');
+        navigate('/login', { state: { from: location } });
       }
     };
 
     fetchUser();
-  }, [navigate]);
+  }, [navigate, location]);
 
   const handleChange = (e) => {
     setBoard({ ...board, [e.target.name]: e.target.value });
@@ -45,7 +46,7 @@ const BoardCreate = () => {
 
     if (!user) {
       alert('로그인이 필요합니다.');
-      navigate('/login');
+      navigate('/login', { state: { from: location } });
       return;
     }
 
@@ -62,6 +63,10 @@ const BoardCreate = () => {
       console.error('Error creating the board!', error);
     }
   };
+
+  if (!user) {
+    return null; // 로그인 상태가 확인될 때까지 아무것도 렌더링하지 않음
+  }
 
   return (
     <Container className="board-create-container">

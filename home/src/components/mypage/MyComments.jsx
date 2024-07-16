@@ -1,24 +1,46 @@
-// MyComments.jsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import MyPageService from '../../api/MyPageService';
+import './MyComments.css';
 
-const MyComments = ({ userId }) => {
+const MyComments = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/my-comments/${userId}`)
-      .then(response => setComments(response.data))
-      .catch(error => console.error('Error fetching my comments:', error));
-  }, [userId]);
+    const fetchComments = async () => {
+      try {
+        const response = await MyPageService.getCommentsByAuthor();
+        console.log('Fetched comments:', response.data); // 응답 데이터 콘솔 출력
+        setComments(response.data);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    fetchComments();
+  }, []);
 
   return (
-    <div className="my-comments">
-      <h2>내가 작성한 댓글</h2>
-      <ul>
-        {comments.map(comment => (
-          <li key={comment.id}>{comment.content}</li>
-        ))}
-      </ul>
+    <div>
+      <div className="mycomment-comment-header">My Comments</div>
+      {comments.length > 0 ? (
+        comments.map((comment) => (
+          <div key={comment.commentSeq} className="mycomment-comment-card">
+            <div className="mycomment-comment-content">
+              <div className="mycomment-comment-row">
+                <span>Author:</span> {comment.commentAuthor}
+              </div>
+              <div className="mycomment-comment-row">
+                <span>Comment:</span> {comment.commentContent}
+              </div>
+              <div className="mycomment-comment-row">
+                <span>Date:</span> {new Date(comment.commentDate).toLocaleDateString()}
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p>No comments found.</p>
+      )}
     </div>
   );
 };

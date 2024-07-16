@@ -11,17 +11,18 @@ import BoardList from './components/board/BoardList';
 import RegisterForm from './components/login/RegisterForm';
 import LoginForm from './components/login/LoginForm';
 import BoardDetail from './components/board/BoardDetail'; 
-// import LoginHeader from './layout/LoginHeader/LoginHeader';
 import BoardCreate from './components/board/BoardCreate';
 import WhiskyEvents from './components/WhiskyEvent/WhiskyEvents';
 import MyPage from './components/mypage/MyPage';
 import {MAIN_PATH, AUTH_PATH, USER_PATH} from './constant'
-import BoardUpdate from './components/board/BoardUpdate';
+
 import WhiskeyBoard from './components/WhiskeyBoard/WhiskeyBoard';
 import HomePage from './components/board/HomePage';
 import SearchResultPage from './layout/Header/SearchResultPage';
-import { useEffect } from 'react';
 import axios from 'axios';
+import NoticeList from './components/notice/NoticeList';
+import NoticeCreate from './components/notice/NoticeCreate';
+import NoticeDetail from './components/notice/NoticeDetail';
 
 
 const App = () => {
@@ -42,10 +43,12 @@ const App = () => {
           <Route path='/whisky/events' element={<WhiskyEvents />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/board/detail/:seq" element={<BoardDetail />} />
-          <Route path='/board/update/:seq' element={<BoardUpdate />} />
           <Route path='/Wboard' element={<WhiskeyBoard />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:keyword" element={<SearchResultPage />} />
+          <Route path="/notice" element={<NoticeList />} />
+          <Route path="notice/write" element={<NoticeCreate />} />
+          <Route path="/notice/detail/:seq" element={<NoticeDetail />} />
         </Routes>
       </Container>
     </BrowserRouter>

@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
 import UserService from '../../api/UserService';
 import './BoardList.css';
-import LoginForm from '../login/LoginForm';
-import boardImageIcon from '../../assets/image/boardImage.jpg'; // 이미지 아이콘 경로 설정
+import boardImageIcon from '../../assets/image/image-box-light.png'; // 이미지 아이콘 경로 설정
 
 const BoardList = () => {
   const { category } = useParams();
@@ -17,7 +16,6 @@ const BoardList = () => {
   const [sortOption, setSortOption] = useState('recent');
   const [selectedCategory, setSelectedCategory] = useState(category || '전체 게시판');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showLoginDialog, setShowLoginDialog] = useState(false);
   const pageSize = 5;
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,8 +90,7 @@ const BoardList = () => {
       navigate('/board/write');
     } catch (error) {
       console.error('Error fetching user data', error);
-      alert('로그인이 필요합니다.');
-      setShowLoginDialog(true);
+      navigate('/login');
     }
   };
 
@@ -111,11 +108,6 @@ const BoardList = () => {
       );
     }
     return pageNumbers;
-  };
-
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-    setShowLoginDialog(false);
   };
 
   const getCategoryAbbreviation = (category) => {
@@ -246,15 +238,6 @@ const BoardList = () => {
           </div>
         </div>
       </div>
-      {showLoginDialog && (
-        <div className="login-dialog">
-          <div className="login-dialog-content">
-            <h2>로그인</h2>
-            <LoginForm onLogin={handleLoginSuccess} />
-            <button onClick={() => setShowLoginDialog(false)} className="close-button">닫기</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

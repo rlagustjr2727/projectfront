@@ -5,10 +5,10 @@ const API_BASE_URL = 'http://localhost:8080/api/board';
 const getRecentBoards = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/recent`);
-    return response.data || []; // 데이터가 없으면 빈 배열을 반환
+    return response;
   } catch (error) {
-    console.error('Error fetching items:', error);
-    return []; // 에러가 발생하면 빈 배열을 반환
+    console.error('Error fetching recent boards:', error);
+    throw error;
   }
 };
 
@@ -63,7 +63,7 @@ const getBoardsByCategory = (category, page, size) => {
 };
 
 const incrementViews = (seq) => {
-  return axios.post(`${API_BASE_URL}/increment-views/${seq}`, {}, { withCredentials: true });
+  return axios.post(`${API_BASE_URL}/increment-views/${seq}`, {});
 };
 
 const likeBoard = (seq) => {
@@ -73,6 +73,8 @@ const likeBoard = (seq) => {
 const unlikeBoard = (seq) => {
   return axios.post(`${API_BASE_URL}/unlike/${seq}`, {}, { withCredentials: true });
 };
+
+
 
 const BoardService = {
   getBoards,
