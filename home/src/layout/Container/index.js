@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useEffect } from 'react';
-=======
-import React from 'react';
->>>>>>> dc75dd2fcc590180fd3778bfeefd1c480aa81214
 import { useLocation } from 'react-router-dom';
 import LoginHeader from '../LoginHeader/LoginHeader';
 import Header from '../Header/Header';

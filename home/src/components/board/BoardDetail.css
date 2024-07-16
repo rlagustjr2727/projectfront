@@ -1,40 +1,223 @@
-/* src/components/BoardDetail.css */
-.board-detail-container {
+.detail-container {
+  display: flex; 
+  background-color: #f8f8f8;
+  padding: 20px;
+}
+
+.detail-board-list {
+  width: 18%;
+  margin: 13px 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
   padding: 16px;
+  height: auto;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.detail-content {
+  flex-grow: 1;
+  padding: 16px;
+}
+
+.detail-categoty-main-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.detail-category-item {
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.detail-board-detail-container {
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.detail-header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-header-right {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+}
+
+.detail-header-right .MuiSvgIcon-root {
+  margin-left: 4px;
+}
+
+.detail-header-right .MuiTypography-root {
+  margin-left: 8px;
+}
+
+.detail-category {
+  font-size: 1em;
+  color: #777;
+}
+
+.detail-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.detail-author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 16px;
+}
+
+.detail-author-avatar {
+  margin-right: 8px;
+}
+
+.detail-author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-author-name {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.detail-author-date {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.detail-body {
+  padding: 16px 0;
+}
+
+.detail-comments-container {
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.detail-comment {
+  margin-bottom: 16px;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-comment-form {
   margin-top: 16px;
 }
 
-.board-detail-image {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  margin-bottom: 16px;
+.detail-comment-form .MuiTextField-root {
+  margin-bottom: 16px; /* 댓글 작성 창과 등록 버튼 사이의 간격 */
+  font-size: 1.2em;
 }
 
-.comments-container {
-  margin-top: 32px;
-  padding: 16px;
-}
 
-.comment {
-  margin-bottom: 16px;
-}
-
-.comment-form {
-  margin-top: 16px;
-}
-
-.comment-form .MuiTextField-root {
-  margin-bottom: 8px;
-}
-
-.comment-form .MuiButton-root {
+.detail-comment-form .MuiButton-root {
   display: block;
   margin-left: auto;
+  font-size: 0.8em; /* 댓글 등록 버튼의 폰트 크기 */
+  padding: 6px 12px; /* 댓글 등록 버튼의 크기 조절 */
 }
 
-.loading-box {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
+.detail-actions-container .MuiButton-root {
+  background-color: #f2ae36; /* 기본 배경 색상 */
+  color: #fff; /* 기본 글자 색상 */
+}
+
+.detail-actions-container .MuiButton-root:hover {
+  background-color: #f7a201; /* 호버 시 배경 색상 */
+}
+
+.detail-board-detail-image {
+  width: 300px; /* 원하는 절대 너비 */
+  height: 300px; /* 원하는 절대 높이 */
+  object-fit: cover; /* 이미지가 크기 내에서 커버되도록 설정 */
+  margin-bottom: 16px;
+}
+
+.edit-form-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.edit-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.edit-form .form-group input,
+.edit-form .form-group textarea,
+.edit-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-form .form-group textarea {
+  resize: none; /* textarea 사이즈 조절 금지 */
+}
+
+.edit-form .form-group select {
+  appearance: none; /* 기본 셀렉트 화살표 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url('data:image/svg+xml;utf8,<svg fill="%23000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px 12px;
+}
+
+.edit-form .form-group input[type="file"] {
+  border: none;
+  padding: 0;
+}
+
+.edit-form .submit-button {
+  background-color: #f2ae36;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-form .submit-button:hover {
+  background-color: #f7a201;
+}
+
+.edit-form .form-group input[type="file"] {
+  border: none;
+  padding: 0;
+  font-size: 0.5em;
+  width: auto; /* 기본 너비 설정 */
+  display: inline-block; /* 인라인 블록으로 설정 */
+  cursor: pointer; /* 마우스 커서 포인터로 설정 */
 }

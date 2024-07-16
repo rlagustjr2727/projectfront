@@ -11,7 +11,7 @@ const WhiskeyAge = ({ handleChange }) => {
 
     return (
         <div className="section-container">
-            <h3 className="whiskey-age-title">년도</h3>
+            <h3 className="whiskey-age-title">YO</h3>
             {["21~", "21", "19", "18", "17", "16", "15", "14", "13", "12", "~12", "N/A"].map((yo) => (
                 <Input 
                     key={yo} 

@@ -26,7 +26,7 @@ function App() {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
 
   const [newProduct, setNewProduct] = useState({
     wboard_img: "",
@@ -485,7 +485,7 @@ function App() {
             name="wboard_yo"
             value={newProduct.wboard_yo}
             onChange={handleNewProductChange}
-            placeholder="위스키 년도"
+            placeholder="위스키 연산"
           />
           <input
             type="text"

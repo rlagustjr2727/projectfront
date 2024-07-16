@@ -108,7 +108,7 @@
 }
 
 .card-proportion {
-  font-size: 1.2em; /* 추가 정보 폰트 크기를 키움 */
+  font-size: 1.0em; /* 추가 정보 폰트 크기를 키움 */
   color: var(--text-color-L2);
 }
 

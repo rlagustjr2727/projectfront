@@ -39,7 +39,6 @@ form {
 
 form input,
 form select{
-  margin-bottom: 10px;
   width: calc(100% - 40px); /* 너비 조정 */
   max-width: 100%;
   padding: 12px 20px;
