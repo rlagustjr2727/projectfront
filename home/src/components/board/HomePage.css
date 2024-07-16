@@ -1,20 +1,104 @@
-/* HomePage.css */
+.main-board-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f8f9fa; /* 컨테이너 배경색 추가 */
+  border-radius: 8px; /* 둥근 모서리 추가 */
+}
+
+.content-section {
+  flex: 1;
+  margin-right: 20px; /* 오른쪽 여백 추가 */
+}
+
+.sidebar {
+  width: 300px; /* 사이드바의 고정된 너비 설정 */
+  flex-shrink: 0; /* 사이드바의 너비를 고정 */
+}
+
+.section-title {
+  margin: 20px 0;
+  font-weight: bold;
+}
+
 .list-item {
-    text-decoration: none;
-    color: inherit;
-    padding: 20px 0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .primary-text {
-    font-weight: bold;
-  }
-  
-  .secondary-text {
-    font-size: 1.2rem; /* 글씨 크기 조정 */
-  }
-  
-  .category-text {
-    font-weight: bold;
-  }
-  
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+  background-color: #ffffff; /* 항목 배경색 추가 */
+  border-radius: 8px; /* 둥근 모서리 추가 */
+  margin-bottom: 10px; /* 항목 간의 간격 추가 */
+}
+
+.list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.list-item-avatar {
+  margin-right: 20px;
+}
+
+.primary-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  display: block;
+}
+
+.secondary-text {
+  margin-top: 5px;
+  color: #555;
+}
+
+.category-text {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.sidebar-paper {
+  margin-top: 42px;
+  padding: 20px;
+  background-color: #ffffff; /* 사이드바 배경색 */
+  border-radius: 8px; /* 둥근 모서리 추가 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.time-container {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  font-size: 3.5em;
+  margin: 10px 0;
+}
+
+.exchange-rates {
+  padding: 5px;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  margin: 0;
+}
+
+.exchange-rates th,
+.exchange-rates td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.exchange-rates th {
+  background-color: #f1f1f1;
+}
+
+.exchange-rates td.currency {
+  color: #ff0000; /* 통화 색상 */
+}

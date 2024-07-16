@@ -140,12 +140,12 @@
 }
 
 .detail-actions-container .MuiButton-root {
-  background-color: #778c86; /* 기본 배경 색상 */
+  background-color: #f2ae36; /* 기본 배경 색상 */
   color: #fff; /* 기본 글자 색상 */
 }
 
 .detail-actions-container .MuiButton-root:hover {
-  background-color: #b4c8bb; /* 호버 시 배경 색상 */
+  background-color: #f7a201; /* 호버 시 배경 색상 */
 }
 
 .detail-board-detail-image {
@@ -153,4 +153,71 @@
   height: 300px; /* 원하는 절대 높이 */
   object-fit: cover; /* 이미지가 크기 내에서 커버되도록 설정 */
   margin-bottom: 16px;
+}
+
+.edit-form-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.edit-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.edit-form .form-group input,
+.edit-form .form-group textarea,
+.edit-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-form .form-group textarea {
+  resize: none; /* textarea 사이즈 조절 금지 */
+}
+
+.edit-form .form-group select {
+  appearance: none; /* 기본 셀렉트 화살표 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url('data:image/svg+xml;utf8,<svg fill="%23000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px 12px;
+}
+
+.edit-form .form-group input[type="file"] {
+  border: none;
+  padding: 0;
+}
+
+.edit-form .submit-button {
+  background-color: #f2ae36;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-form .submit-button:hover {
+  background-color: #f7a201;
+}
+
+.edit-form .form-group input[type="file"] {
+  border: none;
+  padding: 0;
+  font-size: 0.5em;
+  width: auto; /* 기본 너비 설정 */
+  display: inline-block; /* 인라인 블록으로 설정 */
+  cursor: pointer; /* 마우스 커서 포인터로 설정 */
 }

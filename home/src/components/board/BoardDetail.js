@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
 import './BoardDetail.css';
+import { Container } from '@mui/material';
 import DEFAULT_PROFILE_IMAGE from '../../assets/image/default-profile-image.png';
 
 const BoardDetail = () => {
@@ -298,7 +299,7 @@ const BoardDetail = () => {
           <div className="detail-board-detail-container">
           <div className="detail-header">
             <div className="detail-header-left">
-              <Typography variant="h6" color="textSecondary" style={{ fontSize: '0.8em', color: '#778c86', fontWeight: '600', marginBottom: '5px' }}>{board.boardCategory}</Typography>
+              <Typography variant="h6" color="textSecondary" style={{ fontSize: '0.8em', color: '#086c9e', fontWeight: '600', marginBottom: '5px' }}>{board.boardCategory}</Typography>
               <Typography variant="h4" gutterBottom style={{ fontSize: '2em', fontWeight: '600' }}>{board.boardTitle}</Typography>
             </div>
             <div className="detail-header-right">
@@ -379,63 +380,68 @@ const BoardDetail = () => {
       <Dialog open={isEditDialogOpen} onClose={closeEditDialog}>
         <DialogTitle>게시글 수정</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleEditSubmit} encType="multipart/form-data">
-            <Box my={2}>
-              <TextField
-                label="제목"
-                name="boardTitle"
-                value={editedBoard.boardTitle}
-                onChange={handleEditChange}
-                fullWidth
-                required
-                style={{ fontSize: '0.8em' }}
-              />
-            </Box>
-            <Box my={2}>
-              <TextField
-                label="내용"
-                name="boardContent"
-                value={editedBoard.boardContent}
-                onChange={handleEditChange}
-                fullWidth
-                required
-                multiline
-                rows={4}
-                style={{ fontSize: '0.6em' }}
-              />
-            </Box>
-            <Box my={2}>
-              <FormControl fullWidth>
-                <InputLabel style={{ fontSize: '1.2em' }}>카테고리</InputLabel>
-                <Select
-                  label="카테고리"
+          <Container className="edit-form-container">
+            <form onSubmit={handleEditSubmit} encType="multipart/form-data" className="edit-form">
+              <Box my={2} className="form-group">
+                <label htmlFor="boardTitle" style={{fontSize: '0.7em'}}>제목</label>
+                <input
+                  id="boardTitle"
+                  name="boardTitle"
+                  value={editedBoard.boardTitle}
+                  onChange={handleEditChange}
+                  fullWidth
+                  required
+                  style={{ fontSize: '0.8em' }}
+                />
+              </Box>
+              <Box my={2} className="form-group">
+                <label htmlFor="boardContent" style={{fontSize: '0.7em'}}>내용</label>
+                <textarea
+                  id="boardContent"
+                  name="boardContent"
+                  value={editedBoard.boardContent}
+                  onChange={handleEditChange}
+                  rows="10"
+                  required
+                  style={{ fontSize: '0.8em' }}
+                />
+              </Box>
+              <Box my={2} className="form-group">
+                <label htmlFor="boardCategory" style={{fontSize: '0.7em'}}>카테고리</label>
+                <select
+                  id="boardCategory"
                   name="boardCategory"
                   value={editedBoard.boardCategory}
                   onChange={handleEditChange}
                   required
+                  style={{ fontSize: '0.8em' }}
                 >
-                  <MenuItem value="장터 게시판">장터 게시판</MenuItem>
-                  <MenuItem value="정보 게시판">정보 게시판</MenuItem>
-                  <MenuItem value="나눔 게시판">나눔 게시판</MenuItem>
-                  <MenuItem value="자유 게시판">자유 게시판</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Box my={2}>
-              <input
-                type="file"
-                name="boardImage"
-                onChange={handleEditImageChange}
-                style={{ fontSize: '0.6em' }}
-              />
-            </Box>
-            <DialogActions>
-              <Button onClick={closeEditDialog} color="primary">취소</Button>
-              <Button type="submit" variant="contained" color="primary">수정</Button>
-            </DialogActions>
-          </form>
+                  <option value="장터 게시판">장터 게시판</option>
+                  <option value="정보 게시판">정보 게시판</option>
+                  <option value="나눔 게시판">나눔 게시판</option>
+                  <option value="자유 게시판">자유 게시판</option>
+                </select>
+              </Box>
+              <Box my={2} className="form-group">
+                <label htmlFor="boardImage" style={{ fontSize: '0.5em' }}>파일 선택</label>
+                <input
+                  id="boardImage"
+                  type="file"
+                  name="boardImage"
+                  onChange={handleEditImageChange}
+                  style={{ fontSize: '0.8em' }}
+                />
+              </Box>
+              <DialogActions>
+                <Button onClick={closeEditDialog} color="primary" style={{fontSize: '0.6em'}}>취소</Button>
+                <Button type="submit" variant="contained" color="primary" style={{fontSize: '0.6em'}}>수정</Button>
+              </DialogActions>
+            </form>
+          </Container>
         </DialogContent>
       </Dialog>
+
+
     </div>
   );
 };

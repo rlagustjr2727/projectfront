@@ -1,8 +1,208 @@
-.RegisterForm {
+#register-wrapper {
+    padding: 50px 0;
+    width: 100%;
+    min-height: 100vh; /* 화면 전체 높이를 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../assets/image/register-image.jpg);
+    background-position: center; /* 이미지를 가운데 맞춤 */
+    background-repeat: no-repeat;
+    background-size: cover; /* 이미지가 화면 전체를 덮도록 함 */
+}
+
+.inputbox {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inputbox-label {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+}
+
+.inputbox-container {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 6px 8px; /* 패딩을 줄였습니다 */
+    display: flex;
+    align-items: center;
+}
+
+.inputbox-container-error {
+    border-bottom: 1px solid rgba(255, 0, 0, 0.7);
+    padding: 6px 8px; /* 패딩을 줄였습니다 */
+    background-color: rgba(250, 250, 250, 1);
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0; /* 패딩을 줄였습니다 */
+    flex: 1;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+}
+
+.register-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* 조정된 너비 */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.register-jumbotron-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.register-jumbotron-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.register-logo-icon {
+    width: 50px;
+    height: 50px;
+    background-image: url(../../assets/image/whisky-icon.png);
+    background-position: 50% 50%;
+    background-size: 100% 100%;
+}
+
+.register-jumbotron-text-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.register-jumbotron-text {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'GimhaeGaya';
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -1px;
     text-align: center;
 }
 
-.RegisterForm form {
-    display: inline-block;
-    text-align: left;
+.register-card {
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 600px;
+}
+
+.register-card-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.register-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.register-card-title-box {
+    display: flex;
+    justify-content: center;
+}
+
+.register-card-title {
+    color: rgba(0, 0, 0, 1);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 140%;
+}
+
+.register-card-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register-sign-in-error-box {
+    margin-bottom: -4px;
+}
+
+.register-sign-in-error-message {
+    color: rgba(255, 0, 0, 0.7);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 140%;
+    white-space: pre-wrap;
+}
+
+.register-description-box {
+    display: flex;
+    justify-content: center;
+}
+
+.register-description {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px; /* 글씨 크기를 줄임 */
+    font-weight: 400;
+    line-height: 140%;
+}
+
+.register-description-link {
+    color: rgba(0, 0, 0, 1);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.register-card-page {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 140%;
+}
+
+.register-consent-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.register-check-box {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.register-consent-title-error {
+    color: rgba(255, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+}
+
+.register-consent-title {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+}
+
+.register-consent-link {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 140%;
 }

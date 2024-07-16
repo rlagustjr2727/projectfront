@@ -11,7 +11,6 @@ const getRecentBoards = async () => {
     throw error;
   }
 };
-
 const getBoards = (page, size) => {
   return axios.get(`${API_BASE_URL}?page=${page}&size=${size}`);
 };

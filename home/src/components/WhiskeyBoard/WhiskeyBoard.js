@@ -485,7 +485,7 @@ function App() {
             name="wboard_yo"
             value={newProduct.wboard_yo}
             onChange={handleNewProductChange}
-            placeholder="위스키 년도"
+            placeholder="위스키 연산"
           />
           <input
             type="text"

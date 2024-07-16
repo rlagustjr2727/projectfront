@@ -60,6 +60,7 @@
   margin-bottom: 20px;
 }
 
+
 .search-options option select,
 .sort-container option select {
   border-radius: 0px; /* 둥근 모서리 제거 */
@@ -93,7 +94,7 @@
 
 .search-button {
   padding: 10px 20px;
-  background-color: #778c86;
+  background-color: #f2ae36;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -101,7 +102,7 @@
 }
 
 .search-button:hover {
-  background-color: #b4c8bb;
+  background-color: #f7a201;
 }
 
 .sort-options {
@@ -139,9 +140,13 @@
   flex: 4;
 }
 
-.table-container {
+.board-table-container {
   width: 100%;
   margin-bottom: 20px;
+  background-color: #fff; /* 백그라운드 색상 */
+  border-radius: 8px; /* 둥근 모서리 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 */
+  padding: 20px; /* 내부 여백 */
 }
 
 .table-row {
@@ -174,6 +179,8 @@
 
 .board-title-container {
   font-size: 18px;
+  display: flex;
+  align-items: center; /* 아이콘과 텍스트 수직 정렬 */
 }
 
 .comment-count {
@@ -226,7 +233,7 @@
 }
 
 .pagination-button:hover:not(:disabled) {
-  background-color: #b4c8bb;
+  background-color: #f7a201;
 }
 
 .create-button-container {
@@ -236,7 +243,7 @@
 
 .create-button {
   padding: 10px 20px;
-  background-color: #778c86;
+  background-color: #f2ae36;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -244,7 +251,7 @@
 }
 
 .create-button:hover {
-  background-color: #b4c8bb;
+  background-color: #f7a201;
 }
 
 .login-dialog {
@@ -257,6 +264,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* 높은 우선순위 설정 */
 }
 
 .login-dialog-content {
@@ -264,12 +272,13 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* 높은 우선순위 설정 */
 }
 
 .close-button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #778c86;
+  background-color: #f2ae36;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -277,11 +286,13 @@
 }
 
 .close-button:hover {
-  background-color: #b4c8bb;
+  background-color: #f7a201;
 }
 
 /* board-icon 추가 7-14 8:36 */
-.board-icon {
-  width: 20px;
-  height: 20px;
+.image-box-light-icon {
+  width: 25px;
+  height: 25px;
+  margin-left: 10px; /* 아이콘과 텍스트 사이 여백 */
+  margin-right: 5px;
 }

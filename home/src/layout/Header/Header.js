@@ -88,7 +88,7 @@ const Header = () => {
   };
 
   const onWhiskeyBoardClickHandler = () => {
-    navigate('/WhiskeyBoard');
+    navigate('/wboard');
   };
 
   const onNoticeClickHandler = () => {
@@ -118,7 +118,7 @@ const Header = () => {
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className='main-section' onClick={onNoticeClickHandler}>공지사항</div>
           <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate('/whisky/events')}>행사 뉴스</a></li>
+            <li className="dept2"><a onClick={() => navigate('/whisky/events')}>위스키 뉴스</a></li>
           </ul>
         </li>
       </ul>

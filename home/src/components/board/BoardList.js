@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
 import UserService from '../../api/UserService';
 import './BoardList.css';
-import boardImageIcon from '../../assets/image/image-box-light.png'; // 이미지 아이콘 경로 설정
+import LoginForm from '../login/LoginForm';
 
 const BoardList = () => {
   const { category } = useParams();
@@ -188,7 +188,7 @@ const BoardList = () => {
         <div className="table-header">
           <div className={`table-header-item ${selectedCategory === '전체 게시판' ? '' : 'table-cell-small'}`}>{selectedCategory === '전체 게시판' ? '' : '번호'}</div>
           <div className="table-header-item table-cell-large">제목</div>
-          <div className="table-header-item table-cell-medium">작성자</div>
+          <div className="table-header-item table-cell-medium">작성자</div> 
           <div className="table-header-item table-cell-medium">작성일</div>
           <div className="table-header-item table-cell-small">조회수</div>
         </div>
@@ -197,7 +197,7 @@ const BoardList = () => {
             <p>Loading...</p>
           </div>
         ) : (
-          <div className="table-container">
+          <div className="board-table-container">
             {boards.map((board, index) => (
               <div key={board.boardSeq} className="table-row">
                 {selectedCategory !== '전체 게시판' && (
@@ -208,7 +208,7 @@ const BoardList = () => {
                     <div className="board-title-container">
                       [{getCategoryAbbreviation(board.boardCategory)}] {board.boardTitle}
                       {board.boardImage && (
-                        <img src={boardImageIcon} alt="board" className="icon board-icon" /> // 이미지가 있을 때 아이콘 표시
+                        <div className="icon image-box-light-icon" /> // 이미지가 있을 때 아이콘 표시
                       )}
                       {board.commentCount > 0 && (
                         <span className="comment-count">
