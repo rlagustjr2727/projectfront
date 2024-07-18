@@ -1,37 +1,58 @@
-/* 댓글목록 */
-.mycomment-comment-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    padding: 20px;
-    transition: transform 0.2s;
-  }
-  
-  .mycomment-comment-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .mycomment-comment-header {
-    background-color: #333;
-    color: white;
-    border-radius: 10px 10px 0 0;
-    padding: 10px;
-    font-size: 1.5em;
-    text-align: center;
-  }
-  
-  .mycomment-comment-content {
-    padding: 10px;
-  }
-  
-  .mycomment-comment-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .mycomment-comment-row span {
-    font-weight: bold;
-  }
-  
+/* MyComments.css */
+
+.mycomments-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.mycomments-comment-header {
+  background-color: #086c9e;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 60%;
+}
+
+.mycomments-comment-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.mycomments-comment-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mycomments-comment-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.mycomments-comment-row {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.mycomments-comment-row span {
+  font-weight: bold;
+  color: #333;
+}
+
+.no-comments-message {
+  font-size: 18px;
+  color: #777;
+  text-align: center;
+}

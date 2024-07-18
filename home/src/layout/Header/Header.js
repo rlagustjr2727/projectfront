@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import { useNavigate } from 'react-router-dom';
 import DetailList from './DetailList';
-import { BOARD_PATH, MAIN_PATH } from '../../constant';
+import { NEWS_PATH, MAIN_PATH, NOTICE_PATH, WBOARD_PATH, BOARD_PATH } from '../../constant';
 
 const Header = () => {
   const [userInput, setUserInput] = useState('');
@@ -15,13 +14,14 @@ const Header = () => {
   const searchRef = useRef(null);
 
   useEffect(() => {
-    setTrendingList(['위스키1', '위스키2', '위스키3', '위스키4', '위스키5']);
-    setRecommendations(['맥주1', '맥주2', '맥주3', '맥주4', '맥주5']);
+    setTrendingList(['꼬냑', '위스키', '진 토닉', '구매', '무료']);
+    setRecommendations(['블랜디드', '몰트', '버번', '산토리', '맥캘란']);
 
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowPopularSearch(false);
         setIsSearchActive(false);
+        document.getElementById('header').classList.remove('search-active');
       }
     };
 
@@ -34,6 +34,7 @@ const Header = () => {
   const handleInputClick = () => {
     setShowPopularSearch(true);
     setIsSearchActive(true);
+    document.getElementById('header').classList.add('search-active');
   };
 
   const handleItemClick = (keyword) => {
@@ -61,39 +62,49 @@ const Header = () => {
     setIsSearchActive(false);
     setShowPopularSearch(false);
     setUserInput('');
+    document.getElementById('header').classList.remove('search-active');
   };
 
   const handleMouseEnter = (event) => {
     const innerMenu = event.currentTarget.querySelector('.inner_menu');
-    innerMenu.style.display = 'block';
-    const hdBg = document.querySelector('.hd_bg');
-    if (hdBg) {
-      hdBg.style.height = `${innerMenu.scrollHeight}px`;
+    if (innerMenu) {
+      innerMenu.style.display = 'block';
+      const hdBg = document.querySelector('.hd_bg');
+      if (hdBg) {
+        hdBg.style.height = `${innerMenu.scrollHeight}px`;
+      }
     }
   };
 
   const handleMouseLeave = (event) => {
     const innerMenu = event.currentTarget.querySelector('.inner_menu');
-    innerMenu.style.display = 'none';
-    const hdBg = document.querySelector('.hd_bg');
-    if (hdBg) {
-      hdBg.style.height = '0';
+    if (innerMenu) {
+      innerMenu.style.display = 'none';
+      const hdBg = document.querySelector('.hd_bg');
+      if (hdBg) {
+        hdBg.style.height = '0';
+      }
     }
   };
+
   const handleCommunityClick = () => {
-    navigate('/board');
+    navigate(BOARD_PATH());
     setUserInput('');
     setIsSearchActive(false);
     setShowPopularSearch(false);
   };
 
   const onWhiskeyBoardClickHandler = () => {
-    navigate('/wboard');
+    navigate(WBOARD_PATH());
   };
 
   const onNoticeClickHandler = () => {
-    navigate('/notice')
-  }
+    navigate(NOTICE_PATH());
+  };
+
+  const handleNewsClickHandler = () => {
+    navigate(NEWS_PATH());
+  };
 
   return (
     <div id="header">
@@ -106,20 +117,20 @@ const Header = () => {
       </div>
       <ul id="gnb">
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <div className='main-section' onClick={() => navigate('/wboard')}>맞춤 추천</div>
-          <ul className="inner_menu">
-          </ul>
+          <div className='main-section' onClick={onWhiskeyBoardClickHandler}>맞춤 추천</div>
+          <ul className="inner_menu" />
         </li>
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className='main-section' onClick={handleCommunityClick}>커뮤니티</div>
-          <ul className="inner_menu">
-          </ul>
+          <ul className="inner_menu" />
+        </li>
+        <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div className='main-section' onClick={handleNewsClickHandler}>위스키 뉴스</div>
+          <ul className="inner_menu" />
         </li>
         <li className="dept1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className='main-section' onClick={onNoticeClickHandler}>공지사항</div>
-          <ul className="inner_menu">
-            <li className="dept2"><a onClick={() => navigate('/whisky/events')}>위스키 뉴스</a></li>
-          </ul>
+          <ul className="inner_menu" />
         </li>
       </ul>
 
@@ -147,11 +158,13 @@ const Header = () => {
                 list={trendingList}
                 onItemClick={handleItemClick}
                 title="인기 검색어"
+                showIndex={true}
               />
               <DetailList
                 list={recommendations}
                 onItemClick={handleItemClick}
                 title="추천 검색어"
+                showIndex={false}
               />
             </div>
           </div>

@@ -18,9 +18,6 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
     onDelete(wboard_name, wboard_img);
   };
 
-
-  
-
   const handleUpdate = () => {
     onUpdate({
       wboard_name,
@@ -33,6 +30,11 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
       wboard_abv_type,
       wboard_img
     });
+  };
+
+  const formatAbv = (abv) => {
+    // Convert to percentage
+    return `${(parseFloat(abv) * 100).toFixed(1)}%`;
   };
 
   return (
@@ -74,7 +76,7 @@ const Card = ({ wboard_img, wboard_name, wboard_info, wboard_type, wboard_origin
         <div className="card-info">
           <p className="card-proportion">{wboard_type}</p>
           <p className="card-proportion">{wboard_origin}</p>
-          <p className="card-proportion">{wboard_abv}</p>
+          <p className="card-proportion">{formatAbv(wboard_abv)}</p> {/* 변환된 값을 사용 */}
         </div>
       </div>
     </div>

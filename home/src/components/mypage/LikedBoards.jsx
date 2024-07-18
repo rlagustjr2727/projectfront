@@ -19,14 +19,14 @@ const LikedBoards = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Liked Boards</h2>
+    <div className="likedboards-container">
+      {/* <div className="likedboards-header">Liked Boards</div> */}
       {likedBoards.length > 0 ? (
-        <div className="likeboards-card-container">
+        <div className="likedboards-card-container">
           {likedBoards.map((board) => (
-            <div key={board.boardSeq} className="card">
-              <div className="likeboards-card-header">Liked Board</div>
-              <div className="likeboards-card-body">
+            <div key={board.boardSeq} className="likedboards-card">
+              <div className="likedboards-card-header">Like</div>
+              <div className="likedboards-card-body">
                 <p><strong>Author:</strong> {board.boardAuthor}</p>
                 <p><strong>Title:</strong> {board.boardTitle}</p>
                 <p><strong>Category:</strong> {board.boardCategory}</p>
@@ -36,7 +36,7 @@ const LikedBoards = () => {
           ))}
         </div>
       ) : (
-        <p>No liked boards found.</p>
+        <p className="no-likedboards-message">No liked boards found.</p>
       )}
     </div>
   );

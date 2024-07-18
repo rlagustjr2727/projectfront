@@ -2,16 +2,16 @@
     padding: 100px 0px 150px;
     min-width: 1440px;
     height: calc(100vh - 68px - 100px - 150px);
-    min-height: 960px;
+    min-height: 850px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    background-image: url(../../assets/image/back-page.jpg);
+    background-image: url(../../assets/image/oak-page.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: 100% auto; /* 가로 100%에 맞추고 높이를 자동으로 조절 */
 }
 
 .inputbox {

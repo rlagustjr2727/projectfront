@@ -20,26 +20,26 @@ const MyComments = () => {
   }, []);
 
   return (
-    <div>
-      <div className="mycomment-comment-header">My Comments</div>
+    <div className="mycomments-container">
+      <div className="mycomments-comment-header">My Comments</div>
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <div key={comment.commentSeq} className="mycomment-comment-card">
-            <div className="mycomment-comment-content">
-              <div className="mycomment-comment-row">
+          <div key={comment.commentSeq} className="mycomments-comment-card">
+            <div className="mycomments-comment-content">
+              <div className="mycomments-comment-row">
                 <span>Author:</span> {comment.commentAuthor}
               </div>
-              <div className="mycomment-comment-row">
+              <div className="mycomments-comment-row">
                 <span>Comment:</span> {comment.commentContent}
               </div>
-              <div className="mycomment-comment-row">
+              <div className="mycomments-comment-row">
                 <span>Date:</span> {new Date(comment.commentDate).toLocaleDateString()}
               </div>
             </div>
           </div>
         ))
       ) : (
-        <p>No comments found.</p>
+        <p className="no-comments-message">No comments found.</p>
       )}
     </div>
   );

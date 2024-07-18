@@ -120,10 +120,9 @@ function RegisterForm() {
             <div className='register-container'>
                 <div className='register-jumbotron-box'>
                     <div className='register-jumbotron-contents'>
-                        <div className='register-logo-icon'></div>
                         <div className='register-jumbotron-text-box'>
-                            <div className='register-jumbotron-text'>{'환영합니다.'}</div>
-                            <div className='register-jumbotron-text'>{'酒酒총회 입니다'}</div>
+                            <div className='register-jumbotron-text'></div>
+                            <div className='register-jumbotron-text'></div>
                         </div>
                     </div>
                 </div>

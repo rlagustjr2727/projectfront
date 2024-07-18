@@ -71,10 +71,9 @@ function LoginForm({ setIsLoggedIn }) { // setIsLoggedIn props 추가
             <div className='auth-container'>
                 <div className='auth-jumbotron-box'>
                     <div className='auth-jumbotron-contents'>
-                        <div className='auth-logo-icon'></div>
                         <div className='auth-jumbotron-text-box'>
-                            <div className='auth-jumbotron-text'>{'환영합니다.'}</div>
-                            <div className='auth-jumbotron-text'>{'酒酒총회 입니다'}</div>
+                            <div className='auth-jumbotron-text'></div>
+                            <div className='auth-jumbotron-text'></div>
                         </div>
                     </div>
                  </div>

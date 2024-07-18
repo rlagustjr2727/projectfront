@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import BoardService from '../../api/BoardService';
 import CommentService from '../../api/CommentService';
-import { Typography, Button, Box, CircularProgress, TextField, IconButton, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Typography, Button, Box, CircularProgress, TextField, IconButton, Avatar, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -256,7 +256,7 @@ const BoardDetail = () => {
         boardContent: editedBoard.boardContent,
         boardCategory: editedBoard.boardCategory
     })], { type: 'application/json' }));
-    if (editedBoard.boardImage, { withCredentials: true }) {
+    if (editedBoard.boardImage) {
         formData.append('image', editedBoard.boardImage);
     }
 
@@ -336,7 +336,7 @@ const BoardDetail = () => {
             <Typography variant="h5" gutterBottom style={{ fontSize: '0.75em' }}>댓글</Typography>
             {comments.map(comment => (
               <Box key={comment.commentSeq} className="detail-comment" display="flex" alignItems="center">
-                <Avatar alt={comment.commentAuthor} src={comment.commentProfileImage || DEFAULT_PROFILE_IMAGE} />
+                <Avatar alt={comment.commentAuthor} src={comment.commentAuthorImage || DEFAULT_PROFILE_IMAGE} />
                 <Box ml={2} flexGrow={1}>
                   <Typography variant="body2" color="textSecondary" style={{ fontSize: '0.45em' }}>{comment.commentAuthor}</Typography>
                   <Typography variant="body1" style={{ fontSize: '0.6em' }}>{comment.commentContent}</Typography>
@@ -354,6 +354,21 @@ const BoardDetail = () => {
                 </Box>
               </Box>
             ))}
+            {editingCommentId && (
+              <form onSubmit={handleUpdateComment} className="detail-comment-form">
+                <TextField
+                  label="댓글 수정"
+                  variant="outlined"
+                  value={editingCommentContent}
+                  onChange={(e) => setEditingCommentContent(e.target.value)}
+                  fullWidth
+                  multiline
+                  rows={4}
+                  style={{ fontSize: '1.0em' }}
+                />
+                <Button type="submit" variant="contained" color="primary" style={{fontSize: '0.35em'}}>수정 완료</Button>
+              </form>
+            )}
             <form onSubmit={handleCommentSubmit} className="detail-comment-form">
               <TextField
                 label="댓글 작성"
@@ -440,8 +455,6 @@ const BoardDetail = () => {
           </Container>
         </DialogContent>
       </Dialog>
-
-
     </div>
   );
 };

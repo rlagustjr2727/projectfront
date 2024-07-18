@@ -47,6 +47,11 @@
   background-color: transparent;
 }
 
+.boardCategory {
+  border: 0.2px solid silver;
+  /* border-radius: 4px; */
+}
+
 .form-group textarea {
   resize: none; /* 사용자가 텍스트 영역 크기 조절 못하게 설정 */
   border: 0.2px solid silver;
@@ -54,7 +59,6 @@
 }
 
 .form-group input[type="file"] {
-  border-top: 1px solid #f7a201;
   padding: 3px;
   padding-top: 10px;
 }

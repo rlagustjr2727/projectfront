@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // useNavigate 훅 사용
-// import './EditProfile.css';
+import { useNavigate } from 'react-router-dom';
+import './EditProfile.css'; // CSS 파일 import
 
 const EditProfile = () => {
   const [user, setUser] = useState({
@@ -11,7 +11,7 @@ const EditProfile = () => {
     userPassword: '',
   });
 
-  const navigate = useNavigate(); // useNavigate 훅 초기화
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {

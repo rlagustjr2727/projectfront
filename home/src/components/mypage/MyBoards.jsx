@@ -20,8 +20,8 @@ const MyBoards = () => {
   }, []);
 
   return (
-    <div>
-      <h2>My Boards</h2>
+    <div className="myboards-container">
+      <div className='myboards-container-title' style={{fontSize:'1.0em', fontWeight:'600'}}>My Boards</div>
       {boards.length > 0 ? (
         <div className="myboards-card-container">
           {boards.map((board) => (
@@ -29,17 +29,17 @@ const MyBoards = () => {
               <div className="myboards-card">
                 <div className="myboards-card-header">My Board</div>
                 <div className="myboards-card-body">
-                  <p><strong>Author:</strong> {board.boardAuthor}</p>
-                  <p><strong>Title:</strong> {board.boardTitle}</p>
-                  <p><strong>Category:</strong> {board.boardCategory}</p>
-                  <p><strong>Date:</strong> {new Date(board.boardDate).toLocaleDateString()}</p>
+                  {/* <p><strong>Author:</strong> {board.boardAuthor}</p> */}
+                  <p className='myboard-card-title'>Title:<span className="truncated-title">{board.boardTitle}</span></p>
+                  <p className='myboard-card-title'>Category: {board.boardCategory}</p>
+                  <p className='myboard-card-title'>Date: {new Date(board.boardDate).toLocaleDateString()}</p>
                 </div>
               </div>
             </Link>
           ))}
         </div>
       ) : (
-        <p>No boards found.</p>
+        <p className="no-boards-message">No boards found.</p>
       )}
     </div>
   );

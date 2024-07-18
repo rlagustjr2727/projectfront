@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import BoardService from '../../api/BoardService';
 import UserService from '../../api/UserService';
 import './BoardList.css';
-import LoginForm from '../login/LoginForm';
 
 const BoardList = () => {
   const { category } = useParams();
@@ -90,7 +89,7 @@ const BoardList = () => {
       navigate('/board/write');
     } catch (error) {
       console.error('Error fetching user data', error);
-      navigate('/login');
+      navigate('/login', { state: { from: location.pathname } });
     }
   };
 
@@ -131,7 +130,7 @@ const BoardList = () => {
     } else {
       fetchBoardsByCategory(selectedCategory);
     }
-  }, [fetchBoards, fetchBoardsByCategory, selectedCategory, page]);
+  }, [fetchBoards, fetchBoardsByCategory, selectedCategory, page, sortOption]);
 
   useEffect(() => {
     if (location.state && location.state.newBoard) {
@@ -232,7 +231,7 @@ const BoardList = () => {
             <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} className="picon expand-right-icon" />
           </div>
           <div className="create-button-container">
-            <button onClick={handleCreate} className="create-button">
+            <button onClick={handleCreate} className="board-create-button">
               게시글 작성
             </button>
           </div>

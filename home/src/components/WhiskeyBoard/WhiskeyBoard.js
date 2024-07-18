@@ -54,8 +54,6 @@ function App() {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -99,11 +97,6 @@ function App() {
   
     fetchData();
   }, [query, selectedCategory]);
-  
-  
-  
-
-  
 
   useEffect(() => {
     setCurrentPage(1);
@@ -508,8 +501,8 @@ function App() {
             <FileDropzone onDrop={handleDrop} />
           </div>
           <div className="button">
-            <button type="submit">Add Product</button>
-            <button type="button" onClick={() => setModalIsOpen(false)}>Cancel</button>
+            <button type="submit">위스키 추가</button>
+            <button type="button" onClick={() => setModalIsOpen(false)}>취소</button>
           </div>
         </form>
       </Modal>

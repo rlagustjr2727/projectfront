@@ -35,16 +35,6 @@ const BoardCreate = () => {
     setBoard({ ...board, [e.target.name]: e.target.value });
   };
 
-  const handleCategoryChange = (e) => {
-    const newCategory = e.target.value;
-    setBoard((prevBoard) => ({
-      ...prevBoard,
-      boardCategory: newCategory,
-      boardContent: newCategory === '나눔 게시판' || newCategory === '장터 게시판' ? 
-      '■유료 판매, 유료 구매만 가능합니다. \n■주류 거래(판매,구매) 절대 불가합니다. \n■제목에 반드시 말머리와 제품명 표시해주세요. \n■무료 나눔, 무료 양도만 가능합니다. \n■주류 및 주류 바이알 무료 나눔 불가합니다. \n■제목에 반드시 말머리와 나눔 품목명 표시해주세요. \n■쿠폰 나눔은 바코드 비공개, 나눔 요청은 1인 1회만 가능합니다. \n■나눔을 받은 경우, 댓글 및 게시글로 감사인사 남겨주세요. \n ==========================================================' : '',
-    }));
-  };
-
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
@@ -84,10 +74,9 @@ const BoardCreate = () => {
           <Box my={2} className="form-group">
             <label htmlFor="boardCategory">카테고리</label>
             <select
-              id="boardCategory"
               name="boardCategory"
               value={board.boardCategory}
-              onChange={handleCategoryChange}
+              onChange={handleChange}
               required
             >
               <option value="" disabled>카테고리를 선택하세요</option>
@@ -104,6 +93,7 @@ const BoardCreate = () => {
               name="boardTitle"
               value={board.boardTitle}
               onChange={handleChange}
+              placeholder='제목 입력'
               required
             />
           </Box>

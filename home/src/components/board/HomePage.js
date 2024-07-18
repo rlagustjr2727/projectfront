@@ -9,6 +9,7 @@ const HomePage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exchangeRates, setExchangeRates] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }));
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -24,13 +25,13 @@ const HomePage = () => {
 
     const fetchExchangeRates = async () => {
       try {
-        // 환율 정보를 가져오는 API 호출 (여기서는 예시로 넣었습니다)
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         const data = await response.json();
+        const krwRate = data.rates.KRW; // USD to KRW 환율
         const filteredRates = {
-          USD: data.rates.USD,
-          EUR: data.rates.EUR,
-          JPY: data.rates.JPY
+          USD: (data.rates.USD * krwRate).toFixed(2),
+          EUR: (data.rates.EUR * krwRate).toFixed(2),
+          JPY: (data.rates.JPY * krwRate).toFixed(2)
         };
         setExchangeRates(filteredRates);
       } catch (error) {
@@ -40,6 +41,18 @@ const HomePage = () => {
 
     fetchItems();
     fetchExchangeRates();
+
+    // Set intervals for real-time updates
+    const exchangeRateInterval = setInterval(fetchExchangeRates, 60000); // 1분마다 환율 정보 갱신
+
+    const timeInterval = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }));
+    }, 1000);
+
+    return () => {
+      clearInterval(exchangeRateInterval);
+      clearInterval(timeInterval);
+    };
   }, []);
 
   if (loading) {
@@ -57,8 +70,6 @@ const HomePage = () => {
       </Box>
     );
   }
-
-  const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
   return (
     <Container className="main-board-container">
@@ -108,21 +119,21 @@ const HomePage = () => {
         <Grid item xs={12} md={4}>
           <Paper className="sidebar-paper">
             <div className="time-container">
-              <Typography variant="h5" gutterBottom style={{fontWeight: '600', color: '#007bff'}}> 
+              <Typography variant="h5" gutterBottom style={{fontSize:'0.9em', fontWeight: '600', color: '#086c9e'}}> 
                 현재 시간
               </Typography>
               <Typography variant="h4" className="time" style={{fontSize:'2.1em'}}>
                 {currentTime}
               </Typography>
             </div>
-            <Typography variant="h5" gutterBottom style={{fontWeight: '600', color: '#007bff'}}>
-              환율 정보
+            <Typography variant="h5" gutterBottom style={{fontSize:'0.9em', fontWeight: '600', color: '#086c9e'}}>
+              환율 정보 (KRW 기준)
             </Typography>
             <table className="exchange-rates">
               <thead>
                 <tr>
                   <th style={{fontWeight:'600', fontSize:'0.85em'}}>통화</th>
-                  <th style={{fontWeight:'600', fontSize:'0.85em'}}>환율</th>
+                  <th style={{fontWeight:'600', fontSize:'0.85em'}}>환율 (KRW)</th>
                 </tr>
               </thead>
               <tbody>

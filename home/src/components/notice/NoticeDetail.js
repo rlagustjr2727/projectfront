@@ -2,11 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NoticeService from '../../api/NoticeService';
-import { Typography, Button, Box, CircularProgress, TextField, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Typography, Button, Box, CircularProgress, TextField, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel, Container } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './NoticeDetail.css';
 import DEFAULT_PROFILE_IMAGE from '../../assets/image/default-profile-image.png';
+import { NOTICE_PATH } from '../../constant'
 
 const NoticeDetail = () => {
   const { seq } = useParams();
@@ -79,7 +80,7 @@ const NoticeDetail = () => {
 
     NoticeService.deleteNotice(seq)
       .then(() => {
-        navigate('/notice');
+        navigate(NOTICE_PATH());
       })
       .catch(error => {
         console.error('Error deleting notice!', error);
@@ -152,8 +153,8 @@ const NoticeDetail = () => {
           <div className="notice-board-detail-container">
           <div className="notice-header">
             <div className="notice-header-left">
-              <Typography variant="h6" color="textSecondary" style={{ fontSize: '0.8em', color: '#778c86', fontWeight: '600', marginBottom: '5px' }}>{notice.noticeCategory}</Typography>
-              <Typography variant="h4" gutterBottom style={{ fontSize: '2em', fontWeight: '600' }}>{notice.noticeTitle}</Typography>
+              <Typography variant="h6" color="textSecondary" style={{ fontSize: '0.8em', color: '#086c9e', fontWeight: '600', marginBottom: '5px' }}>{notice.noticeCategory}</Typography>
+              <Typography variant="h4" gutterBottom style={{ fontSize: '1.6em', fontWeight: '600' }}>{notice.noticeTitle}</Typography>
             </div>
           </div>
           <div className="notice-author">
@@ -166,7 +167,7 @@ const NoticeDetail = () => {
             {notice.noticeContentImage && (
               <img src={`http://localhost:8080/${notice.noticeContentImage}`} alt={notice.noticeTitle} className="notice-board-detail-image" />
             )}
-            <Typography className="notice-body">{notice.noticeContent}</Typography>
+            <Typography className="notice-body" style={{ fontSize: '1.0em' }}>{notice.noticeContent}</Typography>
             <Box display="flex" alignItems="center">
               {notice.adminId === currentUserNickname && (
                 <>
@@ -188,60 +189,61 @@ const NoticeDetail = () => {
       <Dialog open={isEditDialogOpen} onClose={closeEditDialog}>
         <DialogTitle>공지사항 수정</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleEditSubmit} encType="multipart/form-data">
-            <Box my={2}>
-              <TextField
-                label="제목"
-                name="noticeTitle"
-                value={editedNotice.noticeTitle}
-                onChange={handleEditChange}
-                fullWidth
-                required
-                style={{ fontSize: '0.8em' }}
-              />
-            </Box>
-            <Box my={2}>
-              <TextField
-                label="내용"
-                name="noticeContent"
-                value={editedNotice.noticeContent}
-                onChange={handleEditChange}
-                fullWidth
-                required
-                multiline
-                rows={4}
-                style={{ fontSize: '0.6em' }}
-              />
-            </Box>
-            <Box my={2}>
-              <FormControl fullWidth>
-                <InputLabel style={{ fontSize: '1.2em' }}>카테고리</InputLabel>
-                <Select
-                  label="카테고리"
+          <Container className="edit-form-container">
+            <form onSubmit={handleEditSubmit} encType="multipart/form-data">
+              <Box my={2} className="form-group">
+                <label htmlFor="boardTitle" style={{fontSize: '0.7em'}}>제목</label>
+                <input
+                  id="noticeTitle"
+                  name="noticeTitle"
+                  value={editedNotice.noticeTitle}
+                  onChange={handleEditChange}
+                  fullWidth
+                  required
+                  style={{ fontSize: '0.7em' }}
+                />
+              </Box>
+              <Box my={2} className="form-group">
+                <label htmlFor="boardContent" style={{fontSize: '0.7em'}}>내용</label>
+                <textarea
+                  id="noticeContent"
+                  name="noticeContent"
+                  value={editedNotice.noticeContent}
+                  onChange={handleEditChange}
+                  rows="10"
+                  required
+                  style={{ fontSize: '0.8em' }}
+                />
+              </Box>
+              <Box my={2} className="form-group">
+                <label htmlFor="noticeCategory" style={{fontSize: '0.7em'}}>카테고리</label>
+                <select
+                  id="noticeCategory"
                   name="noticeCategory"
                   value={editedNotice.noticeCategory}
                   onChange={handleEditChange}
                   required
+                  style={{ fontSize: '0.8em' }}
                 >
-                  <MenuItem value="공지">공지</MenuItem>
-                  <MenuItem value="필독">필독</MenuItem>
-                  <MenuItem value="일반">일반</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Box my={2}>
-              <input
-                type="file"
-                name="noticeContentImage"
-                onChange={handleEditImageChange}
-                style={{ fontSize: '0.6em' }}
-              />
-            </Box>
+                  <option value="공지">공지</option>
+                  <option value="필독">필독</option>
+                </select>
+              </Box>
+              <Box my={2} className="form-group">
+                <label htmlFor="boardImage" style={{ fontSize: '0.5em' }}>파일 선택</label>
+                <input
+                  type="file"
+                  name="noticeContentImage"
+                  onChange={handleEditImageChange}
+                  style={{ fontSize: '0.6em' }}
+                />
+              </Box>
             <DialogActions>
-              <Button onClick={closeEditDialog} color="primary">취소</Button>
-              <Button type="submit" variant="contained" color="primary">수정</Button>
+              <Button onClick={closeEditDialog} color="primary"  style={{fontSize: '0.6em'}}>취소</Button>
+              <Button type="submit" variant="contained" color="primary"  style={{fontSize: '0.6em'}}>수정</Button>
             </DialogActions>
-          </form>
+            </form>
+          </Container>
         </DialogContent>
       </Dialog>
     </div>

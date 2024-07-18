@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   background-color: #f8f8f8;
-  padding: 20px;
+  padding: 40px;
 }
 
 .notice-category-container {
@@ -36,7 +36,7 @@
 
 .notice-title {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 15px;
   text-align: left; /* 중앙 정렬에서 왼쪽 정렬로 변경 */
   width: 100%; /* 전체 너비를 사용하여 왼쪽으로 정렬 */
   padding-left: 10px; /* 왼쪽 여백 추가 */
@@ -45,7 +45,7 @@
 .table-header {
   display: flex;
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: #f8f8f8;
   padding: 10px 0;
 }
 
@@ -66,9 +66,13 @@
   flex: 4;
 }
 
-.table-container {
+.notice-table-container {
   width: 100%;
   margin-bottom: 20px;
+  background-color: #fff; /* 백그라운드 색상 */
+  border-radius: 8px; /* 둥근 모서리 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 */
+  padding: 20px; /* 내부 여백 */
 }
 
 .table-row {
@@ -101,6 +105,8 @@
 
 .notice-title-container {
   font-size: 18px;
+  display: flex;
+  align-items: center; /* 아이콘과 텍스트 수직 정렬 */
 }
 
 .picon {
@@ -145,25 +151,25 @@
 }
 
 .pagination-button:hover:not(:disabled) {
-  background-color: #b4c8bb;
+  background-color: #f7a201;
 }
 
-.create-button-container {
+.notice-create-button-container {
   display: flex;
   align-items: center;
 }
 
-.create-button {
+.notice-create-button {
   padding: 10px 20px;
-  background-color: #778c86;
+  background-color: #f2ae36;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.create-button:hover {
-  background-color: #b4c8bb;
+.notice-create-button:hover {
+  background-color: #f7a201;
 }
 
 .login-dialog {
@@ -199,7 +205,10 @@
   background-color: #b4c8bb;
 }
 
-.notice-icon {
-  width: 20px;
-  height: 20px;
+/* board-icon 추가 7-14 8:36 */
+.image-box-light-icon {
+  width: 25px;
+  height: 25px;
+  margin-left: 10px; /* 아이콘과 텍스트 사이 여백 */
+  margin-right: 5px;
 }

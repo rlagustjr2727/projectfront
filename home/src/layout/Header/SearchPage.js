@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DetailList from './DetailList';
 import { useNavigate } from 'react-router-dom';
+import SearchService from '../../api/SearchService';
 
 const SearchPage = () => {
     const [userInput, setUserInput] = useState('');
@@ -11,8 +12,16 @@ const SearchPage = () => {
     const searchRef = useRef(null);
 
     useEffect(() => {
-        setTrendingList(['위스키1', '위스키2', '위스키3', '위스키4', '위스키5']);
-        setRecommendations(['맥주1', '맥주2', '맥주3', '맥주4', '맥주5']); // 추천 검색어 목록 추가
+        const fetchPopularSearchTerms = async () => {
+            try {
+                const response = await SearchService.getPopularSearchTerms(10);
+                setTrendingList(response.data);
+            } catch (error) {
+                console.error('Error fetching popular search terms:', error);
+            }
+        };
+
+        fetchPopularSearchTerms();
 
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -32,6 +41,8 @@ const SearchPage = () => {
 
     const handleItemClick = (keyword) => {
         navigate(`/search/${keyword}`);
+        setUserInput('');  // Clear the input field
+        setShowPopularSearch(false);  // Hide the popular search list
     };
 
     const handleUserInputChange = (event) => {
@@ -41,16 +52,16 @@ const SearchPage = () => {
     };
 
     const handleSearchClick = () => {
-        console.log('검색: ', userInput);
         navigate(`/search/${userInput}`);
+        setUserInput('');  // Clear the input field
+        setShowPopularSearch(false);  // Hide the popular search list
     };
 
-    // 앤터 이벤트
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             handleSearchClick();
         }
-    }
+    };
 
     return (
         <div className="search-page" ref={searchRef}>

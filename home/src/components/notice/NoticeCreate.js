@@ -63,7 +63,7 @@ const NoticeCreate = () => {
   return (
     <div className="notice-create-container">
       <div className="notice-form-container" elevation={3}>
-        <h4>공지사항 작성</h4>
+        <div className='notice-create-form-title'>공지사항 작성</div>
         <form onSubmit={handleCreate} encType="multipart/form-data">
           <div className="form-group" my={2}>
             <label htmlFor="category">카테고리</label>
@@ -85,6 +85,7 @@ const NoticeCreate = () => {
               name="title"
               value={notice.title}
               onChange={handleChange}
+              placeholder='제목 입력'
               required
             />
           </div>
@@ -105,8 +106,8 @@ const NoticeCreate = () => {
               onChange={handleImageChange}
             />
           </div>
-          <div className="form-group" my={2} style={{ display: 'flex', justifyContent: 'left' }}>
-            <button type="submit" style={{ width: '100px' }}>작성하기</button>
+          <div className="form-group" my={2} style={{ display: 'flex', justifyContent: 'right' }}>
+            <button className='submit-button' type="submit" style={{ width: '100px' }}>작성하기</button>
           </div>
         </form>
       </div>

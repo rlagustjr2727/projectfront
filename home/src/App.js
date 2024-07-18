@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import SearchResultPage from './components/Header/SearchResultPage';
 // import SearchPage from './components/Header/SearchPage';
 import './App.css';
@@ -19,11 +19,29 @@ import axios from 'axios';
 import NoticeList from './components/notice/NoticeList';
 import NoticeCreate from './components/notice/NoticeCreate';
 import NoticeDetail from './components/notice/NoticeDetail';
-
+import UserInfo from './components/mypage/UserInfo';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/me', { withCredentials: true });
+        setCurrentUser(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleUpdateUser = (updatedUser) => {
+    setCurrentUser(updatedUser);
+  };
 
   return (
     <BrowserRouter>
@@ -43,6 +61,9 @@ const App = () => {
           <Route path={NOTICE_PATH()} element={<NoticeList />} />
           <Route path={NOTICE_CREATE_PATH()} element={<NoticeCreate />} />
           <Route path={NOTICE_DETAIL_PATH(':seq')} element={<NoticeDetail />} />
+          <Route path="/search/:keyword" element={<SearchResultPage />} />
+          <Route path="/user-info" element={<UserInfo onUpdateUser={handleUpdateUser} />} />
+          <Route path="/board-detail/:seq" element={<BoardDetail currentUser={currentUser} />} />
         </Routes>
       </Container>
     </BrowserRouter>

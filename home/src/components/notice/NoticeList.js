@@ -76,30 +76,11 @@ const NoticeList = () => {
     return 'Invalid Date';
   };
 
-  const handleCategorySelect = (category) => {
-    if (category === '행사 뉴스') {
-      navigate('/whisky/events');
-    } else if (category === '공시사항') {
-      navigate('/notice');
-    }
-  };
 
   return (
     <div className="notice-list-container">
-      <div className="notice-category-container">
-        <div className="category-container">
-          <div className="category-main-title">공지사항 목록</div>
-          <ul>
-            {['행사 뉴스', '공시사항'].map((text) => (
-              <li key={text} onClick={() => handleCategorySelect(text)} className="category-item">
-                {text}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
       <div className="notice-main-content">
-        <h2 className="notice-title">공지사항</h2>
+        <div className="notice-title">공지사항</div>
         <div className="table-header">
           <div className="table-header-item table-cell-small">번호</div>
           <div className="table-header-item table-cell-large">제목</div>
@@ -112,7 +93,7 @@ const NoticeList = () => {
             <p>Loading...</p>
           </div>
         ) : (
-          <div className="table-container">
+          <div className="notice-table-container">
             {notices && notices.map((notice, index) => (
               <div key={notice.noticeSeq || index} className="table-row">
                 <div className="table-cell table-cell-small">{(page - 1) * pageSize + index + 1}</div>
@@ -121,7 +102,7 @@ const NoticeList = () => {
                     <div className="notice-title-container">
                       [{notice.noticeCategory}] {notice.noticeTitle}
                       {notice.noticeContentImage && (
-                        <img src={noticeImageIcon} alt="notice" className="icon notice-icon" />
+                        <div className="icon image-box-light-icon" />
                       )}
                     </div>
                   </Link>
@@ -139,8 +120,8 @@ const NoticeList = () => {
             {renderPageNumbers()}
             <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} className="picon expand-right-icon" />
           </div>
-          <div className="create-button-container">
-            <button onClick={handleCreate} className="create-button">
+          <div className="notice-create-button-container">
+            <button onClick={handleCreate} className="notice-create-button">
               공지사항 작성
             </button>
           </div>

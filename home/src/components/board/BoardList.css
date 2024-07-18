@@ -241,7 +241,7 @@
   align-items: center;
 }
 
-.create-button {
+.board-create-button {
   padding: 10px 20px;
   background-color: #f2ae36;
   color: #fff;
@@ -250,7 +250,7 @@
   cursor: pointer;
 }
 
-.create-button:hover {
+.board-create-button:hover {
   background-color: #f7a201;
 }
 

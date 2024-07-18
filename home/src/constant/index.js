@@ -16,4 +16,6 @@ export const WBOARD_PATH = () => '/wboard'; // 위스키 보드
 export const SEARCH_PATH = (keyword) => `/search/${keyword}`; // 검색
 
 export const NOTICE_PATH = () => '/notice'; // 공지사항
+export const NOTICE_DETAIL_PATH = (seq) => `/notice/detail/${seq}` // 공지사항 상세
+export const NOTICE_CREATE_PATH = () => 'notice/write' // 공지사항 작성
 export const NEWS_PATH = () => '/whisky/events' // 위스키 관련 뉴스

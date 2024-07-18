@@ -28,7 +28,7 @@
 }
 
 .card-name {
-  font-size: 2em; /* 이름 폰트 크기를 키움 */
+  font-size: 1.8em; /* 이름 폰트 크기를 키움 */
   font-weight: bold;
   line-height: 24px;
 }
@@ -138,13 +138,14 @@
   padding: 1.5em; /* 툴팁 패딩을 키움 */
   border-radius: 0.5em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  z-index: 30;
   white-space: normal;
   top: -6em; /* 툴팁 위치 조정 */
   left: -14em; /* 툴팁 위치 조정 */
-  width: 25em; /* 툴팁의 고정 가로 길이를 키움 */
+  width: 18em; /* 툴팁의 고정 가로 길이를 키움 */
   height: 12em; /* 툴팁의 고정 세로 길이를 키움 */
   font-size: 1.3em; /* 툴팁 글씨 크기를 키움 */
+  line-height: 150%;
   opacity: 0;
   transition: var(--transition);
   overflow-y: auto;
@@ -182,7 +183,6 @@
 
 .card-actions {
   position: absolute;
-  top: 30px;
   right: 0;
   /* border-radius: 10px; */
   padding: 8px;
@@ -221,6 +221,7 @@
 .icon.more-icon {
   width: 30px;
   height: 30px;
+  margin-top: -2.5em;
   background-image: url("../../../assets/image/more.png"); /* 이미지 파일 경로 */
   background-size: contain;
   background-repeat: no-repeat;
@@ -232,6 +233,8 @@
   position: relative; /* 위치 설정을 상대값으로 변경 */
   z-index: 1; /* z-index를 낮춰 card-menu가 더 앞에 표시되도록 설정 */
   font-size: 0.8em; /* card-description 폰트 크기를 줄임 */
-  max-height: 18em; /* 최대 높이 설정 */
-  max-width: 19em;
+  max-height: 1em; /* 최대 높이 설정 */
+  max-width: 18em;
+  margin-top: -1.2em; /* 위쪽으로 올리기 위해 마진 조정 */
+  line-height: 175%;
 }
